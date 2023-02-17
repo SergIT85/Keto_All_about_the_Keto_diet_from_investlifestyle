@@ -1,0 +1,106 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "ru.investlifestyle.app"
+        minSdk 30
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+}
+
+dependencies {
+
+    def daggerVersion = '2.29.1'
+    def picassoVersion = '2.71828'
+    def picassoTransformation = '2.4.0'
+    def recyclerViewVersion = '1.2.1'
+    def groupieVersion = '2.10.1'
+    def room_version = "2.4.3"
+    def lifecycleExtensionVersion = '2.2.0'
+    def lifecycleVersion = '2.5.1'
+
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleExtensionVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+
+    // Navigation
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+
+    // Testing
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // dependency injection
+    implementation "com.google.dagger:dagger:2.30"
+    implementation "com.google.dagger:dagger-android:2.35.1"
+    implementation "com.google.dagger:dagger-android-support:2.30"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:2.30"
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
+
+    // Picasso
+    implementation "com.squareup.picasso:picasso:$picassoVersion"
+    implementation "jp.wasabeef:picasso-transformations:$picassoTransformation"
+
+    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
+
+    // Groupie
+    implementation "com.github.lisawray.groupie:groupie:$groupieVersion"
+    implementation "com.github.lisawray.groupie:groupie-viewbinding:$groupieVersion"
+
+    // RxJava
+    implementation "io.reactivex.rxjava2:rxjava:2.2.17"
+    // RxAndroid
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    // Для использования RxJava c Retrofit
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.7.1"
+
+    // ROOM
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    // RxJava support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
+    implementation "android.arch.persistence.room:rxjava2:1.1.1"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+}

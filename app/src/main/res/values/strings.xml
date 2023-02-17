@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Кето! Всё о Кето диете от investlifestyle</string>
+    <string name="title_home">Главная</string>
+    <string name="title_dashboard">Темы</string>
+    <string name="title_notifications">Кабинет</string>
+    <string name="hello_text">Добрый день!</string>
+    <string name="hello_subtext">Хороший день, что бы начать - это сегодня.</string>
+    <string name="placeholder_article">Статья с очень интересной темой для вас</string>
+</resources>
