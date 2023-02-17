@@ -12,4 +12,5 @@
 7. Dagger2 (возможно hilt)
 8. Picasso
 9. Groupie
+10. Wordpress REST API со стороны сервера.
 
