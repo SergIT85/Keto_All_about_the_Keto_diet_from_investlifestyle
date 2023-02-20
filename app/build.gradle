@@ -46,6 +46,8 @@ dependencies {
     def room_version = "2.4.3"
     def lifecycleExtensionVersion = '2.2.0'
     def lifecycleVersion = '2.5.1'
+    def stethoVersion = '1.5.1'
+    def timberVersion = '4.7.1'
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -86,6 +88,11 @@ dependencies {
     // Groupie
     implementation "com.github.lisawray.groupie:groupie:$groupieVersion"
     implementation "com.github.lisawray.groupie:groupie-viewbinding:$groupieVersion"
+
+    // debugging
+    implementation "com.facebook.stetho:stetho:$stethoVersion"
+    implementation "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
+    implementation "com.jakewharton.timber:timber:$timberVersion"
 
     // RxJava
     implementation "io.reactivex.rxjava2:rxjava:2.2.17"
