@@ -7,19 +7,16 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import ru.investlifestyle.app.data.dto.PostApi
-import ru.investlifestyle.app.data.networkApi.PostsApiInterface
-import ru.investlifestyle.app.data.networkApi.examin.ApiClient
-import ru.investlifestyle.app.data.networkApi.examin.Repo
-import ru.investlifestyle.app.data.repository.PostsRepository
-import ru.investlifestyle.app.utils.PostsModelData
+import ru.investlifestyle.app.data.repository.PostsRepositoryImpl
+import ru.investlifestyle.app.domain.usecase.GetMainPostsListUseCase
 import ru.investlifestyle.app.utils.PostsModelDataItem
-import javax.inject.Inject
 
 @SuppressLint("CheckResult")
-class TopicsViewModel(private val repository: Repo): ViewModel()  {
+class TopicsViewModel: ViewModel()  {
 
 
+    private val repository = PostsRepositoryImpl()
+    private val getMainPostsListUseCase = GetMainPostsListUseCase(repository)
 
     var postListViewModel: MutableLiveData<List<PostsModelDataItem>> = MutableLiveData()
 
@@ -38,7 +35,11 @@ class TopicsViewModel(private val repository: Repo): ViewModel()  {
         value = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     }
     val text: LiveData<String> = _text
+    @SuppressLint("LogNotTimber")
     fun getPostsApi():Single<List<PostsModelDataItem>> {
-        return repository.getPost(1)
+        //val result = getPostsListUseCase.getPostsList(1)
+        //Log.d("TopicsViewModel","${result.subscribe { it -> toString() }}")
+        return getMainPostsListUseCase.getMainPostsList(1)
+
     }
 }

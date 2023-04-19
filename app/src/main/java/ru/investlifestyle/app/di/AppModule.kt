@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.investlifestyle.app.data.networkApi.PostsApiInterface
 import javax.inject.Singleton
 
-const val BASE_URL = "https://investlifestyle.ru/"
+
 
 @Module
 class AppModule {
@@ -40,5 +40,9 @@ class AppModule {
     @Singleton
     fun ptovidePostsApiInterface(@NonNull retrofit: Retrofit): PostsApiInterface {
         return retrofit.create(PostsApiInterface::class.java)
+    }
+
+    companion object {
+        const val BASE_URL = "https://investlifestyle.ru/"
     }
 }

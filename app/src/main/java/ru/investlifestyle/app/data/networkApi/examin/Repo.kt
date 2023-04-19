@@ -7,8 +7,10 @@ import ru.investlifestyle.app.data.dto.PostObjectAPi
 import ru.investlifestyle.app.data.networkApi.PostsApiInterface
 import ru.investlifestyle.app.utils.PostsModelData
 import ru.investlifestyle.app.utils.PostsModelDataItem
+import javax.inject.Inject
 
-class Repo {
+class Repo @Inject constructor() {
+
     fun getPost(postsCount: Int): Single<List<PostsModelDataItem>> {
         return ApiClient.apiClient.getPostsList(/*postsCount = postsCount*/)
     }

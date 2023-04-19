@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import ru.investlifestyle.app.data.networkApi.PostsApiInterface
 import ru.investlifestyle.app.data.networkApi.examin.Repo
 import ru.investlifestyle.app.databinding.FragmentDashboardBinding
 
@@ -55,7 +54,7 @@ class TopicsFragment : Fragment() {
         val textView: TextView = binding.textDashboard
 
         val repo = Repo()
-        val topicsViewModelFactoryTest = ViewMogelFactoryTest(repo)
+        val topicsViewModelFactoryTest = ViewModelFactoryTest(repo)
         topicsViewModel = ViewModelProvider(this,
             topicsViewModelFactoryTest)[TopicsViewModel::class.java]
         topicsViewModel.postListViewModel.observe(this, Observer { list ->
