@@ -1,7 +1,5 @@
 package ru.investlifestyle.app.di
 
-import android.app.Application
-import androidx.appcompat.app.AppCompatActivity
 import dagger.BindsInstance
 import dagger.Component
 import ru.investlifestyle.app.App
@@ -13,7 +11,9 @@ import ru.investlifestyle.app.ui.notifications.NotificationsFragment
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class])
+@Component(
+    modules = [ApiRequestModule::class, ViewModelModule::class, DataModule::class]
+)
 interface AppComponent {
 
     //Activities

@@ -10,13 +10,16 @@ import io.reactivex.schedulers.Schedulers
 import ru.investlifestyle.app.data.repository.PostsRepositoryImpl
 import ru.investlifestyle.app.domain.usecase.GetMainPostsListUseCase
 import ru.investlifestyle.app.utils.PostsModelDataItem
+import javax.inject.Inject
 
 @SuppressLint("CheckResult")
-class TopicsViewModel: ViewModel()  {
+class TopicsViewModel @Inject constructor(
+    private val getMainPostsListUseCase: GetMainPostsListUseCase
+) : ViewModel()  {
 
 
-    private val repository = PostsRepositoryImpl()
-    private val getMainPostsListUseCase = GetMainPostsListUseCase(repository)
+
+
 
     var postListViewModel: MutableLiveData<List<PostsModelDataItem>> = MutableLiveData()
 

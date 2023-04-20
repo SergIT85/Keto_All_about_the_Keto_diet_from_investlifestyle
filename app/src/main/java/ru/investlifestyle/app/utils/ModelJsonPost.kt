@@ -51,6 +51,13 @@ data class Content(
     val rendered: String
 )
 
+data class Categories(
+    val count: Int,
+    val id: Int,
+    val name: String,
+    val slug: String
+)
+
 data class Excerpt(
     val `protected`: Boolean,
     val rendered: String

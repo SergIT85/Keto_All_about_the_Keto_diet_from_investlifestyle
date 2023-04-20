@@ -6,16 +6,7 @@ import ru.investlifestyle.app.di.DaggerAppComponent
 
 class App: Application() {
 
-    override fun onCreate() {
-        super.onCreate()
-        //init(this)
+    val daggerAppComponent by lazy {
         DaggerAppComponent.builder().application(this).build()
-
-    }
-
-
-
-    fun init(app: App) {
-        DaggerAppComponent.builder().application(app).build()//тут возможно надо будте добавить inject(app) и реализовать это... но посмотрим.
     }
 }
