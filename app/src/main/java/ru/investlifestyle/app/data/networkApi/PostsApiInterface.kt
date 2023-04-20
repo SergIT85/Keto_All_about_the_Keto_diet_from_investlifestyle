@@ -10,7 +10,7 @@ import ru.investlifestyle.app.utils.PostsModelDataItem
 interface PostsApiInterface {
 
     //общий запрос 1 страницы постов
-    @GET("wp-json/wp/v2/posts?per_page=1")
+    @GET("wp-json/wp/v2/posts?per_page=10")
     fun getPostsList(/*@Path("posts_count") postsCount: Int*/): Single<List<PostsModelDataItem>>
 
     @GET("wp-json/wp/v2/posts/{postId}?&_embed=true")

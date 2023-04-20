@@ -1,6 +1,8 @@
 package ru.investlifestyle.app.data.repository
 
 import io.reactivex.Single
+import okhttp3.OkHttpClient
+import ru.investlifestyle.app.data.networkApi.PostsApiInterface
 import ru.investlifestyle.app.data.networkApi.examin.ApiClient
 import ru.investlifestyle.app.data.networkApi.examin.Repo
 import ru.investlifestyle.app.domain.PostRepositoryInterface
@@ -8,12 +10,12 @@ import ru.investlifestyle.app.utils.Categories
 import ru.investlifestyle.app.utils.PostsModelDataItem
 import javax.inject.Inject
 
-class PostsRepositoryImpl @Inject constructor(): PostRepositoryInterface {
+class PostsRepositoryImpl @Inject constructor(
+    private val apiClient: PostsApiInterface
+): PostRepositoryInterface {
 
     private val service = Repo()
 
-
-    private val apiClient = ApiClient.apiClient
 
     override fun getPostsList(postsCount: Int): Single<List<PostsModelDataItem>> {
         return service.getPost(1)
