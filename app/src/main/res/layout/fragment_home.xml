@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/material_margin_small"
-        android:layout_marginTop="@dimen/material_margin_nirmal"
+        android:layout_marginTop="@dimen/material_margin_normal"
         android:layout_marginEnd="@dimen/material_margin_small"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
