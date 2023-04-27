@@ -24,6 +24,12 @@
     <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
         <item name="cornerSize">50%</item>
     </style>
+    
+    <style name="TextViewHeaderOne" parent="">
+        <item name="android:textColor">@color/textHeaderColor</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 
 
 </resources>

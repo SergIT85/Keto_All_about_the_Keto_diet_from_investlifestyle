@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/item_home_article"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_home_article"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/material_margin_normal"
@@ -20,11 +20,13 @@
 
     <TextView
         android:id="@+id/text_view_item_home_article"
-        android:layout_marginTop="@dimen/material_margin_super_small"
-        android:maxLines="1"
-        android:textSize="14sp"
+        style="@style/TextViewHeaderOne"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/placeholder_article"
-        android:textColor="@color/black" />
+        android:layout_marginStart="@dimen/material_margin_super_small"
+        android:layout_marginTop="@dimen/material_margin_normal"
+        android:layout_marginEnd="@dimen/material_margin_super_small"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="@string/placeholder_article" />
 </LinearLayout>
