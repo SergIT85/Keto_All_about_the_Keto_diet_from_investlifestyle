@@ -22,4 +22,9 @@
         android:name="ru.investlifestyle.app.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <activity
+        android:id="@+id/postActivity2"
+        android:name="ru.investlifestyle.app.ui.post.PostActivity"
+        android:label="activity_post"
+        tools:layout="@layout/activity_post" />
 </navigation>
