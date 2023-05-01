@@ -1,4 +1,4 @@
-package ru.investlifestyle.app.utils
+package ru.investlifestyle.app.data.networkApi
 
 class PostsModelData : ArrayList<PostsModelDataItem>() {
     val ppp: PostsModelDataItem? = null

@@ -4,8 +4,6 @@ import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import ru.investlifestyle.app.utils.Categories
-import ru.investlifestyle.app.utils.PostsModelDataItem
 
 interface PostsApiInterface {
 

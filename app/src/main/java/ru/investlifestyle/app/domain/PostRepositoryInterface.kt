@@ -1,8 +1,8 @@
 package ru.investlifestyle.app.domain
 
 import io.reactivex.Single
-import ru.investlifestyle.app.utils.Categories
-import ru.investlifestyle.app.utils.PostsModelDataItem
+import ru.investlifestyle.app.data.networkApi.Categories
+import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 
 interface PostRepositoryInterface {
 
