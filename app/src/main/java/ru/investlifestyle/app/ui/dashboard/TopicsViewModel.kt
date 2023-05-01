@@ -16,10 +16,6 @@ class TopicsViewModel @Inject constructor(
     private val getMainPostsListUseCase: GetMainPostsListUseCase
 ) : ViewModel()  {
 
-
-
-
-
     var postListViewModel: MutableLiveData<List<PostsModelDataItem>> = MutableLiveData()
 
     init {

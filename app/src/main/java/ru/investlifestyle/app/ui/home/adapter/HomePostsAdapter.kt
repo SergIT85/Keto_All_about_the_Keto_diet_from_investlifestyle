@@ -1,5 +1,6 @@
 package ru.investlifestyle.app.ui.home.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -11,7 +12,7 @@ import ru.investlifestyle.app.databinding.ItemHomeArticleBinding
 import ru.investlifestyle.app.ui.models.PostUiModel
 
 
-class HomePostsAdapter(private val content: Content) : ListAdapter<PostUiModel,
+class HomePostsAdapter(private val context: Context) : ListAdapter<PostUiModel,
             HomePostsAdapter.HomePostViewHolder>(HomePostsDiffCallback) {
 
     var onPostClickListener: OnPostClickListener? = null

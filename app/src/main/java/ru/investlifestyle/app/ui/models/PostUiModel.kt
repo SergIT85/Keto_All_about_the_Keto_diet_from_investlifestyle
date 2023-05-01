@@ -10,6 +10,6 @@ data class PostUiModel(
     val content: String,
     val protected: Boolean,
     val author: String,
-    val categories: List<String>,
+    val categories: List<Int>,
     val liked: Boolean = false
     )
