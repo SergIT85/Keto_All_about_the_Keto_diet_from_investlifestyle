@@ -4,6 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="material_margin_large">32dp</dimen>
+    <dimen name="material_margin_standard">24dp</dimen>
     <dimen name="material_margin_normal">16dp</dimen>
     <dimen name="material_margin_small">8dp</dimen>
     <dimen name="material_margin_super_small">4dp</dimen>

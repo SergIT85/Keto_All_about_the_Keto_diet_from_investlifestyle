@@ -1,7 +1,7 @@
 package ru.investlifestyle.app.data.networkApi.examin
 
 import io.reactivex.Single
-import ru.investlifestyle.app.utils.PostsModelDataItem
+import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import javax.inject.Inject
 
 class Repo @Inject constructor() {

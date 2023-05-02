@@ -7,19 +7,14 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import ru.investlifestyle.app.data.repository.PostsRepositoryImpl
+import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.domain.usecase.GetMainPostsListUseCase
-import ru.investlifestyle.app.utils.PostsModelDataItem
 import javax.inject.Inject
 
 @SuppressLint("CheckResult")
 class TopicsViewModel @Inject constructor(
     private val getMainPostsListUseCase: GetMainPostsListUseCase
 ) : ViewModel()  {
-
-
-
-
 
     var postListViewModel: MutableLiveData<List<PostsModelDataItem>> = MutableLiveData()
 

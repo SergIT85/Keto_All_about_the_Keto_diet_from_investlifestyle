@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="textHeaderColor">#001C51</color>
+    <color name="textArticleSite">#000156</color>
+    <color name="textAccentSite">#00A7D6</color>
+    <color name="greySimpleSite">#54595F</color>
+    <color name="savePal1Site">#29D8D8</color>
+    <color name="blueSite">#4054B2</color>
+    <color name="savePal2Site">#0C4373</color>
+
+
 </resources>
