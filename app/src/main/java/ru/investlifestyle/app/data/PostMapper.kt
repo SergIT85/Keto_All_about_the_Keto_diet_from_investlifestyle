@@ -21,7 +21,7 @@ class PostMapper @Inject constructor() {
         mapPostModelDataToPostUiModel(it)
     }
 
-    fun getImageUrlFromYoastHead(string: String): String {
+    private fun getImageUrlFromYoastHead(string: String): String {
         val listUrls = performRegex(string)
         var imageUrl = ""
         listUrls.map {
@@ -32,13 +32,13 @@ class PostMapper @Inject constructor() {
         return imageUrl
     }
 
-    fun performRegex(text: String): List<String> {
+    private fun performRegex(text: String): List<String> {
         val regPattern = Regex(REGEX_URL)
         val list = regPattern.findAll(text.toString()).map { it.value }.toList()
         return list
     }
     companion object {
-        const val REGEX_URL = /*"""((http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?)"""*/ """(?:https?|ftp)://\S+"""
+        const val REGEX_URL = """(?:https?|ftp)://\S+"""
         const val IMAGER_URL_REGEX = "wp-content"
     }
 }

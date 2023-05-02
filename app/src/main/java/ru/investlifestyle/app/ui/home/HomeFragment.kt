@@ -7,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.AbstractSavedStateViewModelFactory
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
+import kotlinx.coroutines.launch
 import ru.investlifestyle.app.App
 import ru.investlifestyle.app.data.networkApi.Content
 import ru.investlifestyle.app.databinding.FragmentHomeBinding
@@ -54,9 +53,11 @@ class HomeFragment : Fragment() {
         val adapter = context?.let { HomePostsAdapter(it.applicationContext) }
 
         binding.homeFragmentRecycleViev.adapter = adapter
-        homeViewModel.postsListViewModel.observe(viewLifecycleOwner, Observer {
-            adapter?.submitList(it)
-        })
+        lifecycleScope.launch {
+            homeViewModel.postsListViewModel.observe(viewLifecycleOwner, Observer {
+                adapter?.submitList(it)
+            })
+        }
     }
 
     override fun onDestroyView() {
