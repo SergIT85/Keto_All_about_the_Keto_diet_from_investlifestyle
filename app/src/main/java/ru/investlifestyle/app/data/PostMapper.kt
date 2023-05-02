@@ -10,7 +10,7 @@ class PostMapper @Inject constructor() {
         id = postModelData.id,
         link = postModelData.link,
         title = postModelData.title.rendered,
-        posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2023/04/Resize-mo6i8OQZl5TAO.jpg",
+        posterMediaLinkUrl = getImageUrlFromYoastHead(postModelData.yoast_head),
         content = postModelData.content.rendered,
         protected = postModelData.content.protected,
         author = "postModelData.author.",
@@ -19,5 +19,26 @@ class PostMapper @Inject constructor() {
 
     fun mapListPostDataToListPostUi(listPosts:List<PostsModelDataItem>) = listPosts.map {
         mapPostModelDataToPostUiModel(it)
+    }
+
+    fun getImageUrlFromYoastHead(string: String): String {
+        val listUrls = performRegex(string)
+        var imageUrl = ""
+        listUrls.map {
+            if (it.contains(IMAGER_URL_REGEX, ignoreCase = true)) {
+                imageUrl = it
+            }
+        }
+        return imageUrl
+    }
+
+    fun performRegex(text: String): List<String> {
+        val regPattern = Regex(REGEX_URL)
+        val list = regPattern.findAll(text.toString()).map { it.value }.toList()
+        return list
+    }
+    companion object {
+        const val REGEX_URL = /*"""((http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?)"""*/ """(?:https?|ftp)://\S+"""
+        const val IMAGER_URL_REGEX = "wp-content"
     }
 }
