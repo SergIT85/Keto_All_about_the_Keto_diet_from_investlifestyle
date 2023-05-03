@@ -31,9 +31,9 @@ class PostsRepositoryImpl @Inject constructor(
     }
 
     //исправить на загрузку из БД!!!! когда будет создана
-    override fun loadOnePost(postId: Int): Flow<PostUiModel> = flow {
+    override suspend fun loadOnePost(postId: Int): PostUiModel =
         mapper.mapPostModelDataToPostUiModel(apiClient.loadOnePostById(postId))
-    }
+
 
     override fun loadSubjectPosts(
         categories: Int,

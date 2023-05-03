@@ -10,7 +10,7 @@ interface PostRepositoryInterface {
 
     fun getPostsList(postsCount: Int): Single<List<PostsModelDataItem>>
     fun getMainPostList(postCount: Int): Single<List<PostUiModel>>
-    fun loadOnePost(postId: Int): Flow<PostUiModel>
+    suspend fun loadOnePost(postId: Int): PostUiModel
     fun loadSubjectPosts(
         categories: Int,
         page: Int,

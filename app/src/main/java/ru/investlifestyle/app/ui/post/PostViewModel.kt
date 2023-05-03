@@ -22,15 +22,15 @@ class PostViewModel @Inject constructor(
     private var _onePostViewModel = MutableStateFlow<LoadPostState>(LoadPostState.Empty)
     val onePostViewModel = _onePostViewModel.asStateFlow()
 
-    private fun getPostById(postId: Int) {
+    fun getPostById(postId: Int) {
 
         viewModelScope.launch {
             _onePostViewModel.value = LoadPostState.Load
 
             try {
-                loadOnePostUseCase.loadOnePost(postId).collect {
-                    _onePostViewModel.value = LoadPostState.Loaded(it)
-                }
+                _onePostViewModel.value =
+                LoadPostState.Loaded(loadOnePostUseCase.loadOnePost(postId))
+
             } catch (exception: IOException) {
                 _onePostViewModel.value = LoadPostState.Error(exception.message.toString())
             } catch (exception: HttpException) {

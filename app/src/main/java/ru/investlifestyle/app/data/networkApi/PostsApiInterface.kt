@@ -12,7 +12,7 @@ interface PostsApiInterface {
     fun getPostsList(/*@Path("posts_count") postsCount: Int*/): Single<List<PostsModelDataItem>>
 
     @GET("wp-json/wp/v2/posts/{postId}?&_embed=true")
-    fun loadOnePostById(
+    suspend fun loadOnePostById(
         @Path("postId") postId: Int
     ): PostsModelDataItem
 

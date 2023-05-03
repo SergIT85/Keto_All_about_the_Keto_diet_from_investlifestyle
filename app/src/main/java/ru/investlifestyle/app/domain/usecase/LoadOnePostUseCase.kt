@@ -11,7 +11,7 @@ import javax.inject.Inject
 class LoadOnePostUseCase @Inject constructor (
     private val postRepository: PostRepositoryInterface
     ) {
-    fun loadOnePost(postId: Int): Flow<PostUiModel> {
+    suspend fun loadOnePost(postId: Int): PostUiModel {
         return postRepository.loadOnePost(postId)
     }
 }
