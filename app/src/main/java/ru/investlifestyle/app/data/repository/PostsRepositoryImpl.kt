@@ -1,6 +1,8 @@
 package ru.investlifestyle.app.data.repository
 
 import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import ru.investlifestyle.app.data.PostMapper
 import ru.investlifestyle.app.data.networkApi.Categories
 import ru.investlifestyle.app.data.networkApi.PostsApiInterface
@@ -28,9 +30,10 @@ class PostsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun loadOnePost(postId: Int): Single<PostsModelDataItem> {
-        return apiClient.loadOnePostById(postId)
-    }
+    //исправить на загрузку из БД!!!! когда будет создана
+    override suspend fun loadOnePost(postId: Int): PostUiModel =
+        mapper.mapPostModelDataToPostUiModel(apiClient.loadOnePostById(postId))
+
 
     override fun loadSubjectPosts(
         categories: Int,

@@ -9,8 +9,8 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentPostsContainer"
-        android:name="ru.investlifestyle.app.ui.post.PostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"/>
 </FrameLayout>
+<!--    android:name="ru.investlifestyle.app.ui.post.PostFragment"-->

@@ -7,6 +7,7 @@ import dagger.multibindings.IntoMap
 import ru.investlifestyle.app.ui.dashboard.TopicsViewModel
 import ru.investlifestyle.app.ui.home.HomeViewModel
 import ru.investlifestyle.app.ui.notifications.NotificationsViewModel
+import ru.investlifestyle.app.ui.post.PostViewModel
 
 @Module
 interface ViewModelModule {
@@ -26,4 +27,8 @@ interface ViewModelModule {
     @Binds
     fun bindNotificationsViewModel(impl: NotificationsViewModel): ViewModel
 
+    @IntoMap
+    @ViewModelKey(PostViewModel::class)
+    @Binds
+    fun bindPostViewModel(impl: PostViewModel): ViewModel
 }

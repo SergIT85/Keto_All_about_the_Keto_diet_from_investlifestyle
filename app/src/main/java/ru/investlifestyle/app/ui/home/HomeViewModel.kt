@@ -17,7 +17,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var _postsListViewModel: MutableLiveData<List<PostUiModel>> = MutableLiveData()
-    val postsListViewModel: MutableLiveData<List<PostUiModel>>
+    val postsListViewModel: LiveData<List<PostUiModel>>
         get() = _postsListViewModel
 
     init {
@@ -30,7 +30,7 @@ class HomeViewModel @Inject constructor(
             }
     }
 
-    private fun getPostList(): Single<List<PostUiModel>> {
+    fun getPostList(): Single<List<PostUiModel>> {
         return loadPostsUseCase.getMainPostList(10)
     }
 

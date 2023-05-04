@@ -15,7 +15,9 @@ import ru.investlifestyle.app.ui.models.PostUiModel
 class HomePostsAdapter(private val context: Context) : ListAdapter<PostUiModel,
             HomePostsAdapter.HomePostViewHolder>(HomePostsDiffCallback) {
 
-    var onPostClickListener: OnPostClickListener? = null
+    var onPostClickListener: ((PostUiModel) -> Unit)? = null
+
+
 
     inner class HomePostViewHolder(binding: ItemHomeArticleBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -38,7 +40,7 @@ class HomePostsAdapter(private val context: Context) : ListAdapter<PostUiModel,
                 tvItemHomePost.text = title
                 Picasso.get().load(posterMediaLinkUrl).into(ivItemPost)
                 rootView.setOnClickListener {
-                    onPostClickListener?.onPostClick(this)
+                    onPostClickListener?.invoke(item)
                 }
             }
         }
