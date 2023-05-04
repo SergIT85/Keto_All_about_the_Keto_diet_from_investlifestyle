@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
@@ -33,8 +34,8 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactoryTest
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private lateinit var homeViewModel: HomeViewModel
+
     private val binding get() = _binding!!
 
     override fun onAttach(context: Context) {
@@ -53,7 +54,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val homeViewModel =
+        homeViewModel =
             ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
 
@@ -61,26 +62,43 @@ class HomeFragment : Fragment() {
         adapter = HomePostsAdapter(requireContext())
 
         binding.homeFragmentRecycleViev.adapter = adapter
-        lifecycleScope.launch {
-            // REFACTOR in sealed class!!!!
-            shimmerState(true)
-            delay(1000)
-            shimmerState(false)
-            homeViewModel.postsListViewModel.observe(viewLifecycleOwner, Observer {
-                adapter.submitList(it)
-            })
-        }
+        loadListPosts()
         setClickListener()
 
     }
 
-    fun setClickListener() {
+    private fun loadListPosts() {
+        lifecycleScope.launch {
+            shimmerState(false)
+            homeViewModel.postsListViewModel.collect {
+                when (it) {
+                    is StateListPosts.Load -> {
+                        shimmerState(true)
+                    }
+
+                    is StateListPosts.Loaded -> {
+                        shimmerState(false)
+                        adapter.submitList(it.ListPosts)
+                    }
+                    is StateListPosts.Error -> {
+                        Toast.makeText(context,
+                            "MY!!!!!!!!! Error: ${it.error}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+
+
+        }
+    }
+
+    private fun setClickListener() {
         adapter.onPostClickListener = {
             val intent = PostActivity.intentPostActivity(requireContext(), it.id)
             startActivity(intent)
         }
     }
-
 
 
     override fun onDestroyView() {
@@ -98,7 +116,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun shimmerState(isShimmer: Boolean) {
-        if(isShimmer) {
+        if (isShimmer) {
             main_detailShimmerLayout.isVisible = isShimmer
         } else {
             main_detailShimmerLayout.isVisible = isShimmer
