@@ -5,17 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_post.*
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.App
-import ru.investlifestyle.app.data.networkApi.Content
 import ru.investlifestyle.app.databinding.FragmentHomeBinding
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
 import ru.investlifestyle.app.ui.home.adapter.HomePostsAdapter
@@ -57,25 +54,20 @@ class HomeFragment : Fragment() {
         homeViewModel =
             ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
-
-
         adapter = HomePostsAdapter(requireContext())
 
         binding.homeFragmentRecycleViev.adapter = adapter
         loadListPosts()
         setClickListener()
-
     }
 
     private fun loadListPosts() {
         lifecycleScope.launch {
-            shimmerState(false)
             homeViewModel.postsListViewModel.collect {
                 when (it) {
                     is StateListPosts.Load -> {
                         shimmerState(true)
                     }
-
                     is StateListPosts.Loaded -> {
                         shimmerState(false)
                         adapter.submitList(it.ListPosts)
@@ -88,8 +80,6 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
-
-
         }
     }
 
@@ -99,7 +89,6 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -122,6 +111,5 @@ class HomeFragment : Fragment() {
             main_detailShimmerLayout.isVisible = isShimmer
             main_coordinatorLayout.isVisible = true
         }
-
     }
 }
