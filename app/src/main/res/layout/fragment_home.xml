@@ -22,7 +22,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="110dp"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/white"
             app:elevation="0dp"
@@ -30,7 +30,7 @@
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="110dp"
                 app:contentScrim="@color/white"
                 app:layout_scrollFlags="scroll"
                 app:layout_scrollInterpolator="@android:anim/decelerate_interpolator"

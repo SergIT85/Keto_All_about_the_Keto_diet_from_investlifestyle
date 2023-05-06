@@ -1,5 +1,6 @@
 package ru.investlifestyle.app.di
 
+import android.app.Application
 import dagger.BindsInstance
 import dagger.Component
 import ru.investlifestyle.app.App
@@ -30,12 +31,10 @@ interface AppComponent {
 
     fun inject(viewModel: TopicsViewModel)
 
-    @Component.Builder
-    interface Builder {
-        @BindsInstance
-        fun application(application: App): Builder
-
-        fun build(): AppComponent
+    @Component.Factory
+    interface Factory {
+        fun create(
+            @BindsInstance application: Application
+        ): AppComponent
     }
-
 }

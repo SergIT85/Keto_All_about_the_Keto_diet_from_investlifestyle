@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -59,6 +60,7 @@ class HomeFragment : Fragment() {
         binding.homeFragmentRecycleViev.adapter = adapter
         loadListPosts()
         setClickListener()
+        getQuotes()
     }
 
     private fun loadListPosts() {
@@ -102,6 +104,13 @@ class HomeFragment : Fragment() {
         fun newInstanceHomeFragment(): HomeFragment {
             return HomeFragment()
         }
+    }
+
+    private fun getQuotes() {
+        homeViewModel.quotes.observe(viewLifecycleOwner, Observer {
+            binding.tvThoughtMain.text = it
+        })
+
     }
 
     private fun shimmerState(isShimmer: Boolean) {

@@ -1,7 +1,7 @@
 package ru.investlifestyle.app.domain
 
+import android.app.Application
 import io.reactivex.Single
-import kotlinx.coroutines.flow.Flow
 import ru.investlifestyle.app.data.networkApi.Categories
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.ui.models.PostUiModel
@@ -19,4 +19,5 @@ interface PostRepositoryInterface {
     ): Single<List<PostsModelDataItem>>
 
     fun getCategories(): Single<List<Categories>>
+    fun getQuotes(): String
 }
