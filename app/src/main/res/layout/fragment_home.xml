@@ -33,6 +33,7 @@
                 android:layout_height="110dp"
                 app:contentScrim="@color/white"
                 app:layout_scrollFlags="scroll"
+                android:background="@color/white"
                 app:layout_scrollInterpolator="@android:anim/decelerate_interpolator"
                 app:elevation="0dp"
                 app:toolbarId="@+id/toolbar">
@@ -42,7 +43,6 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     app:elevation="0dp">
-
 
                     <TextView
                         android:id="@+id/tv_hello_main"

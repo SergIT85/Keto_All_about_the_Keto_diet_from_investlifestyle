@@ -11,7 +11,11 @@
         android:id="@+id/main_drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/linear_layout_main"
@@ -42,8 +46,8 @@
                 android:id="@+id/nav_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:labelVisibilityMode="labeled"
                 android:background="?android:attr/windowBackground"
+                app:labelVisibilityMode="labeled"
                 app:menu="@menu/bottom_nav_menu" />
         </LinearLayout>
 
@@ -54,8 +58,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:headerLayout="@layout/drawer_nav_header"
-            app:menu="@menu/drawer_nav_menu"
-            />
+            app:menu="@menu/drawer_nav_menu" />
+            <!--app:itemIconTint="@color/textHeaderColor"-->
+
 
     </androidx.drawerlayout.widget.DrawerLayout>
 
