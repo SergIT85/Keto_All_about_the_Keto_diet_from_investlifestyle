@@ -1,8 +1,10 @@
 package ru.investlifestyle.app.data.repository
 
+import android.annotation.SuppressLint
+import android.app.Application
+import android.util.Log
 import io.reactivex.Single
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import ru.investlifestyle.app.R
 import ru.investlifestyle.app.data.PostMapper
 import ru.investlifestyle.app.data.networkApi.Categories
 import ru.investlifestyle.app.data.networkApi.PostsApiInterface
@@ -11,10 +13,12 @@ import ru.investlifestyle.app.data.networkApi.examin.Repo
 import ru.investlifestyle.app.domain.PostRepositoryInterface
 import ru.investlifestyle.app.ui.models.PostUiModel
 import javax.inject.Inject
+import kotlin.random.Random
 
 class PostsRepositoryImpl @Inject constructor(
     private val apiClient: PostsApiInterface,
-    private val mapper: PostMapper
+    private val mapper: PostMapper,
+    private val application: Application
 ): PostRepositoryInterface {
 
     private val service = Repo()
@@ -46,5 +50,12 @@ class PostsRepositoryImpl @Inject constructor(
 
     override fun getCategories(): Single<List<Categories>> {
         return apiClient.getCategories()
+    }
+
+    @SuppressLint("LogNotTimber")
+    override fun getQuotes(): String {
+        val randomString = Random(System.currentTimeMillis())
+        val array = application.resources.getStringArray(R.array.quotes)
+        return array[randomString.nextInt(array.size)]
     }
 }

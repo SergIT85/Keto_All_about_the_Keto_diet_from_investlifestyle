@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,45 +7,113 @@
     android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
 
-    <TextView
-        android:id="@+id/tv_hello_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/material_margin_standard"
-        android:layout_marginTop="@dimen/material_margin_large"
-        android:layout_marginEnd="@dimen/material_margin_normal"
-        android:textColor="#172368"
-        android:textSize="28sp"
-        android:textStyle="bold"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/main_coordinatorLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/hello_text" />
+        >
 
-    <TextView
-        android:id="@+id/tv_thought_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/material_margin_standard"
-        android:layout_marginEnd="@dimen/material_margin_small"
-        android:textSize="14sp"
-        android:textColor="@color/textHeaderColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/white"
+            app:elevation="0dp"
+            >
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                app:contentScrim="@color/white"
+                app:layout_scrollFlags="scroll"
+                android:background="@color/white"
+                app:layout_scrollInterpolator="@android:anim/decelerate_interpolator"
+                app:elevation="0dp"
+                app:toolbarId="@+id/toolbar">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:elevation="0dp">
+
+                    <TextView
+                        android:id="@+id/tv_hello_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/material_margin_standard"
+                        android:layout_marginTop="@dimen/material_margin_large"
+                        android:layout_marginEnd="@dimen/material_margin_normal"
+                        android:text="@string/hello_text"
+                        android:textColor="#172368"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_thought_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/material_margin_standard"
+                        android:layout_marginEnd="@dimen/material_margin_small"
+                        android:text="@string/hello_subtext"
+                        android:textColor="@color/textHeaderColor"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </LinearLayout>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/home_fragment_recycle_viev"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/material_margin_small"
+
+                android:layout_marginEnd="@dimen/material_margin_small"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:listitem="@layout/item_home_article" />
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/main_detailShimmerLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/main_coordinatorLayout"
+        app:layout_constraintEnd_toEndOf="@+id/main_coordinatorLayout"
+        app:layout_constraintStart_toStartOf="@+id/main_coordinatorLayout"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/hello_subtext" />
+        app:shimmer_auto_start="true">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/home_fragment_recycle_viev"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/material_margin_small"
-        android:layout_marginTop="@dimen/material_margin_normal"
-        android:layout_marginEnd="@dimen/material_margin_small"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/item_home_article" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <include layout="@layout/shimmer_greetings" />
+            <include layout="@layout/shimmer_post" />
+            <include layout="@layout/shimmer_post" />
+        </LinearLayout>
 
-</LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.App
-import ru.investlifestyle.app.data.networkApi.Content
 import ru.investlifestyle.app.databinding.FragmentHomeBinding
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
 import ru.investlifestyle.app.ui.home.adapter.HomePostsAdapter
@@ -29,8 +32,8 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactoryTest
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private lateinit var homeViewModel: HomeViewModel
+
     private val binding get() = _binding!!
 
     override fun onAttach(context: Context) {
@@ -49,28 +52,45 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val homeViewModel =
+        homeViewModel =
             ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
         adapter = HomePostsAdapter(requireContext())
 
         binding.homeFragmentRecycleViev.adapter = adapter
-        lifecycleScope.launch {
-            homeViewModel.postsListViewModel.observe(viewLifecycleOwner, Observer {
-                adapter.submitList(it)
-            })
-        }
+        loadListPosts()
         setClickListener()
+        getQuotes()
     }
 
-    fun setClickListener() {
+    private fun loadListPosts() {
+        lifecycleScope.launch {
+            homeViewModel.postsListViewModel.collect {
+                when (it) {
+                    is StateListPosts.Load -> {
+                        shimmerState(true)
+                    }
+                    is StateListPosts.Loaded -> {
+                        shimmerState(false)
+                        adapter.submitList(it.ListPosts)
+                    }
+                    is StateListPosts.Error -> {
+                        Toast.makeText(context,
+                            "MY!!!!!!!!! Error: ${it.error}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setClickListener() {
         adapter.onPostClickListener = {
             val intent = PostActivity.intentPostActivity(requireContext(), it.id)
             startActivity(intent)
         }
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -83,6 +103,22 @@ class HomeFragment : Fragment() {
 
         fun newInstanceHomeFragment(): HomeFragment {
             return HomeFragment()
+        }
+    }
+
+    private fun getQuotes() {
+        homeViewModel.quotes.observe(viewLifecycleOwner, Observer {
+            binding.tvThoughtMain.text = it
+        })
+
+    }
+
+    private fun shimmerState(isShimmer: Boolean) {
+        if (isShimmer) {
+            main_detailShimmerLayout.isVisible = isShimmer
+        } else {
+            main_detailShimmerLayout.isVisible = isShimmer
+            main_coordinatorLayout.isVisible = true
         }
     }
 }
