@@ -25,11 +25,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
     buildFeatures {
         viewBinding true
@@ -43,13 +43,13 @@ dependencies {
     def picassoTransformation = '2.4.0'
     def recyclerViewVersion = '1.2.1'
     def groupieVersion = '2.10.1'
-    def room_version = "2.4.3"
+    def room_version = "2.5.1"
     def lifecycleExtensionVersion = '2.2.0'
     def lifecycleVersion = '2.5.1'
     def stethoVersion = '1.5.1'
     def timberVersion = '4.7.1'
 
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -114,4 +114,8 @@ dependencies {
 
     //Shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    kapt "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.4.2"
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
+
 }

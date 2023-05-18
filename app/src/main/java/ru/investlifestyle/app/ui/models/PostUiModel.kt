@@ -11,5 +11,6 @@ data class PostUiModel(
     val protected: Boolean,
     val author: String,
     val categories: List<Int>,
-    val liked: Boolean = false
+    val liked: Boolean = false,
+    val modifiedGmt: String
     )

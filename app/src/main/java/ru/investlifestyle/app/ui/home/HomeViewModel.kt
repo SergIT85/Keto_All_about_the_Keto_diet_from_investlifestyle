@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getPostList(): Single<List<PostUiModel>> {
-        return loadPostsUseCase.getMainPostList(10)
+        return loadPostsUseCase.getMainPostList(1)
     }
 
     private fun getQuotes() {

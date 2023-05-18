@@ -28,8 +28,8 @@ class PostsRepositoryImpl @Inject constructor(
         return service.getPost(1)
     }
 
-    override fun getMainPostList(postCount: Int): Single<List<PostUiModel>> {
-        return apiClient.getPostsList().map {
+    override fun getMainPostList(page: Int): Single<List<PostUiModel>> {
+        return apiClient.getPostsList(page).map {
             mapper.mapListPostDataToListPostUi(it)
         }
     }

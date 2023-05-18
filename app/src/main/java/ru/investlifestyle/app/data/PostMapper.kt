@@ -15,6 +15,7 @@ class PostMapper @Inject constructor() {
         protected = postModelData.content.protected,
         author = "postModelData.author.",
         categories = postModelData.categories,
+        modifiedGmt = postModelData.modified_gmt
     )
 
     fun mapListPostDataToListPostUi(listPosts:List<PostsModelDataItem>) = listPosts.map {
