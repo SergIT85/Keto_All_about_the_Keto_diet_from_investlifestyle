@@ -9,7 +9,7 @@ import ru.investlifestyle.app.ui.models.PostUiModel
 interface PostRepositoryInterface {
 
     fun getPostsList(postsCount: Int): Single<List<PostsModelDataItem>>
-    fun getMainPostList(postCount: Int): Single<List<PostUiModel>>
+    fun getMainPostList(page: Int): Single<List<PostUiModel>>
     suspend fun loadOnePost(postId: Int): PostUiModel
     fun loadSubjectPosts(
         categories: Int,
