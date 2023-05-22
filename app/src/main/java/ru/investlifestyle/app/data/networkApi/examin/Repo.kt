@@ -7,6 +7,6 @@ import javax.inject.Inject
 class Repo @Inject constructor() {
 
     fun getPost(postsCount: Int): Single<List<PostsModelDataItem>> {
-        return ApiClient.apiClient.getPostsList(/*postsCount = postsCount*/)
+        return ApiClient.apiClient.getPostsList(1)
     }
 }

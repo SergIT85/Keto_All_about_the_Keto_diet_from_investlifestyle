@@ -8,7 +8,7 @@ import javax.inject.Inject
 class LoadPostsUseCase @Inject constructor(
     private val postRepository: PostRepositoryInterface
 ) {
-    fun getMainPostList(postCount: Int): Single<List<PostUiModel>> {
-        return postRepository.getMainPostList(postCount)
+    fun getMainPostList(page: Int): Single<List<PostUiModel>> {
+        return postRepository.getMainPostList(page)
     }
 }
