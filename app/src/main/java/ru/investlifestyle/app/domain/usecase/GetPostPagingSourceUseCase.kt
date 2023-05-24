@@ -1,14 +1,16 @@
 package ru.investlifestyle.app.domain.usecase
 
-import io.reactivex.Single
+import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
 import ru.investlifestyle.app.domain.PostRepositoryInterface
 import ru.investlifestyle.app.ui.models.PostUiModel
 import javax.inject.Inject
 
-class LoadPostsUseCase @Inject constructor(
+class GetPostPagingSourceUseCase @Inject constructor(
     private val postRepository: PostRepositoryInterface
 ) {
-    suspend fun getMainPostList(page: Int): List<PostUiModel> {
-        return postRepository.getMainPostList(page)
+
+    fun getPostPagingSource(): LiveData<PagingData<PostUiModel>> {
+        return postRepository.getPostPagingSource()
     }
 }

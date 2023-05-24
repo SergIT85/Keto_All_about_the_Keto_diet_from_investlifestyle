@@ -105,6 +105,7 @@ dependencies {
     // ROOM
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-paging:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
     // RxJava support for Room
@@ -117,5 +118,11 @@ dependencies {
 
     kapt "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.4.2"
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
+
+    //Paging 3
+    implementation "androidx.paging:paging-runtime-ktx:3.2.0-alpha05"
+
+    //pool-to-refresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
 }

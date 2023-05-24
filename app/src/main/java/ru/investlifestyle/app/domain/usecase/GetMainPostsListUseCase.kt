@@ -10,7 +10,7 @@ class GetMainPostsListUseCase @Inject constructor(
 ) {
 
     //Необходимо доделать для получения списка всех постов по порядку
-    fun getMainPostsList(postsCount: Int): Single<List<PostsModelDataItem>> {
+    suspend fun getMainPostsList(postsCount: Int): List<PostsModelDataItem> {
         return postRepository.getPostsList(postsCount)
     }
 }

@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.domain.usecase.GetMainPostsListUseCase
 import javax.inject.Inject
@@ -19,12 +21,9 @@ class TopicsViewModel @Inject constructor(
     var postListViewModel: MutableLiveData<List<PostsModelDataItem>> = MutableLiveData()
 
     init {
-        getPostsApi()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { it ->
-                postListViewModel.value = it
-            }
+        viewModelScope.launch{
+            getPostsApi()
+        }
 
 
     }
@@ -34,7 +33,7 @@ class TopicsViewModel @Inject constructor(
     }
     val text: LiveData<String> = _text
     @SuppressLint("LogNotTimber")
-    fun getPostsApi():Single<List<PostsModelDataItem>> {
+    suspend fun getPostsApi():List<PostsModelDataItem> {
         //val result = getPostsListUseCase.getPostsList(1)
         //Log.d("TopicsViewModel","${result.subscribe { it -> toString() }}")
         return getMainPostsListUseCase.getMainPostsList(1)

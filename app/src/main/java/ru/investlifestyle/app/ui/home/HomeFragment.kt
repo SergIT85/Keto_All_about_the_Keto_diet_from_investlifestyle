@@ -11,7 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.App
 import ru.investlifestyle.app.databinding.FragmentHomeBinding
@@ -58,6 +61,7 @@ class HomeFragment : Fragment() {
         adapter = HomePostsAdapter(requireContext())
 
         binding.homeFragmentRecycleViev.adapter = adapter
+        loading()
         loadListPosts()
         setClickListener()
         getQuotes()
@@ -65,14 +69,36 @@ class HomeFragment : Fragment() {
 
     private fun loadListPosts() {
         lifecycleScope.launch {
-            homeViewModel.postsListViewModel.collect {
+
+            adapter.loadStateFlow.map {
+                it.refresh
+            }
+                .distinctUntilChanged()
+                .collect { LoadState ->
+                    when(LoadState) {
+                        is LoadState.Loading -> {
+                            main_coordinatorLayout.isVisible = false
+                            main_detailShimmerLayout.isVisible = true
+                            main_detailShimmerLayout.startShimmer()
+                        }
+                        is LoadState.NotLoading -> {
+                            main_detailShimmerLayout.stopShimmer()
+                            main_detailShimmerLayout.isVisible = false
+                            main_coordinatorLayout.isVisible = true
+                        }
+                        is LoadState.Error -> {
+
+                        }
+                    }
+                }
+            /*homeViewModel.postsListViewModel.collect {
                 when (it) {
                     is StateListPosts.Load -> {
                         shimmerState(true)
                     }
                     is StateListPosts.Loaded -> {
                         shimmerState(false)
-                        adapter.submitList(it.ListPosts)
+                        adapter.submitData(lifecycle = lifecycle, pagingData = )
                     }
                     is StateListPosts.Error -> {
                         Toast.makeText(context,
@@ -81,7 +107,14 @@ class HomeFragment : Fragment() {
                         ).show()
                     }
                 }
-            }
+            }*/
+        }
+    }
+
+    private fun loading() {
+        homeViewModel.posts.observe(viewLifecycleOwner) { pagingData ->
+            adapter.submitData(lifecycle = lifecycle, pagingData = pagingData)
+
         }
     }
 

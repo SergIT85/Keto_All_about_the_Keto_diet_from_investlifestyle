@@ -14,6 +14,7 @@ interface DataModule {
     @Binds
     fun bindPostRepository(impl: PostsRepositoryImpl): PostRepositoryInterface
 
+
     companion object {
         @ApplicationScope
         @Provides
