@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.paging.ExperimentalPagingApi
 import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
 import ru.investlifestyle.app.databinding.ActivityMainBinding
@@ -20,10 +21,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
 
+    @ExperimentalPagingApi
     private val component by lazy {
         (application as App).daggerAppComponent
     }
 
+    @ExperimentalPagingApi
     override fun onCreate(savedInstanceState: Bundle?) {
         component.inject(this)
 

@@ -5,7 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "post_items")
 data class PostDbModelEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    var idNumber: Int = 0,
     var id: Int = 0,
     var link: String = "",
     var title: String = "",
@@ -17,7 +18,7 @@ data class PostDbModelEntity(
     var liked: Boolean = false,
     var modifiedGmt: String = ""
 ) {
-    constructor() : this(
+    /*constructor() : this(
         0,
         "",
         "",
@@ -28,5 +29,5 @@ data class PostDbModelEntity(
         "",
         false,
         ""
-    )
+    )*/
 }

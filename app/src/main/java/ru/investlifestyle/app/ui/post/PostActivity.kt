@@ -5,11 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.paging.ExperimentalPagingApi
 import kotlinx.android.synthetic.main.activity_post.*
 import ru.investlifestyle.app.App
 import ru.investlifestyle.app.databinding.ActivityPostBinding
 import ru.investlifestyle.app.ui.home.HomeFragment
 
+@ExperimentalPagingApi
 class PostActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPostBinding

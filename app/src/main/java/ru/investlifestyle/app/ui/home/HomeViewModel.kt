@@ -6,8 +6,7 @@ import androidx.paging.cachedIn
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.domain.usecase.GetPostPagingSourceUseCase
 import ru.investlifestyle.app.domain.usecase.GetQuotesUseCase
@@ -31,7 +30,8 @@ class HomeViewModel @Inject constructor(
         get() = _quotes
 
     private val _posts = MutableLiveData(0)
-    val posts = _posts.switchMap {
+    val posts = _posts.asFlow()
+        .flatMapLatest {
         getPostPagingSourceUseCase.getPostPagingSource().cachedIn(viewModelScope)
     }
 

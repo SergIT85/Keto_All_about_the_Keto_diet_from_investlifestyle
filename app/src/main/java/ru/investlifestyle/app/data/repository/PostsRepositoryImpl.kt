@@ -4,44 +4,52 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.liveData
+import androidx.paging.*
 import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import ru.investlifestyle.app.R
 import ru.investlifestyle.app.data.PostMapper
 import ru.investlifestyle.app.data.networkApi.Categories
 import ru.investlifestyle.app.data.networkApi.PostsApiInterface
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.data.networkApi.examin.Repo
+import ru.investlifestyle.app.data.paging.PostPagingRemoteMediator
 import ru.investlifestyle.app.data.paging.PostPagingSource
+import ru.investlifestyle.app.data.room.PostDaoRoom
 import ru.investlifestyle.app.domain.PostRepositoryInterface
 import ru.investlifestyle.app.ui.models.PostUiModel
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.random.Random
 
+@ExperimentalPagingApi
 class PostsRepositoryImpl @Inject constructor(
     private val apiClient: PostsApiInterface,
     private val mapper: PostMapper,
-    private val application: Application
+    private val application: Application,
+    private val postDaoRoom: PostDaoRoom,
 ): PostRepositoryInterface {
 
+    private val postPagingRemoteMediator = PostPagingRemoteMediator(postDaoRoom, apiClient, mapper)
+
     private val service = Repo()
-    override fun getPostPagingSource(): LiveData<PagingData<PostUiModel>> {
+    override fun getPostPagingSource(): Flow<PagingData<PostUiModel>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
-                maxSize = 30,
-                enablePlaceholders = false
+                prefetchDistance = 1,
+                enablePlaceholders = true
             ),
+            remoteMediator = postPagingRemoteMediator,
             pagingSourceFactory = {
-                PostPagingSource(
-                    apiClient,
-                    mapper
-                )
+                postDaoRoom.getPostListPagingSource()
+
             }
-        ).liveData
+        ).flow
+            .map { pagingDate ->
+                pagingDate.map { mapper.mapPostDbModelToPostUiModel(it) }
+            }
     }
 
 

@@ -13,11 +13,12 @@
         android:layout_height="0dp"
         android:fillViewport="true"
         android:visibility="invisible"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -25,17 +26,16 @@
             android:layout_height="110dp"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/white"
-            app:elevation="0dp"
-            >
+            app:elevation="0dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
-                app:contentScrim="@color/white"
-                app:layout_scrollFlags="scroll"
                 android:background="@color/white"
-                app:layout_scrollInterpolator="@android:anim/decelerate_interpolator"
+                app:contentScrim="@color/white"
                 app:elevation="0dp"
+                app:layout_scrollFlags="scroll"
+                app:layout_scrollInterpolator="@android:anim/decelerate_interpolator"
                 app:toolbarId="@+id/toolbar">
 
                 <LinearLayout
@@ -78,18 +78,16 @@
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/home_fragment_recycle_viev"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/material_margin_small"
-
-                android:layout_marginEnd="@dimen/material_margin_small"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:listitem="@layout/item_home_article" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_fragment_recycle_viev"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/material_margin_small"
+            android:layout_marginEnd="@dimen/material_margin_small"
+            android:scrollbars="vertical"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/item_home_article" />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -108,12 +106,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <include layout="@layout/shimmer_greetings" />
             <include layout="@layout/shimmer_post" />
             <include layout="@layout/shimmer_post" />
         </LinearLayout>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_post.*
 import ru.investlifestyle.app.App
@@ -17,7 +18,7 @@ import ru.investlifestyle.app.databinding.FragmentPostBinding
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
 import javax.inject.Inject
 
-
+@ExperimentalPagingApi
 class PostFragment : Fragment() {
 
     private val component by lazy {

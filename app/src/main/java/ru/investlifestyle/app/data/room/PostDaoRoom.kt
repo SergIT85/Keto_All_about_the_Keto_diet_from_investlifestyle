@@ -1,13 +1,14 @@
 package ru.investlifestyle.app.data.room
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingSource
 import androidx.room.*
 
 @Dao
 interface PostDaoRoom {
 
     @Query("SELECT * FROM post_items")
-    fun getPostListPagingSource(): LiveData<List<PostDbModelEntity>>
+    fun getPostListPagingSource(): PagingSource<Int, PostDbModelEntity>
 
     @Query("SELECT * FROM post_items WHERE id=:postItemId LIMIT 1")
     fun getPostItemById(postItemId: Int): LiveData<PostDbModelEntity>

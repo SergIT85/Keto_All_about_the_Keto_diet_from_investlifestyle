@@ -11,8 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -23,6 +26,7 @@ import ru.investlifestyle.app.ui.home.adapter.HomePostsAdapter
 import ru.investlifestyle.app.ui.post.PostActivity
 import javax.inject.Inject
 
+@ExperimentalPagingApi
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
@@ -36,8 +40,8 @@ class HomeFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactoryTest
 
     private lateinit var homeViewModel: HomeViewModel
-
     private val binding get() = _binding!!
+
 
     override fun onAttach(context: Context) {
         component.inject(this)
@@ -59,8 +63,11 @@ class HomeFragment : Fragment() {
             ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
         adapter = HomePostsAdapter(requireContext())
+        adapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.ALLOW
 
         binding.homeFragmentRecycleViev.adapter = adapter
+
         loading()
         loadListPosts()
         setClickListener()
@@ -77,45 +84,26 @@ class HomeFragment : Fragment() {
                 .collect { LoadState ->
                     when(LoadState) {
                         is LoadState.Loading -> {
-                            main_coordinatorLayout.isVisible = false
-                            main_detailShimmerLayout.isVisible = true
-                            main_detailShimmerLayout.startShimmer()
+                            shimmerState(true)
                         }
                         is LoadState.NotLoading -> {
-                            main_detailShimmerLayout.stopShimmer()
-                            main_detailShimmerLayout.isVisible = false
-                            main_coordinatorLayout.isVisible = true
+                            shimmerState(false)
                         }
                         is LoadState.Error -> {
 
                         }
                     }
                 }
-            /*homeViewModel.postsListViewModel.collect {
-                when (it) {
-                    is StateListPosts.Load -> {
-                        shimmerState(true)
-                    }
-                    is StateListPosts.Loaded -> {
-                        shimmerState(false)
-                        adapter.submitData(lifecycle = lifecycle, pagingData = )
-                    }
-                    is StateListPosts.Error -> {
-                        Toast.makeText(context,
-                            "MY!!!!!!!!! Error: ${it.error}",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
-            }*/
         }
     }
 
     private fun loading() {
-        homeViewModel.posts.observe(viewLifecycleOwner) { pagingData ->
-            adapter.submitData(lifecycle = lifecycle, pagingData = pagingData)
-
+        lifecycleScope.launch {
+            homeViewModel.posts.collect { pagingData ->
+                adapter.submitData(lifecycle = lifecycle, pagingData = pagingData)
+            }
         }
+
     }
 
     private fun setClickListener() {
@@ -149,9 +137,13 @@ class HomeFragment : Fragment() {
     private fun shimmerState(isShimmer: Boolean) {
         if (isShimmer) {
             main_detailShimmerLayout.isVisible = isShimmer
+            home_fragment_recycle_viev.isVisible = false
+            appbar.isVisible = false
         } else {
             main_detailShimmerLayout.isVisible = isShimmer
             main_coordinatorLayout.isVisible = true
+            home_fragment_recycle_viev.isVisible = true
+            appbar.isVisible = true
         }
     }
 }
