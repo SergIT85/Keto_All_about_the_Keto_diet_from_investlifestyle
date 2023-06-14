@@ -39,11 +39,11 @@ android {
 dependencies {
 
     def daggerVersion = '2.29.1'
-    def picassoVersion = '2.71828'
+    def picassoVersion = '2.8'
     def picassoTransformation = '2.4.0'
     def recyclerViewVersion = '1.2.1'
     def groupieVersion = '2.10.1'
-    def room_version = "2.5.1"
+    def room_version = "2.4.3"
     def lifecycleExtensionVersion = '2.2.0'
     def lifecycleVersion = '2.5.1'
     def stethoVersion = '1.5.1'
@@ -105,6 +105,7 @@ dependencies {
     // ROOM
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-paging:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
     // RxJava support for Room
@@ -117,5 +118,11 @@ dependencies {
 
     kapt "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.4.2"
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
+
+    //Paging 3
+    implementation "androidx.paging:paging-runtime-ktx:3.2.0-alpha05"
+
+    //pool-to-refresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
 }

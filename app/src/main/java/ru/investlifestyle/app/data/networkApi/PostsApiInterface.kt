@@ -9,7 +9,7 @@ interface PostsApiInterface {
 
     //общий запрос 1 страницы постов
     @GET("wp-json/wp/v2/posts?per_page=10")
-    fun getPostsList(@Query("page") page: Int): Single<List<PostsModelDataItem>>
+    suspend fun getPostsList(@Query("page") page: Int): List<PostsModelDataItem>
 
     @GET("wp-json/wp/v2/posts/{postId}?&_embed=true")
     suspend fun loadOnePostById(

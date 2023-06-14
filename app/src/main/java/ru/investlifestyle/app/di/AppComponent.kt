@@ -1,6 +1,7 @@
 package ru.investlifestyle.app.di
 
 import android.app.Application
+import androidx.paging.ExperimentalPagingApi
 import dagger.BindsInstance
 import dagger.Component
 import ru.investlifestyle.app.App
@@ -13,6 +14,7 @@ import ru.investlifestyle.app.ui.post.PostActivity
 import ru.investlifestyle.app.ui.post.PostFragment
 import javax.inject.Singleton
 
+@ExperimentalPagingApi
 @Singleton
 @Component(
     modules = [ApiRequestModule::class, ViewModelModule::class, DataModule::class]

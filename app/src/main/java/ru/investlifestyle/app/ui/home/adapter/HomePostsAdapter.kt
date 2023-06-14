@@ -3,6 +3,7 @@ package ru.investlifestyle.app.ui.home.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
@@ -12,7 +13,7 @@ import ru.investlifestyle.app.databinding.ItemHomeArticleBinding
 import ru.investlifestyle.app.ui.models.PostUiModel
 
 
-class HomePostsAdapter(private val context: Context) : ListAdapter<PostUiModel,
+class HomePostsAdapter(private val context: Context) : PagingDataAdapter<PostUiModel,
             HomePostsAdapter.HomePostViewHolder>(HomePostsDiffCallback) {
 
     var onPostClickListener: ((PostUiModel) -> Unit)? = null
@@ -35,6 +36,7 @@ class HomePostsAdapter(private val context: Context) : ListAdapter<PostUiModel,
     override fun onBindViewHolder(holder: HomePostViewHolder, position: Int) {
         val item = getItem(position)
 
+        if(item != null)
         with(holder.itemView) {
             with(item) {
                 tvItemHomePost.text = title
