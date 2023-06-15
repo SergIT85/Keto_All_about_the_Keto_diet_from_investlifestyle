@@ -1,4 +1,4 @@
-package ru.investlifestyle.app.ui.dashboard
+package ru.investlifestyle.app.ui.subject
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,13 +12,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.ExperimentalPagingApi
 import ru.investlifestyle.app.App
-import ru.investlifestyle.app.data.networkApi.examin.Repo
-import ru.investlifestyle.app.databinding.FragmentDashboardBinding
+import ru.investlifestyle.app.databinding.FragmentSubjectTopicsBinding
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
-import ru.investlifestyle.app.ui.ViewModelFactoryTest_Factory
 import javax.inject.Inject
 
-class TopicsFragment : Fragment() {
+class SubjectTopicsFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactoryTest: ViewModelFactoryTest
@@ -30,9 +28,9 @@ class TopicsFragment : Fragment() {
     }
 
 
-    lateinit var topicsViewModel: TopicsViewModel
+    lateinit var subjectTopicsViewModel: SubjectTopicsViewModel
 
-    private var _binding: FragmentDashboardBinding? = null
+    private var _binding: FragmentSubjectTopicsBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -53,7 +51,7 @@ class TopicsFragment : Fragment() {
         /*val topicsViewModel =
             ViewModelProvider(this).get(TopicsViewModel::class.java)*/
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentSubjectTopicsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         return root
@@ -71,14 +69,14 @@ class TopicsFragment : Fragment() {
 
 
 
-        val textView: TextView = binding.textDashboard
+        //val textView: TextView = binding.textDashboard
 
 
 
-        topicsViewModel = ViewModelProvider(this,
-            viewModelFactoryTest)[TopicsViewModel::class.java]
-        topicsViewModel.postListViewModel.observe(this, Observer { list ->
-            textView.text = list[0].title.rendered
+        subjectTopicsViewModel = ViewModelProvider(this,
+            viewModelFactoryTest)[SubjectTopicsViewModel::class.java]
+        subjectTopicsViewModel.postListViewModel.observe(this, Observer { list ->
+            //textView.text = list[0].title.rendered
         })
 
     }

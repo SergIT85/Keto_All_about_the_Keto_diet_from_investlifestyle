@@ -4,10 +4,9 @@ import android.app.Application
 import androidx.paging.ExperimentalPagingApi
 import dagger.BindsInstance
 import dagger.Component
-import ru.investlifestyle.app.App
 import ru.investlifestyle.app.MainActivity
-import ru.investlifestyle.app.ui.dashboard.TopicsFragment
-import ru.investlifestyle.app.ui.dashboard.TopicsViewModel
+import ru.investlifestyle.app.ui.subject.SubjectTopicsFragment
+import ru.investlifestyle.app.ui.subject.SubjectTopicsViewModel
 import ru.investlifestyle.app.ui.home.HomeFragment
 import ru.investlifestyle.app.ui.notifications.NotificationsFragment
 import ru.investlifestyle.app.ui.post.PostActivity
@@ -26,12 +25,12 @@ interface AppComponent {
     fun inject(activity: PostActivity)
 
     //Fragments
-    fun inject(fragment: TopicsFragment)
+    fun inject(fragment: SubjectTopicsFragment)
     fun inject(fragment: HomeFragment)
     fun inject(fragment: NotificationsFragment)
     fun inject(fragment: PostFragment)
 
-    fun inject(viewModel: TopicsViewModel)
+    fun inject(viewModel: SubjectTopicsViewModel)
 
     @Component.Factory
     interface Factory {

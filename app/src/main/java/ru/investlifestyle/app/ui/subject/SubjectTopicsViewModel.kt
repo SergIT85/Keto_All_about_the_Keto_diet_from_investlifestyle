@@ -1,20 +1,17 @@
-package ru.investlifestyle.app.ui.dashboard
+package ru.investlifestyle.app.ui.subject
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.domain.usecase.GetMainPostsListUseCase
 import javax.inject.Inject
 
 @SuppressLint("CheckResult")
-class TopicsViewModel @Inject constructor(
+class SubjectTopicsViewModel @Inject constructor(
     private val getMainPostsListUseCase: GetMainPostsListUseCase
 ) : ViewModel()  {
 

@@ -30,6 +30,11 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">18sp</item>
     </style>
+    <style name="TextViewHeaderTwo" parent="">
+        <item name="android:textColor">@color/textHeaderColor</item>
+
+        <item name="android:textSize">16sp</item>
+    </style>
 
 
 </resources>

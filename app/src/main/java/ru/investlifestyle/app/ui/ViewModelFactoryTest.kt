@@ -2,8 +2,6 @@ package ru.investlifestyle.app.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ru.investlifestyle.app.data.networkApi.examin.Repo
-import ru.investlifestyle.app.ui.dashboard.TopicsViewModel
 import javax.inject.Inject
 import javax.inject.Provider
 
