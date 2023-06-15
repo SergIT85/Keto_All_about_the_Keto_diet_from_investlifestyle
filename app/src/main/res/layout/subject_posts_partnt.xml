@@ -20,11 +20,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSubjectMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSubjectPosts"
+        app:layout_constraintTop_toBottomOf="@id/tvSubjectPosts"
         android:orientation="horizontal"
         android:padding="@dimen/material_margin_small"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
