@@ -79,11 +79,11 @@ class SubjectTopicsFragment : Fragment() {
         }
 
 
-        subjectTopicsViewModel = ViewModelProvider(this,
+       /* subjectTopicsViewModel = ViewModelProvider(this,
             viewModelFactoryTest)[SubjectTopicsViewModel::class.java]
         subjectTopicsViewModel.postListViewModel.observe(this, Observer { list ->
             //textView.text = list[0].title.rendered
-        })
+        })*/
 
     }
 }

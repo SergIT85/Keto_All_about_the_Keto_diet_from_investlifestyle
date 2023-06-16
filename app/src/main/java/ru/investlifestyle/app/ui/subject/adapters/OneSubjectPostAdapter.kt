@@ -16,7 +16,7 @@ import ru.investlifestyle.app.ui.models.PostUiModel
 
 class OneSubjectPostAdapter(
     private val postUiModel: List<PostUiModel>
-) : ListAdapter<PostUiModel, OneSubjectPostAdapter.OneSubjectPostViewHolder>(OneSubjectDiffCallback) {
+) : RecyclerView.Adapter<OneSubjectPostAdapter.OneSubjectPostViewHolder>() {
 
     var onPostClickListener: ((PostUiModel) -> Util)? = null
 
@@ -27,13 +27,23 @@ class OneSubjectPostAdapter(
     }
 
     override fun onBindViewHolder(holder: OneSubjectPostViewHolder, position: Int) {
+
         holder.binding.apply {
-            tvItemSubjectPost.text = postUiModel[position].title
-            Picasso.get().load(postUiModel[position].posterMediaLinkUrl).into(imgPostSubject)
+            with(position) {
+                tvItemSubjectPost.text = postUiModel[this].title
+                Picasso.get().load(postUiModel[this].posterMediaLinkUrl).into(imgPostSubject)
+            }
         }
+
+        /*holder.binding.apply {
+            tvItemSubjectPost.text = item.title
+            Picasso.get().load(item.posterMediaLinkUrl).into(imgPostSubject)
+        }*/
     }
 
     inner class OneSubjectPostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemSubjectPostBinding.bind(itemView)
     }
+
+    override fun getItemCount() = postUiModel.size
 }
