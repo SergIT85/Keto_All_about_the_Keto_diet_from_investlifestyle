@@ -19,7 +19,7 @@ https://github.com/SergIT85/Keto_All_about_the_Keto_diet_from_investlifestyle/as
 
 
 
-##Планируемый стэк в проекте:<br>
+## Планируемый стэк в проекте:<br>
 1. Kotlin<br>
 2. MVVM<br>
 3. RXJava (частично)<br>
