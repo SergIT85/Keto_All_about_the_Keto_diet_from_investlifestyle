@@ -6,16 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.ExperimentalPagingApi
-import kotlinx.android.synthetic.main.subject_posts_partnt.*
 import ru.investlifestyle.app.App
 import ru.investlifestyle.app.databinding.FragmentSubjectTopicsBinding
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
-import ru.investlifestyle.app.ui.subject.adapters.MainSubjectPostsAdapter
+import ru.investlifestyle.app.ui.subject.adapters.SubjectPostsAdapter
 import javax.inject.Inject
 
 class SubjectTopicsFragment : Fragment() {
@@ -29,6 +26,7 @@ class SubjectTopicsFragment : Fragment() {
         (requireActivity().application as App).daggerAppComponent
     }
 
+    lateinit var adapter: SubjectPostsAdapter
 
     lateinit var subjectTopicsViewModel: SubjectTopicsViewModel
 
@@ -49,14 +47,10 @@ class SubjectTopicsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        /*val topicsViewModel =
-            ViewModelProvider(this).get(TopicsViewModel::class.java)*/
-
+        subjectTopicsViewModel =
+            ViewModelProvider(this, viewModelFactoryTest).get(SubjectTopicsViewModel::class.java)
         _binding = FragmentSubjectTopicsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {
@@ -66,17 +60,20 @@ class SubjectTopicsFragment : Fragment() {
 
     @SuppressLint("CheckResult", "FragmentLiveDataObserve")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
-
-
+        bindingAdapter()
+        subjectTopicsViewModel.loadSubjectPost.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
 
         //val textView: TextView = binding.textDashboard
 
-        binding.apply {
-            val into = MainSubjectPostsAdapter(MockData.collection)
-            rvSubjectFragment.adapter = into
-        }
+        /*adapter = OneSubjectPostAdapter(MockData.collection)
+        binding.rvHealthCategories.adapter = adapter
+        subjectTopicsViewModel.loadSubjectPost.observe(viewLifecycleOwner) {
+            adapter = OneSubjectPostAdapter(it)
+        }*/
+
 
 
        /* subjectTopicsViewModel = ViewModelProvider(this,
@@ -85,5 +82,9 @@ class SubjectTopicsFragment : Fragment() {
             //textView.text = list[0].title.rendered
         })*/
 
+    }
+    private fun bindingAdapter() {
+        adapter = SubjectPostsAdapter(requireContext())
+        binding.rvHealthCategories.adapter = adapter
     }
 }

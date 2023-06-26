@@ -22,7 +22,7 @@ interface PostsApiInterface {
         @Query("page") page: Int,
         @Query("per_page") perPage: Int,
         @Query("_embed") embed: Boolean
-    ): Single<List<PostsModelDataItem>>
+    ): List<PostsModelDataItem>
 
     @GET("wp-json/wp/v2/categories?per_page=50")
     fun getCategories(): Single<List<Categories>>

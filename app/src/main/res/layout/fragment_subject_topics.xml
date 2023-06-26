@@ -1,21 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.subject.SubjectTopicsFragment">
+
+    <TextView
+        android:id="@+id/tvHealthCategories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="#172368"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginStart="@dimen/material_margin_normal"
+        android:layout_marginTop="@dimen/material_margin_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHealthCategories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_subject_post"
+        android:orientation="horizontal" />
+    <TextView
+        android:id="@+id/tvNutritionCategories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="#172368"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginStart="@dimen/material_margin_normal"
+        android:layout_marginTop="@dimen/material_margin_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNutritionCategories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/material_margin_small"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_subject_post"
+        android:orientation="horizontal" />
+    <TextView
+        android:id="@+id/tvKetoCourses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="#172368"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginStart="@dimen/material_margin_normal"
+        android:layout_marginTop="@dimen/material_margin_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvKetoCourses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/material_margin_small"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_subject_post"
+        android:orientation="horizontal" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSubjectFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/material_margin_small"
+        android:layout_height="wrap_content"
+
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/subject_posts_partnt"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        tools:listitem="@layout/subject_posts_partnt" />
+</LinearLayout>

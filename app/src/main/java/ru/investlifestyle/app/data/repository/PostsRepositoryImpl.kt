@@ -52,7 +52,6 @@ class PostsRepositoryImpl @Inject constructor(
             }
     }
 
-
     override suspend fun getPostsList(postsCount: Int): List<PostsModelDataItem> {
         return service.getPost(1)
     }
@@ -66,13 +65,15 @@ class PostsRepositoryImpl @Inject constructor(
         mapper.mapPostModelDataToPostUiModel(apiClient.loadOnePostById(postId))
 
 
-    override fun loadSubjectPosts(
+    override suspend fun loadSubjectPosts(
         categories: Int,
         page: Int,
         perPage: Int,
-        embed: Boolean
-    ): Single<List<PostsModelDataItem>> {
-        return apiClient.loadSubjectPosts(categories, page, perPage, embed)
+        _embed: Boolean
+    ): List<PostUiModel> {
+        return mapper.mapListPostDataToListPostUi(
+            apiClient.loadSubjectPosts(categories, page, perPage, _embed)
+        )
     }
 
     override fun getCategories(): Single<List<Categories>> {

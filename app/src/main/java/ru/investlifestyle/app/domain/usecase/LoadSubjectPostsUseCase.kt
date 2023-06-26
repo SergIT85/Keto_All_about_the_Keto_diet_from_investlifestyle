@@ -3,17 +3,24 @@ package ru.investlifestyle.app.domain.usecase
 import io.reactivex.Single
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.domain.PostRepositoryInterface
+import ru.investlifestyle.app.ui.models.PostUiModel
+import javax.inject.Inject
 
-class LoadSubjectPostsUseCase(
-    private val postsRepository: PostRepositoryInterface
+class LoadSubjectPostsUseCase @Inject constructor(
+    private val postRepository: PostRepositoryInterface
 ) {
-    fun loadSubjectPosts(
+    suspend fun loadSubjectPosts(
         categories: Int,
         page: Int,
-        perPage: Int,
-        embed: Boolean
-    ): Single<List<PostsModelDataItem>> {
-        return postsRepository.loadSubjectPosts(categories, page, perPage, embed)
+        per_page: Int,
+        _embed: Boolean
+    ): List<PostUiModel> {
+        return postRepository.loadSubjectPosts(
+            categories = categories,
+            page = page,
+            per_page = per_page,
+            _embed = _embed
+        )
     }
 
 }
