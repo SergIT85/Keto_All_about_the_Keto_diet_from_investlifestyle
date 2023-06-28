@@ -17,8 +17,16 @@ interface PostsApiInterface {
     ): PostsModelDataItem
 
     @GET("wp-json/wp/v2/posts")
-    fun loadSubjectPosts(
+    suspend fun loadSubjectPosts(
         @Query("categories") categories:Int,
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int,
+        @Query("_embed") embed: Boolean
+    ): List<PostsModelDataItem>
+
+    @GET("wp-json/wp/v2/posts")
+    suspend fun loadSubjectTagsPosts(
+        @Query("tags") tags:Int,
         @Query("page") page: Int,
         @Query("per_page") perPage: Int,
         @Query("_embed") embed: Boolean

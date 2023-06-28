@@ -69,10 +69,21 @@ class PostsRepositoryImpl @Inject constructor(
         categories: Int,
         page: Int,
         perPage: Int,
-        _embed: Boolean
+        embed: Boolean
     ): List<PostUiModel> {
         return mapper.mapListPostDataToListPostUi(
-            apiClient.loadSubjectPosts(categories, page, perPage, _embed)
+            apiClient.loadSubjectPosts(categories, page, perPage, embed)
+        )
+    }
+
+    override suspend fun loadSubjectTagsPosts(
+        tags: Int,
+        page: Int,
+        perPage: Int,
+        embed: Boolean
+    ): List<PostUiModel> {
+        return mapper.mapListPostDataToListPostUi(
+            apiClient.loadSubjectTagsPosts(tags, page, perPage, embed)
         )
     }
 

@@ -16,10 +16,15 @@ interface PostRepositoryInterface {
     suspend fun loadSubjectPosts(
         categories: Int,
         page: Int,
-        per_page: Int,
-        _embed: Boolean
+        perPage: Int,
+        embed: Boolean
     ): List<PostUiModel>
-
+    suspend fun loadSubjectTagsPosts(
+        tags: Int,
+        page: Int,
+        perPage: Int,
+        embed: Boolean
+    ): List<PostUiModel>
     fun getCategories(): Single<List<Categories>>
     fun getQuotes(): String
 }

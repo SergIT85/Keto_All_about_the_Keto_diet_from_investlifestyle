@@ -11,6 +11,7 @@ import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.domain.usecase.GetMainPostsListUseCase
 import ru.investlifestyle.app.domain.usecase.LoadPostsUseCase
 import ru.investlifestyle.app.domain.usecase.LoadSubjectPostsUseCase
+import ru.investlifestyle.app.domain.usecase.LoadSubjectTagsPostsUseCase
 import ru.investlifestyle.app.ui.home.StateListPosts
 import ru.investlifestyle.app.ui.models.PostUiModel
 import javax.inject.Inject
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @SuppressLint("CheckResult")
 class SubjectTopicsViewModel @Inject constructor(
     private val loadPostsUseCase: LoadPostsUseCase,
-    private val loadSubjectPostsUseCase: LoadSubjectPostsUseCase
+    private val loadSubjectPostsUseCase: LoadSubjectPostsUseCase,
+    private val loadSubjectPostsTagsUseCase: LoadSubjectTagsPostsUseCase,
 ) : ViewModel() {
 
     private var _postListViewModel = MutableStateFlow<StateListPosts>(StateListPosts.Load)
@@ -28,11 +30,16 @@ class SubjectTopicsViewModel @Inject constructor(
     val loadSubjectPost: LiveData<List<PostUiModel>>
         get() = _loadSubjectPost
 
+    private var _loadSubjectTagsPost = MutableLiveData<List<PostUiModel>>()
+    val loadSubjectTagsPost: LiveData<List<PostUiModel>>
+        get() = _loadSubjectTagsPost
+
 
     init {
         viewModelScope.launch {
             //getPostsApi()
             load()
+            loadSubjectTagsPosts()
         }
         //loadSubjectPost()
 
@@ -47,12 +54,18 @@ class SubjectTopicsViewModel @Inject constructor(
     private fun loadSubjectPost() {
         viewModelScope.launch {
             _loadSubjectPost.value = loadSubjectPostsUseCase
-                .loadSubjectPosts(11, 1, 10, true)
+                .loadSubjectPosts(11,1, 10, true)
         }
 
     }
     private suspend fun load () {
-        _loadSubjectPost.value = loadPostsUseCase.getMainPostList(1)
+        _loadSubjectPost.value = loadSubjectPostsUseCase
+            .loadSubjectPosts(11,1, 10, true)
+    }
+
+    private suspend fun loadSubjectTagsPosts() {
+        _loadSubjectTagsPost.value = loadSubjectPostsTagsUseCase
+            .loadSubjectTagsPosts(166,1, 10, true)
     }
 
     @SuppressLint("LogNotTimber")

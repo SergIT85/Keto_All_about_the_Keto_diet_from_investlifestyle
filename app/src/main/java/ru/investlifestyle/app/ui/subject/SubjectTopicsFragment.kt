@@ -27,6 +27,7 @@ class SubjectTopicsFragment : Fragment() {
     }
 
     lateinit var adapter: SubjectPostsAdapter
+    lateinit var adapterTags: SubjectPostsAdapter
 
     lateinit var subjectTopicsViewModel: SubjectTopicsViewModel
 
@@ -66,6 +67,10 @@ class SubjectTopicsFragment : Fragment() {
             adapter.submitList(it)
         }
 
+        subjectTopicsViewModel.loadSubjectTagsPost.observe(viewLifecycleOwner) {
+            adapterTags.submitList(it)
+        }
+
         //val textView: TextView = binding.textDashboard
 
         /*adapter = OneSubjectPostAdapter(MockData.collection)
@@ -86,5 +91,8 @@ class SubjectTopicsFragment : Fragment() {
     private fun bindingAdapter() {
         adapter = SubjectPostsAdapter(requireContext())
         binding.rvHealthCategories.adapter = adapter
+
+        adapterTags = SubjectPostsAdapter((requireContext()))
+        binding.rvKetoCourses.adapter = adapterTags
     }
 }
