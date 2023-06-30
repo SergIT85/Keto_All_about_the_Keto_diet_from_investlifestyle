@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ru.investlifestyle.app.R
 import ru.investlifestyle.app.data.PostMapper
+import ru.investlifestyle.app.data.models.categories.SaveCategories
 import ru.investlifestyle.app.data.networkApi.Categories
 import ru.investlifestyle.app.data.networkApi.PostsApiInterface
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
@@ -29,7 +30,7 @@ class PostsRepositoryImpl @Inject constructor(
     private val mapper: PostMapper,
     private val application: Application,
     private val postDaoRoom: PostDaoRoom,
-): PostRepositoryInterface {
+) : PostRepositoryInterface {
 
     private val postPagingRemoteMediator = PostPagingRemoteMediator(postDaoRoom, apiClient, mapper)
 
@@ -87,8 +88,42 @@ class PostsRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun getCategories(): Single<List<Categories>> {
-        return apiClient.getCategories()
+    //Will be fixed for requests from API when the backing is ready
+    override suspend fun getCategories(): List<SaveCategories> {
+        val categoryHealth = SaveCategories(
+            "Здоровье",
+            "categories",
+            11)
+        val categoryKetoCourses = SaveCategories(
+            "Кето курс",
+            "categories",
+            188)
+        val categoryNutrition = SaveCategories(
+            "Питание",
+            "categories",
+            12)
+        val categoryEvolution = SaveCategories(
+            "Развитие",
+            "categories",
+            20)
+        val tagsKeto = SaveCategories(
+            "Кето",
+            "tags",
+            27)
+        val tagsEducation = SaveCategories(
+            "Обучение",
+            "tags",
+            27)
+        val tagsUseful = SaveCategories(
+            "Полезное",
+            "tags",
+            27)
+        val tagsRecipes = SaveCategories(
+            "Рецепты",
+            "tags",
+            27)
+        return listOf(categoryHealth, categoryKetoCourses, categoryNutrition,categoryEvolution,
+        tagsKeto, tagsEducation, tagsUseful, tagsRecipes)
     }
 
     @SuppressLint("LogNotTimber")

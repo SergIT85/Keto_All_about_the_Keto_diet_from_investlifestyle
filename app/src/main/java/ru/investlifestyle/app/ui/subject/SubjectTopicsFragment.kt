@@ -28,6 +28,8 @@ class SubjectTopicsFragment : Fragment() {
 
     lateinit var adapter: SubjectPostsAdapter
     lateinit var adapterTags: SubjectPostsAdapter
+    lateinit var adapterTags2: SubjectPostsAdapter
+    lateinit var adapterTags3: SubjectPostsAdapter
 
     lateinit var subjectTopicsViewModel: SubjectTopicsViewModel
 
@@ -63,13 +65,19 @@ class SubjectTopicsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindingAdapter()
-        subjectTopicsViewModel.loadSubjectPost.observe(viewLifecycleOwner) {
+        subjectTopicsViewModel.loadHealthPost.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+            adapterTags3.submitList(it)
+            binding.tvHealthCategories.text = "Здоровье"
+
         }
 
         subjectTopicsViewModel.loadSubjectTagsPost.observe(viewLifecycleOwner) {
             adapterTags.submitList(it)
+            adapterTags2.submitList(it)
         }
+
+
 
         //val textView: TextView = binding.textDashboard
 
@@ -94,5 +102,11 @@ class SubjectTopicsFragment : Fragment() {
 
         adapterTags = SubjectPostsAdapter((requireContext()))
         binding.rvKetoCourses.adapter = adapterTags
+
+        adapterTags2 = SubjectPostsAdapter((requireContext()))
+        binding.rvKetoEducation.adapter = adapterTags2
+
+        adapterTags3 = SubjectPostsAdapter((requireContext()))
+        binding.rvNutritionCategories.adapter = adapterTags3
     }
 }

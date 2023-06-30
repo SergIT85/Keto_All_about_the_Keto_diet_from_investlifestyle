@@ -6,4 +6,5 @@
     <string name="hello_text">Добрый день!</string>
     <string name="hello_subtext">Хороший день, что бы начать - это сегодня.</string>
     <string name="placeholder_article">Статья с очень интересной темой для вас в которой что то написано</string>
+    <string name="choseCategory"><u>Выбрать категории</u></string>
 </resources>

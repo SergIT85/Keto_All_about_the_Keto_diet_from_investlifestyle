@@ -1,9 +1,8 @@
 package ru.investlifestyle.app.domain
 
 import androidx.paging.PagingData
-import io.reactivex.Single
 import kotlinx.coroutines.flow.Flow
-import ru.investlifestyle.app.data.networkApi.Categories
+import ru.investlifestyle.app.data.models.categories.SaveCategories
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.ui.models.PostUiModel
 
@@ -25,6 +24,6 @@ interface PostRepositoryInterface {
         perPage: Int,
         embed: Boolean
     ): List<PostUiModel>
-    fun getCategories(): Single<List<Categories>>
+    suspend fun getCategories(): List<SaveCategories>
     fun getQuotes(): String
 }
