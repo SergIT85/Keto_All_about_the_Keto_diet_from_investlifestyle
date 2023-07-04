@@ -83,44 +83,44 @@ class PostsRepositoryImpl @Inject constructor(
     // Will be fixed for requests from API when the backing is ready
     override suspend fun getCategories(): List<SaveCategories> {
         val categoryHealth = SaveCategories(
-            "Здоровье",
-            "categories",
-            11
+            HEALTH,
+            CATEGORIES,
+            IDHEALTH
         )
         val categoryKetoCourses = SaveCategories(
-            "Кето курс",
-            "categories",
-            188
+            KETOCOURSES,
+            CATEGORIES,
+            IDKETOCOURSES
         )
         val categoryNutrition = SaveCategories(
-            "Питание",
-            "categories",
-            12
+            NUTRITION,
+            CATEGORIES,
+            IDNUTRITION
         )
         val categoryEvolution = SaveCategories(
-            "Развитие",
-            "categories",
-            20
+            EVOLUTION,
+            CATEGORIES,
+            IDEVOLUTION
         )
         val tagsKeto = SaveCategories(
-            "Кето",
-            "tags",
-            27
+            TAGSKETO,
+            TAGS,
+            IDTAGSKETO
         )
         val tagsEducation = SaveCategories(
-            "Обучение",
-            "tags",
-            27
+            TAGSEDUCATION,
+            TAGS,
+            IDTAGSEDUCATION
         )
         val tagsUseful = SaveCategories(
-            "Полезное",
-            "tags",
-            27
+            TAGSUSEFUL,
+            TAGS,
+            IDTAGSUSEFUL
         )
         val tagsRecipes = SaveCategories(
-            "Рецепты",
-            "tags",
-            27
+            TAGSRECIPES,
+            TAGS,
+            IDTAGSRECIPES
         )
         return listOf(
             categoryHealth, categoryKetoCourses, categoryNutrition, categoryEvolution,
@@ -133,5 +133,28 @@ class PostsRepositoryImpl @Inject constructor(
         val randomString = Random(System.currentTimeMillis())
         val array = application.resources.getStringArray(R.array.quotes)
         return array[randomString.nextInt(array.size)]
+    }
+
+    companion object {
+        const val HEALTH = "Здоровье"
+        const val KETOCOURSES = "Кето курс"
+        const val NUTRITION = "Питание"
+        const val EVOLUTION = "Развитие"
+        const val TAGSKETO = "Кето"
+        const val TAGSEDUCATION = "Обучение"
+        const val TAGSUSEFUL = "Полезное"
+        const val TAGSRECIPES = "Рецепты"
+
+        const val IDHEALTH = 11
+        const val IDKETOCOURSES = 188
+        const val IDNUTRITION = 12
+        const val IDEVOLUTION = 20
+        const val IDTAGSKETO = 27
+        const val IDTAGSEDUCATION = 22
+        const val IDTAGSUSEFUL = 163
+        const val IDTAGSRECIPES = 39
+
+        const val CATEGORIES = "categories"
+        const val TAGS = "tags"
     }
 }

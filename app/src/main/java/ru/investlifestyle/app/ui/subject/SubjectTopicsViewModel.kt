@@ -5,10 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.ExperimentalPagingApi
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.data.models.categories.SaveCategories
+import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.EVOLUTION
+import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.HEALTH
+import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.KETOCOURSES
+import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.NUTRITION
+import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.TAGSKETO
 import ru.investlifestyle.app.domain.usecase.GetCategoriesUseCase
 import ru.investlifestyle.app.domain.usecase.LoadPostsUseCase
 import ru.investlifestyle.app.domain.usecase.LoadSubjectPostsUseCase
@@ -16,6 +22,7 @@ import ru.investlifestyle.app.domain.usecase.LoadSubjectTagsPostsUseCase
 import ru.investlifestyle.app.ui.home.StateListPosts
 import ru.investlifestyle.app.ui.models.PostUiModel
 
+@OptIn(ExperimentalPagingApi::class)
 @SuppressLint("CheckResult")
 class SubjectTopicsViewModel @Inject constructor(
     private val loadPostsUseCase: LoadPostsUseCase,
@@ -43,6 +50,10 @@ class SubjectTopicsViewModel @Inject constructor(
     val loadNutrition: LiveData<List<PostUiModel>>
         get() = _loadNutrition
 
+    private var _loadEvolution = MutableLiveData<List<PostUiModel>>()
+    val loadEvolution: LiveData<List<PostUiModel>>
+        get() = _loadEvolution
+
     private var _getCategories = MutableLiveData<List<SaveCategories>>()
     val getCategories: LiveData<List<SaveCategories>>
         get() = _getCategories
@@ -55,7 +66,7 @@ class SubjectTopicsViewModel @Inject constructor(
         viewModelScope.launch {
             // getPostsApi()
             getCategories()
-            load()
+            loadPostsCategories()
             loadSubjectTagsPosts()
         }
         // loadSubjectPost()
@@ -73,30 +84,58 @@ class SubjectTopicsViewModel @Inject constructor(
     private fun loadSubjectPost() {
         viewModelScope.launch {
             _loadSubjectPost.value = loadSubjectPostsUseCase
-                .loadSubjectPosts(11, 1, 10, true)
+                .loadSubjectPosts(11, 1, PERPAGE, true)
         }
     }
 
-    private suspend fun load() {
-        val health = getCategories.value?.find { it.nameCategory == "Здоровье" }
+    private suspend fun loadPostsCategories() {
+        val health = getCategories.value?.find { it.nameCategory == HEALTH }
+        val ketoCourses = getCategories.value?.find { it.nameCategory == KETOCOURSES }
+        val nutrition = getCategories.value?.find { it.nameCategory == NUTRITION }
+        val evolution = getCategories.value?.find { it.nameCategory == EVOLUTION }
         if (health != null) {
             _loadHealthPost.value =
                 loadSubjectPostsUseCase.loadSubjectPosts(
                     health.idCategory,
-                    1,
-                    10,
+                    PAGE,
+                    PERPAGE,
                     true
                 )
         }
-        _loadSubjectPost.value = loadSubjectPostsUseCase
-            .loadSubjectPosts(11, 1, 10, true)
+        if (ketoCourses != null) {
+            _loadKetoCourses.value =
+                loadSubjectPostsUseCase.loadSubjectPosts(
+                    ketoCourses.idCategory,
+                    PAGE,
+                    PERPAGE,
+                    true
+                )
+        }
+        if (nutrition != null) {
+            _loadNutrition.value =
+                loadSubjectPostsUseCase.loadSubjectPosts(
+                    nutrition.idCategory,
+                    PAGE,
+                    PERPAGE,
+                    true
+                )
+        }
+        if (evolution != null) {
+            _loadEvolution.value =
+                loadSubjectPostsUseCase.loadSubjectPosts(
+                    evolution.idCategory,
+                    PAGE,
+                    PERPAGE,
+                    true
+                )
+        }
     }
 
     private suspend fun loadSubjectTagsPosts() {
-        val ketoTags = getCategories.value?.find { it.nameCategory == "Кето" }
+        val ketoTags = getCategories.value?.find { it.nameCategory == TAGSKETO }
         if (ketoTags != null) {
             _loadSubjectTagsPost.value = loadSubjectPostsTagsUseCase
-                .loadSubjectTagsPosts(27, 1, 10, true)
+                .loadSubjectTagsPosts(ketoTags.idCategory, PAGE, PERPAGE, true)
         }
     }
 
@@ -105,5 +144,10 @@ class SubjectTopicsViewModel @Inject constructor(
         // val result = getPostsListUseCase.getPostsList(1)
         // Log.d("TopicsViewModel","${result.subscribe { it -> toString() }}")
         return loadPostsUseCase.getMainPostList(1)
+    }
+
+    companion object {
+        const val PERPAGE = 10
+        const val PAGE = 1
     }
 }

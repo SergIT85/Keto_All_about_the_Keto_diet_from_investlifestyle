@@ -25,10 +25,11 @@ class SubjectTopicsFragment : Fragment() {
         (requireActivity().application as App).daggerAppComponent
     }
 
-    lateinit var adapter: SubjectPostsAdapter
-    lateinit var adapterTags: SubjectPostsAdapter
-    lateinit var adapterTags2: SubjectPostsAdapter
-    lateinit var adapterTags3: SubjectPostsAdapter
+    lateinit var adapterHealth: SubjectPostsAdapter
+    lateinit var adapterKetoCourses: SubjectPostsAdapter
+    lateinit var adapterNutrition: SubjectPostsAdapter
+    lateinit var adapterEvolution: SubjectPostsAdapter
+    lateinit var adapterTagsKeto: SubjectPostsAdapter
 
     lateinit var subjectTopicsViewModel: SubjectTopicsViewModel
 
@@ -65,41 +66,55 @@ class SubjectTopicsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         bindingAdapter()
         subjectTopicsViewModel.loadHealthPost.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            adapterTags3.submitList(it)
-            binding.tvHealthCategories.text = "Здоровье"
+            adapterHealth.submitList(it)
+            binding.tvHealthCategories.text = HEALTH
+        }
+
+        subjectTopicsViewModel.loadKetoCourses.observe(viewLifecycleOwner) {
+            adapterKetoCourses.submitList(it)
+            binding.tvKetoCourses.text = KETOCOURSES
+        }
+
+        subjectTopicsViewModel.loadNutrition.observe(viewLifecycleOwner) {
+            adapterNutrition.submitList(it)
+            binding.tvNutritionCategories.text = NUTRITION
+        }
+
+        subjectTopicsViewModel.loadEvolution.observe(viewLifecycleOwner) {
+            adapterEvolution.submitList(it)
+            binding.tvEvolution.text = EVOLUTION
         }
 
         subjectTopicsViewModel.loadSubjectTagsPost.observe(viewLifecycleOwner) {
-            adapterTags.submitList(it)
-            adapterTags2.submitList(it)
+            adapterTagsKeto.submitList(it)
+            binding.tvTagsKeto.text = TAGSKETO
         }
-
-        // val textView: TextView = binding.textDashboard
-
-        /*adapter = OneSubjectPostAdapter(MockData.collection)
-        binding.rvHealthCategories.adapter = adapter
-        subjectTopicsViewModel.loadSubjectPost.observe(viewLifecycleOwner) {
-            adapter = OneSubjectPostAdapter(it)
-        }*/
-
-       /* subjectTopicsViewModel = ViewModelProvider(this,
-            viewModelFactoryTest)[SubjectTopicsViewModel::class.java]
-        subjectTopicsViewModel.postListViewModel.observe(this, Observer { list ->
-            //textView.text = list[0].title.rendered
-        })*/
     }
     private fun bindingAdapter() {
-        adapter = SubjectPostsAdapter(requireContext())
-        binding.rvHealthCategories.adapter = adapter
+        adapterHealth = SubjectPostsAdapter(requireContext())
+        binding.rvHealthCategories.adapter = adapterHealth
 
-        adapterTags = SubjectPostsAdapter((requireContext()))
-        binding.rvKetoCourses.adapter = adapterTags
+        adapterKetoCourses = SubjectPostsAdapter((requireContext()))
+        binding.rvKetoCourses.adapter = adapterKetoCourses
 
-        adapterTags2 = SubjectPostsAdapter((requireContext()))
-        binding.rvKetoEducation.adapter = adapterTags2
+        adapterNutrition = SubjectPostsAdapter((requireContext()))
+        binding.rvNutritionCategories.adapter = adapterNutrition
 
-        adapterTags3 = SubjectPostsAdapter((requireContext()))
-        binding.rvNutritionCategories.adapter = adapterTags3
+        adapterEvolution = SubjectPostsAdapter((requireContext()))
+        binding.rvEvolution.adapter = adapterEvolution
+
+        adapterTagsKeto = SubjectPostsAdapter((requireContext()))
+        binding.rvTagsKeto.adapter = adapterTagsKeto
+    }
+
+    companion object {
+        const val HEALTH = "Здоровье"
+        const val KETOCOURSES = "Кето курс"
+        const val NUTRITION = "Питание"
+        const val EVOLUTION = "Развитие"
+        const val TAGSKETO = "Кето"
+        const val TAGSEDUCATION = "Обучение"
+        const val TAGSUSEFUL = "Полезное"
+        const val TAGSRECIPES = "Рецепты"
     }
 }
