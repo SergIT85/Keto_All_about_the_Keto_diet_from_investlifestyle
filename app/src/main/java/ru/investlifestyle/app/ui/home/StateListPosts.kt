@@ -1,7 +1,6 @@
 package ru.investlifestyle.app.ui.home
 
 import ru.investlifestyle.app.ui.models.PostUiModel
-import ru.investlifestyle.app.ui.post.LoadPostState
 
 sealed class StateListPosts {
 
@@ -14,5 +13,4 @@ sealed class StateListPosts {
     data class Error(
         val error: String
     ) : StateListPosts()
-
 }

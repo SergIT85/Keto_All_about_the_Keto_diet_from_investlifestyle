@@ -2,27 +2,21 @@ package ru.investlifestyle.app.data.repository
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.paging.*
-import io.reactivex.Single
+import javax.inject.Inject
+import kotlin.random.Random
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ru.investlifestyle.app.R
 import ru.investlifestyle.app.data.PostMapper
 import ru.investlifestyle.app.data.models.categories.SaveCategories
-import ru.investlifestyle.app.data.networkApi.Categories
 import ru.investlifestyle.app.data.networkApi.PostsApiInterface
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.data.networkApi.examin.Repo
 import ru.investlifestyle.app.data.paging.PostPagingRemoteMediator
-import ru.investlifestyle.app.data.paging.PostPagingSource
 import ru.investlifestyle.app.data.room.PostDaoRoom
 import ru.investlifestyle.app.domain.PostRepositoryInterface
 import ru.investlifestyle.app.ui.models.PostUiModel
-import javax.inject.Inject
-import javax.inject.Singleton
-import kotlin.random.Random
 
 @ExperimentalPagingApi
 class PostsRepositoryImpl @Inject constructor(
@@ -45,7 +39,6 @@ class PostsRepositoryImpl @Inject constructor(
             remoteMediator = postPagingRemoteMediator,
             pagingSourceFactory = {
                 postDaoRoom.getPostListPagingSource()
-
             }
         ).flow
             .map { pagingDate ->
@@ -61,10 +54,9 @@ class PostsRepositoryImpl @Inject constructor(
         return mapper.mapListPostDataToListPostUi(apiClient.getPostsList(page))
     }
 
-    //исправить на загрузку из БД!!!! когда будет создана
+    // исправить на загрузку из БД!!!! когда будет создана
     override suspend fun loadOnePost(postId: Int): PostUiModel =
         mapper.mapPostModelDataToPostUiModel(apiClient.loadOnePostById(postId))
-
 
     override suspend fun loadSubjectPosts(
         categories: Int,
@@ -88,42 +80,52 @@ class PostsRepositoryImpl @Inject constructor(
         )
     }
 
-    //Will be fixed for requests from API when the backing is ready
+    // Will be fixed for requests from API when the backing is ready
     override suspend fun getCategories(): List<SaveCategories> {
         val categoryHealth = SaveCategories(
             "Здоровье",
             "categories",
-            11)
+            11
+        )
         val categoryKetoCourses = SaveCategories(
             "Кето курс",
             "categories",
-            188)
+            188
+        )
         val categoryNutrition = SaveCategories(
             "Питание",
             "categories",
-            12)
+            12
+        )
         val categoryEvolution = SaveCategories(
             "Развитие",
             "categories",
-            20)
+            20
+        )
         val tagsKeto = SaveCategories(
             "Кето",
             "tags",
-            27)
+            27
+        )
         val tagsEducation = SaveCategories(
             "Обучение",
             "tags",
-            27)
+            27
+        )
         val tagsUseful = SaveCategories(
             "Полезное",
             "tags",
-            27)
+            27
+        )
         val tagsRecipes = SaveCategories(
             "Рецепты",
             "tags",
-            27)
-        return listOf(categoryHealth, categoryKetoCourses, categoryNutrition,categoryEvolution,
-        tagsKeto, tagsEducation, tagsUseful, tagsRecipes)
+            27
+        )
+        return listOf(
+            categoryHealth, categoryKetoCourses, categoryNutrition, categoryEvolution,
+            tagsKeto, tagsEducation, tagsUseful, tagsRecipes
+        )
     }
 
     @SuppressLint("LogNotTimber")

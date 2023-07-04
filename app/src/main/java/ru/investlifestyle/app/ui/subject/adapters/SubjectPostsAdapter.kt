@@ -10,16 +10,16 @@ import kotlinx.android.synthetic.main.item_subject_post.view.*
 import ru.investlifestyle.app.databinding.ItemSubjectPostBinding
 import ru.investlifestyle.app.ui.models.PostUiModel
 
-class SubjectPostsAdapter(private val context: Context): ListAdapter<
-        PostUiModel,
-        SubjectPostsAdapter.SubjectPostsViewHolder
-        >(SubjectDiffCallback) {
+class SubjectPostsAdapter(private val context: Context) : ListAdapter<
+    PostUiModel,
+    SubjectPostsAdapter.SubjectPostsViewHolder
+    >(SubjectDiffCallback) {
 
     var onPostClickListener: ((PostUiModel) -> Unit)? = null
 
-            inner class SubjectPostsViewHolder(
-                binding: ItemSubjectPostBinding
-            ) : RecyclerView.ViewHolder(binding.root)
+    inner class SubjectPostsViewHolder(
+        binding: ItemSubjectPostBinding
+    ) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubjectPostsViewHolder {
         val binding = ItemSubjectPostBinding.inflate(
@@ -33,7 +33,7 @@ class SubjectPostsAdapter(private val context: Context): ListAdapter<
     override fun onBindViewHolder(holder: SubjectPostsViewHolder, position: Int) {
         val item = getItem(position)
 
-        if(item != null) {
+        if (item != null) {
             with(holder.itemView) {
                 with(item) {
                     tvItemSubjectPost.text = title

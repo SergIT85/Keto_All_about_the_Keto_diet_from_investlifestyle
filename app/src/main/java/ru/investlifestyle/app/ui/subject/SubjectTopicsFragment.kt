@@ -9,17 +9,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.ExperimentalPagingApi
+import javax.inject.Inject
 import ru.investlifestyle.app.App
 import ru.investlifestyle.app.databinding.FragmentSubjectTopicsBinding
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
 import ru.investlifestyle.app.ui.subject.adapters.SubjectPostsAdapter
-import javax.inject.Inject
 
 class SubjectTopicsFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactoryTest: ViewModelFactoryTest
-
 
     @ExperimentalPagingApi
     private val component by lazy {
@@ -69,7 +68,6 @@ class SubjectTopicsFragment : Fragment() {
             adapter.submitList(it)
             adapterTags3.submitList(it)
             binding.tvHealthCategories.text = "Здоровье"
-
         }
 
         subjectTopicsViewModel.loadSubjectTagsPost.observe(viewLifecycleOwner) {
@@ -77,9 +75,7 @@ class SubjectTopicsFragment : Fragment() {
             adapterTags2.submitList(it)
         }
 
-
-
-        //val textView: TextView = binding.textDashboard
+        // val textView: TextView = binding.textDashboard
 
         /*adapter = OneSubjectPostAdapter(MockData.collection)
         binding.rvHealthCategories.adapter = adapter
@@ -87,14 +83,11 @@ class SubjectTopicsFragment : Fragment() {
             adapter = OneSubjectPostAdapter(it)
         }*/
 
-
-
        /* subjectTopicsViewModel = ViewModelProvider(this,
             viewModelFactoryTest)[SubjectTopicsViewModel::class.java]
         subjectTopicsViewModel.postListViewModel.observe(this, Observer { list ->
             //textView.text = list[0].title.rendered
         })*/
-
     }
     private fun bindingAdapter() {
         adapter = SubjectPostsAdapter(requireContext())

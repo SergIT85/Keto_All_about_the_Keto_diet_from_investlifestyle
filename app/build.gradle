@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'kotlin-android-extensions'
+    id "org.jlleitschuh.gradle.ktlint" version "11.0.0"
 }
 
 android {
@@ -33,6 +34,19 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+}
+
+tasks.getByPath("preBuild").dependsOn("ktlintFormat")
+
+ktlint {
+    android = true
+    ignoreFailures = false
+    disabledRules = ["final-newline", "no-wildcard-imports"]
+    reporters {
+        reporter "plain"
+        reporter "checkstyle"
+        reporter "sarif"
     }
 }
 

@@ -11,7 +11,6 @@ interface LikePostsDaoRoom {
     @Insert
     suspend fun insertLikePost(likePostsDbModelEntity: LikePostsDbModelEntity)
 
-
     @Query("SELECT * FROM like_posts WHERE id = :postId")
     fun getLikePostById(postId: Int): Flow<LikePostsDbModelEntity?>
 }

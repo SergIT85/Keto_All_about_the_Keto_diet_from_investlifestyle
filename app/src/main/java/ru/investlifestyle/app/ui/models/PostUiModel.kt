@@ -1,7 +1,5 @@
 package ru.investlifestyle.app.ui.models
 
-
-
 data class PostUiModel(
     val id: Int,
     val link: String,
@@ -13,4 +11,4 @@ data class PostUiModel(
     val categories: List<Int>,
     val liked: Boolean = false,
     val modifiedGmt: String
-    )
+)

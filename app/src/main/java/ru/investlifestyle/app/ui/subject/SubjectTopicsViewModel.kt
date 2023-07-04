@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.data.models.categories.SaveCategories
@@ -14,7 +15,6 @@ import ru.investlifestyle.app.domain.usecase.LoadSubjectPostsUseCase
 import ru.investlifestyle.app.domain.usecase.LoadSubjectTagsPostsUseCase
 import ru.investlifestyle.app.ui.home.StateListPosts
 import ru.investlifestyle.app.ui.models.PostUiModel
-import javax.inject.Inject
 
 @SuppressLint("CheckResult")
 class SubjectTopicsViewModel @Inject constructor(
@@ -51,17 +51,14 @@ class SubjectTopicsViewModel @Inject constructor(
     val loadSubjectTagsPost: LiveData<List<PostUiModel>>
         get() = _loadSubjectTagsPost
 
-
     init {
         viewModelScope.launch {
-            //getPostsApi()
+            // getPostsApi()
             getCategories()
             load()
             loadSubjectTagsPosts()
         }
-        //loadSubjectPost()
-
-
+        // loadSubjectPost()
     }
 
     private suspend fun getCategories() {
@@ -78,7 +75,6 @@ class SubjectTopicsViewModel @Inject constructor(
             _loadSubjectPost.value = loadSubjectPostsUseCase
                 .loadSubjectPosts(11, 1, 10, true)
         }
-
     }
 
     private suspend fun load() {
@@ -102,14 +98,12 @@ class SubjectTopicsViewModel @Inject constructor(
             _loadSubjectTagsPost.value = loadSubjectPostsTagsUseCase
                 .loadSubjectTagsPosts(27, 1, 10, true)
         }
-
     }
 
     @SuppressLint("LogNotTimber")
     suspend fun getPostsApi(): List<PostUiModel> {
-        //val result = getPostsListUseCase.getPostsList(1)
-        //Log.d("TopicsViewModel","${result.subscribe { it -> toString() }}")
+        // val result = getPostsListUseCase.getPostsList(1)
+        // Log.d("TopicsViewModel","${result.subscribe { it -> toString() }}")
         return loadPostsUseCase.getMainPostList(1)
-
     }
 }

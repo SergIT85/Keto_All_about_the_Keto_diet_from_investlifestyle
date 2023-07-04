@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.paging.ExperimentalPagingApi
 import ru.investlifestyle.app.di.DaggerAppComponent
 
-class App: Application() {
+class App : Application() {
 
     @ExperimentalPagingApi
     val daggerAppComponent by lazy {

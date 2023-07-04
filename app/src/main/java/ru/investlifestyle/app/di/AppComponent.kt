@@ -4,14 +4,14 @@ import android.app.Application
 import androidx.paging.ExperimentalPagingApi
 import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Singleton
 import ru.investlifestyle.app.MainActivity
-import ru.investlifestyle.app.ui.subject.SubjectTopicsFragment
-import ru.investlifestyle.app.ui.subject.SubjectTopicsViewModel
 import ru.investlifestyle.app.ui.home.HomeFragment
 import ru.investlifestyle.app.ui.notifications.NotificationsFragment
 import ru.investlifestyle.app.ui.post.PostActivity
 import ru.investlifestyle.app.ui.post.PostFragment
-import javax.inject.Singleton
+import ru.investlifestyle.app.ui.subject.SubjectTopicsFragment
+import ru.investlifestyle.app.ui.subject.SubjectTopicsViewModel
 
 @ExperimentalPagingApi
 @Singleton
@@ -20,11 +20,11 @@ import javax.inject.Singleton
 )
 interface AppComponent {
 
-    //Activities
+    // Activities
     fun inject(activity: MainActivity)
     fun inject(activity: PostActivity)
 
-    //Fragments
+    // Fragments
     fun inject(fragment: SubjectTopicsFragment)
     fun inject(fragment: HomeFragment)
     fun inject(fragment: NotificationsFragment)

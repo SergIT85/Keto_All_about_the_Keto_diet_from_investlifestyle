@@ -10,7 +10,8 @@ object MockData {
             id = 1,
             link = "String",
             title = "Какой то заголовок интересного поста",
-            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/imgonline-com-ua-Resize-NPF35HQurEP.jpg",
+            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/" +
+                "imgonline-com-ua-Resize-NPF35HQurEP.jpg",
             content = "String",
             protected = false,
             author = "String",
@@ -22,7 +23,8 @@ object MockData {
             id = 1,
             link = "String",
             title = "Какой то заголовок интересного поста",
-            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/imgonline-com-ua-Resize-NPF35HQurEP.jpg",
+            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/" +
+                "imgonline-com-ua-Resize-NPF35HQurEP.jpg",
             content = "String",
             protected = false,
             author = "String",
@@ -34,7 +36,8 @@ object MockData {
             id = 1,
             link = "String",
             title = "Какой то заголовок интересного поста",
-            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/imgonline-com-ua-Resize-NPF35HQurEP.jpg",
+            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/" +
+                "imgonline-com-ua-Resize-NPF35HQurEP.jpg",
             content = "String",
             protected = false,
             author = "String",
@@ -46,7 +49,8 @@ object MockData {
             id = 1,
             link = "String",
             title = "Какой то заголовок интересного поста",
-            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/imgonline-com-ua-Resize-NPF35HQurEP.jpg",
+            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/" +
+                "imgonline-com-ua-Resize-NPF35HQurEP.jpg",
             content = "String",
             protected = false,
             author = "String",
@@ -58,7 +62,8 @@ object MockData {
             id = 1,
             link = "String",
             title = "Какой то заголовок интересного поста",
-            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/imgonline-com-ua-Resize-NPF35HQurEP.jpg",
+            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/" +
+                "imgonline-com-ua-Resize-NPF35HQurEP.jpg",
             content = "String",
             protected = false,
             author = "String",
@@ -70,7 +75,8 @@ object MockData {
             id = 1,
             link = "String",
             title = "Какой то заголовок интересного поста",
-            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/imgonline-com-ua-Resize-NPF35HQurEP.jpg",
+            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/" +
+                "imgonline-com-ua-Resize-NPF35HQurEP.jpg",
             content = "String",
             protected = false,
             author = "String",
@@ -82,7 +88,8 @@ object MockData {
             id = 1,
             link = "String",
             title = "Какой то заголовок интересного поста",
-            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/imgonline-com-ua-Resize-NPF35HQurEP.jpg",
+            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/" +
+                "imgonline-com-ua-Resize-NPF35HQurEP.jpg",
             content = "String",
             protected = false,
             author = "String",
@@ -94,7 +101,8 @@ object MockData {
             id = 1,
             link = "String",
             title = "Какой то заголовок интересного поста",
-            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/imgonline-com-ua-Resize-NPF35HQurEP.jpg",
+            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/" +
+                "imgonline-com-ua-Resize-NPF35HQurEP.jpg",
             content = "String",
             protected = false,
             author = "String",
@@ -106,7 +114,8 @@ object MockData {
             id = 1,
             link = "String",
             title = "Какой то заголовок интересного поста",
-            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/imgonline-com-ua-Resize-NPF35HQurEP.jpg",
+            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/" +
+                "imgonline-com-ua-Resize-NPF35HQurEP.jpg",
             content = "String",
             protected = false,
             author = "String",
@@ -118,7 +127,8 @@ object MockData {
             id = 1,
             link = "String",
             title = "Какой то заголовок интересного поста",
-            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/imgonline-com-ua-Resize-NPF35HQurEP.jpg",
+            posterMediaLinkUrl = "https://investlifestyle.ru/wp-content/uploads/2022/11/" +
+                "imgonline-com-ua-Resize-NPF35HQurEP.jpg",
             content = "String",
             protected = false,
             author = "String",
@@ -127,7 +137,6 @@ object MockData {
             modifiedGmt = "String"
         )
     )
-
 
     val collection = listOf(
         SubjectTopicsModel("Keto subject", postUiModel),

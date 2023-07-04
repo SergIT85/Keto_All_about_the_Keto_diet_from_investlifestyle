@@ -1,10 +1,8 @@
 package ru.investlifestyle.app.domain.usecase
 
-import io.reactivex.Single
-import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
+import javax.inject.Inject
 import ru.investlifestyle.app.domain.PostRepositoryInterface
 import ru.investlifestyle.app.ui.models.PostUiModel
-import javax.inject.Inject
 
 class LoadSubjectTagsPostsUseCase @Inject constructor(
     private val postRepository: PostRepositoryInterface
@@ -22,5 +20,4 @@ class LoadSubjectTagsPostsUseCase @Inject constructor(
             embed = embed
         )
     }
-
 }

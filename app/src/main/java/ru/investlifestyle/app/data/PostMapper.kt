@@ -1,9 +1,9 @@
 package ru.investlifestyle.app.data
 
+import javax.inject.Inject
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.data.room.PostDbModelEntity
 import ru.investlifestyle.app.ui.models.PostUiModel
-import javax.inject.Inject
 
 class PostMapper @Inject constructor() {
 
@@ -39,7 +39,7 @@ class PostMapper @Inject constructor() {
         content = postModelData.content,
         protected = postModelData.protected,
         author = "postModelData.author.",
-        categories = listOf(1,2,3),   //-----------------------------------------------------ПЕРЕДЕЛАТЬ НА MAP в LIST!!!!!
+        categories = listOf(1, 2, 3), // ----------------------ПЕРЕДЕЛАТЬ НА MAP в LIST!!!!!
         modifiedGmt = postModelData.modifiedGmt
     )
 
@@ -47,7 +47,7 @@ class PostMapper @Inject constructor() {
         mapPostModelDataToDbModelEntity(it)
     }
 
-    fun mapListPostDataToListPostUi(listPosts:List<PostsModelDataItem>) = listPosts.map {
+    fun mapListPostDataToListPostUi(listPosts: List<PostsModelDataItem>) = listPosts.map {
         mapPostModelDataToPostUiModel(it)
     }
 

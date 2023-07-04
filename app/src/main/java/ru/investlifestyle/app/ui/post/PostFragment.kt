@@ -12,11 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
 import com.squareup.picasso.Picasso
+import javax.inject.Inject
 import kotlinx.android.synthetic.main.fragment_post.*
 import ru.investlifestyle.app.App
 import ru.investlifestyle.app.databinding.FragmentPostBinding
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
-import javax.inject.Inject
 
 @ExperimentalPagingApi
 class PostFragment : Fragment() {
@@ -38,7 +38,6 @@ class PostFragment : Fragment() {
     override fun onAttach(context: Context) {
         component.inject(this)
         super.onAttach(context)
-
     }
 
     override fun onStart() {
@@ -52,7 +51,8 @@ class PostFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPostBinding.inflate(layoutInflater, container, false)
@@ -63,53 +63,49 @@ class PostFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(PostViewModel::class.java)
         requirePost(postId)
-
     }
 
     private fun requirePost(postId: Int) {
         viewModel.getPostById(postId)
     }
 
-
     private fun launchPost() {
         lifecycleScope.launchWhenStarted {
-            viewModel.onePostViewModel.collect{
-                when(it) {
+            viewModel.onePostViewModel.collect {
+                when (it) {
                     is LoadPostState.Load -> {
                         shimmerState(isShimmer = true)
                     }
-                    //is LoadPostState.Load -> imageView.isGone
+                    // is LoadPostState.Load -> imageView.isGone
                     is LoadPostState.Loaded -> {
                         shimmerState(isShimmer = false)
                         val htmlContent =
                             "<!DOCTYPE html> <html> <head> </head><meta name= viewport content= " +
-                                    "width=device-width  initial-scale=1.0 > <style>img{display: " +
-                                    "inline;height: auto;max-width: 100%;} video{display: " +
-                                    "inline;width: 100%;poster=} p{height: auto;width: 100%; } " +
-                                    "iframe{width: 100%} </style> <body>   " +
-                                    "${it.post.content.replace("\"","")} " +
-                                    "</body></html>"
-                         binding.wvPost.loadDataWithBaseURL(
-                                null,
-                                htmlContent,
-                                "text/html; charset=utf-8",
-                                "UTF-8",
-                                null
-                            )
+                                "width=device-width  initial-scale=1.0 > <style>img{display: " +
+                                "inline;height: auto;max-width: 100%;} video{display: " +
+                                "inline;width: 100%;poster=} p{height: auto;width: 100%; } " +
+                                "iframe{width: 100%} </style> <body>   " +
+                                "${it.post.content.replace("\"","")} " +
+                                "</body></html>"
+                        binding.wvPost.loadDataWithBaseURL(
+                            null,
+                            htmlContent,
+                            "text/html; charset=utf-8",
+                            "UTF-8",
+                            null
+                        )
                         binding.textView.text = it.post.title
                         Picasso.get().load(it.post.posterMediaLinkUrl).into(binding.appBarImage)
-
-
-
                     }
-                    else -> {/*throw RuntimeException("private fun launchPost() not Worked MY EXCEPTION!!!")*/}
+                    else -> {
+                        throw RuntimeException(
+                            "private fun launchPost() not" +
+                                " Worked MY EXCEPTION!!!"
+                        )
+                    }
                 }
-
-
-
             }
         }
-
     }
 
     private fun parseParams() {
@@ -119,7 +115,7 @@ class PostFragment : Fragment() {
             throw RuntimeException("Parse in intent No POST ID in Arguments MAY EXCEPTION!!!!!!!!")
         }
         postId = args.getInt(POST_ID, DEFAULT_ID)
-        Log.d("parseParams", "arguments =${postId}")
+        Log.d("parseParams", "arguments =$postId")
     }
 
     companion object {
@@ -129,7 +125,7 @@ class PostFragment : Fragment() {
         fun newInstancePostFragment(postId: Int): PostFragment {
             return PostFragment().apply {
                 arguments = Bundle().apply {
-                    Log.d("newInstancePostFragment", "arguments =${postId}")
+                    Log.d("newInstancePostFragment", "arguments =$postId")
                     putInt(POST_ID, postId)
                 }
             }
@@ -137,12 +133,11 @@ class PostFragment : Fragment() {
     }
 
     private fun shimmerState(isShimmer: Boolean) {
-        if(isShimmer) {
+        if (isShimmer) {
             detailShimmerLayout.isVisible = isShimmer
         } else {
             detailShimmerLayout.isVisible = isShimmer
             coordinatorLayout.isVisible = true
         }
     }
-
 }
