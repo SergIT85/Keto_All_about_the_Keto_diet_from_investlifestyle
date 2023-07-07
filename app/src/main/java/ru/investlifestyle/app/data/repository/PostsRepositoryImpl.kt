@@ -134,7 +134,7 @@ class PostsRepositoryImpl @Inject constructor(
             IDTAGSRECIPES
         )
         return listOf(
-            /*categoryHealth,*/ categoryKetoCourses, categoryNutrition, categoryEvolution,
+            categoryHealth, categoryKetoCourses, categoryNutrition, categoryEvolution,
             tagsKeto, tagsEducation, tagsUseful, tagsRecipes
         )
     }

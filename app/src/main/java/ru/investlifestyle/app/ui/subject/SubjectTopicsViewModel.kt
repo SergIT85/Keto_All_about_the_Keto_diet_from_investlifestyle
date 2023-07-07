@@ -11,12 +11,10 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import ru.investlifestyle.app.data.models.categories.SaveCategories
 import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.EVOLUTION
 import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.HEALTH
 import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.KETOCOURSES
 import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.NUTRITION
-import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.TAGSKETO
 import ru.investlifestyle.app.domain.usecase.*
 import ru.investlifestyle.app.ui.home.StateListPosts
 import ru.investlifestyle.app.ui.models.PostUiModel
@@ -31,6 +29,21 @@ class SubjectTopicsViewModel @Inject constructor(
     private val loadSubjectPostsFlowUseCase: LoadSubjectPostsFlowUseCase
 ) : ViewModel() {
 
+    private var _getCategories =
+        MutableStateFlow<StateListSubjects>(StateListSubjects.EmptyListSubjects)
+    val allCategories: StateFlow<StateListSubjects> = _getCategories
+
+    private suspend fun getCategories() {
+        viewModelScope.launch {
+            try {
+                _getCategories.value =
+                    StateListSubjects.FilledListSubjects(getCategoriesUseCase.getCategories())
+            } catch (exception: Exception) {
+                _getCategories.value = StateListSubjects.Error(exception.toString())
+            }
+        }
+    }
+
     private var _postListViewModel = MutableStateFlow<StateListPosts>(StateListPosts.Load)
     val postListViewModel = _postListViewModel
 
@@ -41,7 +54,7 @@ class SubjectTopicsViewModel @Inject constructor(
     private val _loadHealthPost = MutableStateFlow<StateSubjectLoaded>(StateSubjectLoaded.Loading)
     val stateLoadHealthPost: StateFlow<StateSubjectLoaded> = _loadHealthPost
 
-    private fun loadHealthPosts() {
+    private fun loadHealthPosts(category: Int) {
         viewModelScope.launch {
             try {
                 _loadHealthPost.value =
@@ -76,10 +89,6 @@ class SubjectTopicsViewModel @Inject constructor(
     val loadEvolution: LiveData<List<PostUiModel>>
         get() = _loadEvolution
 
-    private var _getCategories = MutableLiveData<List<SaveCategories>>()
-    val getCategories: LiveData<List<SaveCategories>>
-        get() = _getCategories
-
     private var _loadSubjectTagsPost = MutableLiveData<List<PostUiModel>>()
     val loadSubjectTagsPost: LiveData<List<PostUiModel>>
         get() = _loadSubjectTagsPost
@@ -87,16 +96,13 @@ class SubjectTopicsViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             // getPostsApi()
+            getCategories()
             /*getCategories()
             loadPostsCategories()
             loadSubjectTagsPosts()*/
-            loadHealthPosts()
+            loadPostsCategories()
         }
         // loadSubjectPost()
-    }
-
-    private suspend fun getCategories() {
-        _getCategories.value = getCategoriesUseCase.getCategories()
     }
 
     private fun stateSubjectLoaded() {
@@ -115,48 +121,60 @@ class SubjectTopicsViewModel @Inject constructor(
     }
 
     private suspend fun loadPostsCategories() {
-        val health = getCategories.value?.find { it.nameCategory == HEALTH }
-        val ketoCourses = getCategories.value?.find { it.nameCategory == KETOCOURSES }
-        val nutrition = getCategories.value?.find { it.nameCategory == NUTRITION }
-        val evolution = getCategories.value?.find { it.nameCategory == EVOLUTION }
-        if (health != null) {
-        }
-        if (ketoCourses != null) {
-            _loadKetoCourses.value =
-                loadSubjectPostsUseCase.loadSubjectPosts(
-                    ketoCourses.idCategory,
-                    PAGE,
-                    PERPAGE,
-                    true
-                )
-        }
-        if (nutrition != null) {
-            _loadNutrition.value =
-                loadSubjectPostsUseCase.loadSubjectPosts(
-                    nutrition.idCategory,
-                    PAGE,
-                    PERPAGE,
-                    true
-                )
-        }
-        if (evolution != null) {
-            _loadEvolution.value =
-                loadSubjectPostsUseCase.loadSubjectPosts(
-                    evolution.idCategory,
-                    PAGE,
-                    PERPAGE,
-                    true
-                )
+        allCategories.collect {
+            when (it) {
+                is StateListSubjects.FilledListSubjects -> {
+                    val health = it.listSubjects.find { it.nameCategory == HEALTH }
+                    val ketoCourses = it.listSubjects.find { it.nameCategory == KETOCOURSES }
+                    val nutrition = it.listSubjects.find { it.nameCategory == NUTRITION }
+                    val evolution = it.listSubjects.find { it.nameCategory == EVOLUTION }
+
+                    if (health != null) {
+                        loadHealthPosts(health.idCategory)
+                    }
+                    if (ketoCourses != null) {
+                        _loadKetoCourses.value =
+                            loadSubjectPostsUseCase.loadSubjectPosts(
+                                ketoCourses.idCategory,
+                                PAGE,
+                                PERPAGE,
+                                true
+                            )
+                    }
+                    if (nutrition != null) {
+                        _loadNutrition.value =
+                            loadSubjectPostsUseCase.loadSubjectPosts(
+                                nutrition.idCategory,
+                                PAGE,
+                                PERPAGE,
+                                true
+                            )
+                    }
+                    if (evolution != null) {
+                        _loadEvolution.value =
+                            loadSubjectPostsUseCase.loadSubjectPosts(
+                                evolution.idCategory,
+                                PAGE,
+                                PERPAGE,
+                                true
+                            )
+                    }
+                }
+                is StateListSubjects.EmptyListSubjects -> {
+                }
+                is StateListSubjects.Error -> {
+                }
+            }
         }
     }
 
-    private suspend fun loadSubjectTagsPosts() {
+    /*private suspend fun loadSubjectTagsPosts() {
         val ketoTags = getCategories.value?.find { it.nameCategory == TAGSKETO }
         if (ketoTags != null) {
             _loadSubjectTagsPost.value = loadSubjectPostsTagsUseCase
                 .loadSubjectTagsPosts(ketoTags.idCategory, PAGE, PERPAGE, true)
         }
-    }
+    }*/
 
     @SuppressLint("LogNotTimber")
     suspend fun getPostsApi(): List<PostUiModel> {

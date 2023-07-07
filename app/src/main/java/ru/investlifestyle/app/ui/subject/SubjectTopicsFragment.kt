@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -69,7 +70,7 @@ class SubjectTopicsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindingAdapter()
-        observeHeals()
+        observeSubjectList()
 
         /*subjectTopicsViewModel.loadKetoCourses.observe(viewLifecycleOwner) {
             adapterKetoCourses.submitList(it)
@@ -91,6 +92,7 @@ class SubjectTopicsFragment : Fragment() {
             binding.tvTagsKeto.text = TAGSKETO
         }*/
     }
+
     private fun bindingAdapter() {
         adapterHealth = SubjectPostsAdapter(requireContext())
         binding.rvHealthCategories.adapter = adapterHealth
@@ -106,6 +108,59 @@ class SubjectTopicsFragment : Fragment() {
 
         adapterTagsKeto = SubjectPostsAdapter((requireContext()))
         binding.rvTagsKeto.adapter = adapterTagsKeto
+    }
+
+    private fun observeSubjectList() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                subjectTopicsViewModel.allCategories.collect {
+                    when (it) {
+                        is StateListSubjects.EmptyListSubjects -> {
+                            binding.tvHealthCategories.visibility = ViewGroup.GONE
+                            binding.rvHealthCategories.visibility = ViewGroup.GONE
+                            binding.rvKetoCourses.visibility = ViewGroup.GONE
+                            binding.tvKetoCourses.visibility = ViewGroup.GONE
+                            binding.rvNutritionCategories.visibility = ViewGroup.GONE
+                            binding.tvNutritionCategories.visibility = ViewGroup.GONE
+                            binding.rvEvolution.visibility = ViewGroup.GONE
+                            binding.tvEvolution.visibility = ViewGroup.GONE
+                            binding.rvTagsKeto.visibility = ViewGroup.GONE
+                            binding.tvTagsKeto.visibility = ViewGroup.GONE
+                        }
+                        is StateListSubjects.FilledListSubjects -> {
+                            observeHeals()
+
+                            subjectTopicsViewModel.loadKetoCourses.observe(viewLifecycleOwner) {
+                                adapterKetoCourses.submitList(it)
+                                binding.tvKetoCourses.text = KETOCOURSES
+                            }
+
+                            subjectTopicsViewModel.loadNutrition.observe(viewLifecycleOwner) {
+                                adapterNutrition.submitList(it)
+                                binding.tvNutritionCategories.text = NUTRITION
+                            }
+
+                            subjectTopicsViewModel.loadEvolution.observe(viewLifecycleOwner) {
+                                adapterEvolution.submitList(it)
+                                binding.tvEvolution.text = EVOLUTION
+                            }
+
+                            subjectTopicsViewModel.loadSubjectTagsPost.observe(viewLifecycleOwner) {
+                                adapterTagsKeto.submitList(it)
+                                binding.tvTagsKeto.text = TAGSKETO
+                            }
+                        }
+                        is StateListSubjects.Error -> {
+                            Toast.makeText(
+                                requireContext(),
+                                it.exception.toString(),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun observeHeals() {
