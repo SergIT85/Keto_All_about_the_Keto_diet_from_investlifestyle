@@ -6,19 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
+import java.io.IOException
 import javax.inject.Inject
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import ru.investlifestyle.app.data.models.categories.SaveCategories
 import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.EVOLUTION
 import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.HEALTH
 import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.KETOCOURSES
 import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.NUTRITION
 import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.TAGSKETO
-import ru.investlifestyle.app.domain.usecase.GetCategoriesUseCase
-import ru.investlifestyle.app.domain.usecase.LoadPostsUseCase
-import ru.investlifestyle.app.domain.usecase.LoadSubjectPostsUseCase
-import ru.investlifestyle.app.domain.usecase.LoadSubjectTagsPostsUseCase
+import ru.investlifestyle.app.domain.usecase.*
 import ru.investlifestyle.app.ui.home.StateListPosts
 import ru.investlifestyle.app.ui.models.PostUiModel
 
@@ -28,7 +27,8 @@ class SubjectTopicsViewModel @Inject constructor(
     private val loadPostsUseCase: LoadPostsUseCase,
     private val loadSubjectPostsUseCase: LoadSubjectPostsUseCase,
     private val loadSubjectPostsTagsUseCase: LoadSubjectTagsPostsUseCase,
-    private val getCategoriesUseCase: GetCategoriesUseCase
+    private val getCategoriesUseCase: GetCategoriesUseCase,
+    private val loadSubjectPostsFlowUseCase: LoadSubjectPostsFlowUseCase
 ) : ViewModel() {
 
     private var _postListViewModel = MutableStateFlow<StateListPosts>(StateListPosts.Load)
@@ -38,9 +38,31 @@ class SubjectTopicsViewModel @Inject constructor(
     val loadSubjectPost: LiveData<List<PostUiModel>>
         get() = _loadSubjectPost
 
-    private var _loadHealthPost = MutableLiveData<List<PostUiModel>>()
-    val loadHealthPost: LiveData<List<PostUiModel>>
-        get() = _loadHealthPost
+    private val _loadHealthPost = MutableStateFlow<StateSubjectLoaded>(StateSubjectLoaded.Loading)
+    val stateLoadHealthPost: StateFlow<StateSubjectLoaded> = _loadHealthPost
+
+    private fun loadHealthPosts() {
+        viewModelScope.launch {
+            try {
+                _loadHealthPost.value =
+                    StateSubjectLoaded.Loaded(
+                        loadSubjectPostsFlowUseCase.loadSubjectPostsFlow(
+                            11
+                        )
+                    )
+            } catch (exception: IOException) {
+                _loadHealthPost.value =
+                    StateSubjectLoaded.Error(exception.toString())
+            } catch (exception: HttpException) {
+                _loadHealthPost.value =
+                    StateSubjectLoaded.Error(exception.toString())
+            }
+        }
+    }
+
+    private fun <T> Flow<T>.mergeWith(another: Flow<T>): Flow<T> {
+        return merge(this, another)
+    }
 
     private var _loadKetoCourses = MutableLiveData<List<PostUiModel>>()
     val loadKetoCourses: LiveData<List<PostUiModel>>
@@ -65,15 +87,19 @@ class SubjectTopicsViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             // getPostsApi()
-            getCategories()
+            /*getCategories()
             loadPostsCategories()
-            loadSubjectTagsPosts()
+            loadSubjectTagsPosts()*/
+            loadHealthPosts()
         }
         // loadSubjectPost()
     }
 
     private suspend fun getCategories() {
         _getCategories.value = getCategoriesUseCase.getCategories()
+    }
+
+    private fun stateSubjectLoaded() {
     }
 
     private val _text = MutableLiveData<String>().apply {
@@ -94,13 +120,6 @@ class SubjectTopicsViewModel @Inject constructor(
         val nutrition = getCategories.value?.find { it.nameCategory == NUTRITION }
         val evolution = getCategories.value?.find { it.nameCategory == EVOLUTION }
         if (health != null) {
-            _loadHealthPost.value =
-                loadSubjectPostsUseCase.loadSubjectPosts(
-                    health.idCategory,
-                    PAGE,
-                    PERPAGE,
-                    true
-                )
         }
         if (ketoCourses != null) {
             _loadKetoCourses.value =

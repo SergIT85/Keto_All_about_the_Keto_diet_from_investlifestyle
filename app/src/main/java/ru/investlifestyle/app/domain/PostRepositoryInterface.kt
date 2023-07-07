@@ -18,6 +18,12 @@ interface PostRepositoryInterface {
         perPage: Int,
         embed: Boolean
     ): List<PostUiModel>
+    suspend fun loadSubjectPostsFlow(
+        categories: Int,
+        page: Int,
+        perPage: Int,
+        embed: Boolean
+    ): List<PostUiModel>
     suspend fun loadSubjectTagsPosts(
         tags: Int,
         page: Int,

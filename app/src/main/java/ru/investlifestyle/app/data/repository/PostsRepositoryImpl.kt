@@ -6,6 +6,7 @@ import androidx.paging.*
 import javax.inject.Inject
 import kotlin.random.Random
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import ru.investlifestyle.app.R
 import ru.investlifestyle.app.data.PostMapper
@@ -69,6 +70,16 @@ class PostsRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun loadSubjectPostsFlow(
+        categories: Int,
+        page: Int,
+        perPage: Int,
+        embed: Boolean
+    ): List<PostUiModel> =
+        mapper.mapListPostDataToListPostUi(
+            apiClient.loadSubjectPosts(categories, page, perPage, embed)
+        )
+
     override suspend fun loadSubjectTagsPosts(
         tags: Int,
         page: Int,
@@ -123,7 +134,7 @@ class PostsRepositoryImpl @Inject constructor(
             IDTAGSRECIPES
         )
         return listOf(
-            categoryHealth, categoryKetoCourses, categoryNutrition, categoryEvolution,
+            /*categoryHealth,*/ categoryKetoCourses, categoryNutrition, categoryEvolution,
             tagsKeto, tagsEducation, tagsUseful, tagsRecipes
         )
     }

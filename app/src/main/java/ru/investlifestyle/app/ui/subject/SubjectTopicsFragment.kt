@@ -7,9 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.ExperimentalPagingApi
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 import ru.investlifestyle.app.App
 import ru.investlifestyle.app.databinding.FragmentSubjectTopicsBinding
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
@@ -65,12 +69,9 @@ class SubjectTopicsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindingAdapter()
-        subjectTopicsViewModel.loadHealthPost.observe(viewLifecycleOwner) {
-            adapterHealth.submitList(it)
-            binding.tvHealthCategories.text = HEALTH
-        }
+        observeHeals()
 
-        subjectTopicsViewModel.loadKetoCourses.observe(viewLifecycleOwner) {
+        /*subjectTopicsViewModel.loadKetoCourses.observe(viewLifecycleOwner) {
             adapterKetoCourses.submitList(it)
             binding.tvKetoCourses.text = KETOCOURSES
         }
@@ -88,7 +89,7 @@ class SubjectTopicsFragment : Fragment() {
         subjectTopicsViewModel.loadSubjectTagsPost.observe(viewLifecycleOwner) {
             adapterTagsKeto.submitList(it)
             binding.tvTagsKeto.text = TAGSKETO
-        }
+        }*/
     }
     private fun bindingAdapter() {
         adapterHealth = SubjectPostsAdapter(requireContext())
@@ -105,6 +106,32 @@ class SubjectTopicsFragment : Fragment() {
 
         adapterTagsKeto = SubjectPostsAdapter((requireContext()))
         binding.rvTagsKeto.adapter = adapterTagsKeto
+    }
+
+    private fun observeHeals() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                subjectTopicsViewModel.stateLoadHealthPost.collect {
+                    when (it) {
+                        is StateSubjectLoaded.NotLoaded -> {
+                            // это работает для скрытия элементов с экрана
+                            binding.tvHealthCategories.visibility = ViewGroup.GONE
+                            binding.rvHealthCategories.visibility = ViewGroup.GONE
+                        }
+                        is StateSubjectLoaded.Loading -> {
+                        }
+                        is StateSubjectLoaded.Loaded -> {
+                            binding.tvHealthCategories.text = HEALTH
+                            adapterHealth.submitList(it.listPosts)
+                        }
+                        is StateSubjectLoaded.Error -> {
+                            binding.tvHealthCategories.visibility = ViewGroup.GONE
+                            binding.rvHealthCategories.visibility = ViewGroup.GONE
+                        }
+                    }
+                }
+            }
+        }
     }
 
     companion object {
