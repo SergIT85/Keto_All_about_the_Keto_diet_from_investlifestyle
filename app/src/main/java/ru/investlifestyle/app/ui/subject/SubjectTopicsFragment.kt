@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.ExperimentalPagingApi
+import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.App
@@ -69,6 +71,7 @@ class SubjectTopicsFragment : Fragment() {
     @SuppressLint("CheckResult", "FragmentLiveDataObserve")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.shimmerHealthCategories.isVisible = true
         bindingAdapter()
         observeSubjectList()
 
@@ -95,6 +98,7 @@ class SubjectTopicsFragment : Fragment() {
 
     private fun bindingAdapter() {
         adapterHealth = SubjectPostsAdapter(requireContext())
+        adapterHealth.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
         binding.rvHealthCategories.adapter = adapterHealth
 
         adapterKetoCourses = SubjectPostsAdapter((requireContext()))
@@ -128,6 +132,7 @@ class SubjectTopicsFragment : Fragment() {
                             binding.tvTagsKeto.visibility = ViewGroup.GONE
                         }
                         is StateListSubjects.FilledListSubjects -> {
+
                             observeHeals()
 
                             subjectTopicsViewModel.loadKetoCourses.observe(viewLifecycleOwner) {
@@ -169,19 +174,36 @@ class SubjectTopicsFragment : Fragment() {
                 subjectTopicsViewModel.stateLoadHealthPost.collect {
                     when (it) {
                         is StateSubjectLoaded.NotLoaded -> {
-                            // это работает для скрытия элементов с экрана
-                            binding.tvHealthCategories.visibility = ViewGroup.GONE
-                            binding.rvHealthCategories.visibility = ViewGroup.GONE
+                            binding.apply {
+                                tvHealthCategories.visibility = ViewGroup.GONE
+                                rvHealthCategories.visibility = ViewGroup.GONE
+                                shimmerHealthCategories.visibility = ViewGroup.GONE
+                            }
                         }
                         is StateSubjectLoaded.Loading -> {
+                            binding.apply {
+                                shimmerHealthCategories.startShimmer()
+                                tvHealthCategories.isVisible = false
+                                rvHealthCategories.isVisible = false
+                            }
                         }
                         is StateSubjectLoaded.Loaded -> {
-                            binding.tvHealthCategories.text = HEALTH
+                            binding.apply {
+                                shimmerHealthCategories.isVisible = false
+                                tvHealthCategories.isVisible = true
+                                rvHealthCategories.isVisible = true
+                                tvHealthCategories.text = HEALTH
+                            }
                             adapterHealth.submitList(it.listPosts)
                         }
                         is StateSubjectLoaded.Error -> {
-                            binding.tvHealthCategories.visibility = ViewGroup.GONE
-                            binding.rvHealthCategories.visibility = ViewGroup.GONE
+                            binding.apply {
+                                tvHealthCategories.visibility = ViewGroup.GONE
+                                rvHealthCategories.visibility = ViewGroup.GONE
+                                shimmerHealthCategories.visibility = ViewGroup.GONE
+                            }
+                            Toast.makeText(requireContext(), it.error.toString(), Toast.LENGTH_LONG)
+                                .show()
                         }
                     }
                 }
