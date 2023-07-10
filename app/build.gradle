@@ -52,6 +52,7 @@ ktlint {
 
 dependencies {
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     def daggerVersion = '2.29.1'
     def picassoVersion = '2.8'
     def picassoTransformation = '2.4.0'

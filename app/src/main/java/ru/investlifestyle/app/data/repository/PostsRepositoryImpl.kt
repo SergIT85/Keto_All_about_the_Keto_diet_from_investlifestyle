@@ -15,6 +15,7 @@ import ru.investlifestyle.app.data.networkApi.PostsApiInterface
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.data.networkApi.examin.Repo
 import ru.investlifestyle.app.data.paging.PostPagingRemoteMediator
+import ru.investlifestyle.app.data.room.ChoiceSubjectDaoRoom
 import ru.investlifestyle.app.data.room.PostDaoRoom
 import ru.investlifestyle.app.domain.PostRepositoryInterface
 import ru.investlifestyle.app.ui.models.PostUiModel
@@ -25,6 +26,7 @@ class PostsRepositoryImpl @Inject constructor(
     private val mapper: PostMapper,
     private val application: Application,
     private val postDaoRoom: PostDaoRoom,
+    private val subjectDaoRoom: ChoiceSubjectDaoRoom
 ) : PostRepositoryInterface {
 
     private val postPagingRemoteMediator = PostPagingRemoteMediator(postDaoRoom, apiClient, mapper)
@@ -96,47 +98,66 @@ class PostsRepositoryImpl @Inject constructor(
         val categoryHealth = SaveCategories(
             HEALTH,
             CATEGORIES,
-            IDHEALTH
+            IDHEALTH,
+            true
         )
         val categoryKetoCourses = SaveCategories(
             KETOCOURSES,
             CATEGORIES,
-            IDKETOCOURSES
+            IDKETOCOURSES,
+            true
         )
         val categoryNutrition = SaveCategories(
             NUTRITION,
             CATEGORIES,
-            IDNUTRITION
+            IDNUTRITION,
+            true
         )
         val categoryEvolution = SaveCategories(
             EVOLUTION,
             CATEGORIES,
-            IDEVOLUTION
+            IDEVOLUTION,
+            true
         )
         val tagsKeto = SaveCategories(
             TAGSKETO,
             TAGS,
-            IDTAGSKETO
+            IDTAGSKETO,
+            true
         )
         val tagsEducation = SaveCategories(
             TAGSEDUCATION,
             TAGS,
-            IDTAGSEDUCATION
+            IDTAGSEDUCATION,
+            true
         )
         val tagsUseful = SaveCategories(
             TAGSUSEFUL,
             TAGS,
-            IDTAGSUSEFUL
+            IDTAGSUSEFUL,
+            true
         )
         val tagsRecipes = SaveCategories(
             TAGSRECIPES,
             TAGS,
-            IDTAGSRECIPES
+            IDTAGSRECIPES,
+            true
         )
-        return listOf(
+        val list = listOf(
             categoryHealth, categoryKetoCourses, categoryNutrition, categoryEvolution,
             tagsKeto, tagsEducation, tagsUseful, tagsRecipes
         )
+        return if (subjectDaoRoom.isEmpty()) {
+            subjectDaoRoom.save(mapper.mapListSubjectCategoryToListSubjectEntity(list))
+            mapper
+                .mapListChoiceSubjectEntityToListSubjectSaveCategories(
+                    subjectDaoRoom.getAllSubject()
+                )
+        } else {
+            mapper.mapListChoiceSubjectEntityToListSubjectSaveCategories(
+                subjectDaoRoom.getAllSubject()
+            )
+        }
     }
 
     @SuppressLint("LogNotTimber")
@@ -144,6 +165,16 @@ class PostsRepositoryImpl @Inject constructor(
         val randomString = Random(System.currentTimeMillis())
         val array = application.resources.getStringArray(R.array.quotes)
         return array[randomString.nextInt(array.size)]
+    }
+
+    override suspend fun updateSubject(selected: Boolean, idCategory: Int) {
+        subjectDaoRoom.updateSubject(selected, idCategory)
+    }
+
+    override suspend fun getSingleSubjectById(idCategories: Int): SaveCategories {
+        return mapper.mapChoiceSubjectEntityToSubjectSaveCategories(
+            subjectDaoRoom.getSingleSubjectById(subjectId = idCategories)
+        )
     }
 
     companion object {

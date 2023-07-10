@@ -32,4 +32,6 @@ interface PostRepositoryInterface {
     ): List<PostUiModel>
     suspend fun getCategories(): List<SaveCategories>
     fun getQuotes(): String
+    suspend fun updateSubject(selected: Boolean, idCategory: Int)
+    suspend fun getSingleSubjectById(idCategories: Int): SaveCategories
 }

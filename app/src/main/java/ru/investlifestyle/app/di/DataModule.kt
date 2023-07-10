@@ -8,6 +8,7 @@ import dagger.Provides
 import javax.inject.Singleton
 import ru.investlifestyle.app.data.repository.PostsRepositoryImpl
 import ru.investlifestyle.app.data.room.AppPostDatabase
+import ru.investlifestyle.app.data.room.ChoiceSubjectDaoRoom
 import ru.investlifestyle.app.data.room.PostDaoRoom
 import ru.investlifestyle.app.domain.PostRepositoryInterface
 
@@ -26,6 +27,12 @@ interface DataModule {
             application: Application
         ): PostDaoRoom {
             return AppPostDatabase.getInstanceDb(application).postDaoRoom()
+        }
+        @Provides
+        fun provideDaoSubject(
+            application: Application
+        ): ChoiceSubjectDaoRoom {
+            return AppPostDatabase.getInstanceDb(application).subjectChoiceRoom()
         }
     }
 }

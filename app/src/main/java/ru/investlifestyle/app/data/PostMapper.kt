@@ -1,11 +1,37 @@
 package ru.investlifestyle.app.data
 
 import javax.inject.Inject
+import ru.investlifestyle.app.data.models.categories.SaveCategories
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
+import ru.investlifestyle.app.data.room.ChoiceSubjectEntity
 import ru.investlifestyle.app.data.room.PostDbModelEntity
 import ru.investlifestyle.app.ui.models.PostUiModel
 
 class PostMapper @Inject constructor() {
+
+    fun mapSubjectSaveCategoriesToChoiceSubjectEntity(subjectSaveCategories: SaveCategories) =
+        ChoiceSubjectEntity(
+            id = subjectSaveCategories.idCategory,
+            name = subjectSaveCategories.nameCategory,
+            type = subjectSaveCategories.typeCategory,
+            selected = subjectSaveCategories.selected
+        )
+    fun mapListSubjectCategoryToListSubjectEntity(list: List<SaveCategories>) = list.map {
+        mapSubjectSaveCategoriesToChoiceSubjectEntity(it)
+    }
+
+    fun mapChoiceSubjectEntityToSubjectSaveCategories(choiceSubjectEntity: ChoiceSubjectEntity) =
+        SaveCategories(
+            idCategory = choiceSubjectEntity.id,
+            nameCategory = choiceSubjectEntity.name,
+            typeCategory = choiceSubjectEntity.type,
+            selected = choiceSubjectEntity.selected
+        )
+
+    fun mapListChoiceSubjectEntityToListSubjectSaveCategories(list: List<ChoiceSubjectEntity>) =
+        list.map {
+            mapChoiceSubjectEntityToSubjectSaveCategories(it)
+        }
 
     fun mapPostModelDataToDbModelEntity(postModelData: PostsModelDataItem) = PostDbModelEntity(
         id = postModelData.id,

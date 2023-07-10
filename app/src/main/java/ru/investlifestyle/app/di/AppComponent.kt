@@ -6,6 +6,7 @@ import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 import ru.investlifestyle.app.MainActivity
+import ru.investlifestyle.app.ui.choice.ChoiceFragment
 import ru.investlifestyle.app.ui.home.HomeFragment
 import ru.investlifestyle.app.ui.notifications.NotificationsFragment
 import ru.investlifestyle.app.ui.post.PostActivity
@@ -29,6 +30,7 @@ interface AppComponent {
     fun inject(fragment: HomeFragment)
     fun inject(fragment: NotificationsFragment)
     fun inject(fragment: PostFragment)
+    fun inject(fragment: ChoiceFragment)
 
     fun inject(viewModel: SubjectTopicsViewModel)
 

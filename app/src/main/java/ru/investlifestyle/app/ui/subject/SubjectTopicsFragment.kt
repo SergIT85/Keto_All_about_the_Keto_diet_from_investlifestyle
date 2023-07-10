@@ -13,15 +13,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.App
+import ru.investlifestyle.app.R
 import ru.investlifestyle.app.databinding.FragmentSubjectTopicsBinding
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
+import ru.investlifestyle.app.ui.choice.ChoiceFragment
 import ru.investlifestyle.app.ui.subject.adapters.SubjectPostsAdapter
 
+@ExperimentalPagingApi
 class SubjectTopicsFragment : Fragment() {
 
     @Inject
@@ -74,6 +78,7 @@ class SubjectTopicsFragment : Fragment() {
         binding.shimmerHealthCategories.isVisible = true
         bindingAdapter()
         observeSubjectList()
+        setChoiceSubjectClickListener()
 
         /*subjectTopicsViewModel.loadKetoCourses.observe(viewLifecycleOwner) {
             adapterKetoCourses.submitList(it)
@@ -94,6 +99,17 @@ class SubjectTopicsFragment : Fragment() {
             adapterTagsKeto.submitList(it)
             binding.tvTagsKeto.text = TAGSKETO
         }*/
+    }
+
+    private fun setChoiceSubjectClickListener() {
+        binding.correctSubjectFooter.setOnClickListener {
+            launchFragment()
+        }
+    }
+    private fun launchFragment() {
+        val navHostFragment = requireActivity().supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment_activity_main)
+        navHostFragment?.findNavController()?.navigate(R.id.choiceFragment)
     }
 
     private fun bindingAdapter() {

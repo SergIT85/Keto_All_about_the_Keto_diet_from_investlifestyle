@@ -60,7 +60,7 @@ class SubjectTopicsViewModel @Inject constructor(
                 _loadHealthPost.value =
                     StateSubjectLoaded.Loaded(
                         loadSubjectPostsFlowUseCase.loadSubjectPostsFlow(
-                            11
+                            category
                         )
                     )
             } catch (exception: IOException) {
@@ -69,6 +69,16 @@ class SubjectTopicsViewModel @Inject constructor(
             } catch (exception: HttpException) {
                 _loadHealthPost.value =
                     StateSubjectLoaded.Error(exception.toString())
+            }
+        }
+    }
+
+    private fun notLoadHealthCategory(category: Int) {
+        viewModelScope.launch {
+            try {
+                _loadHealthPost.value = StateSubjectLoaded.NotLoaded
+            } catch (exception: Exception) {
+                _loadHealthPost.value = StateSubjectLoaded.Error(exception.toString())
             }
         }
     }
@@ -129,8 +139,10 @@ class SubjectTopicsViewModel @Inject constructor(
                     val nutrition = it.listSubjects.find { it.nameCategory == NUTRITION }
                     val evolution = it.listSubjects.find { it.nameCategory == EVOLUTION }
 
-                    if (health != null) {
+                    if (health != null && health.selected == true) {
                         loadHealthPosts(health.idCategory)
+                    } else {
+                        health?.let { it1 -> notLoadHealthCategory(it1.idCategory) }
                     }
                     if (ketoCourses != null) {
                         _loadKetoCourses.value =
