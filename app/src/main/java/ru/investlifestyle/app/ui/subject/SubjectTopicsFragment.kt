@@ -22,7 +22,6 @@ import ru.investlifestyle.app.App
 import ru.investlifestyle.app.R
 import ru.investlifestyle.app.databinding.FragmentSubjectTopicsBinding
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
-import ru.investlifestyle.app.ui.choice.ChoiceFragment
 import ru.investlifestyle.app.ui.subject.adapters.SubjectPostsAdapter
 
 @ExperimentalPagingApi

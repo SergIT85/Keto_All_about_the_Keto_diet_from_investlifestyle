@@ -50,6 +50,9 @@ class ChoiceFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactoryTest).get(ChoiceViewModel::class.java)
         observeSubject()
+        binding.switchHealth.setOnCheckedChangeListener { compoundButton, isChecked ->
+            onCheckedListener(isChecked, IDHEALTH)
+        }
     }
 
     private fun observeSubject() {
@@ -60,7 +63,7 @@ class ChoiceFragment : Fragment() {
                         Toast.makeText(requireContext(), "ОШИБКА БД", Toast.LENGTH_LONG).show()
                     }
                     is StateListSubjects.FilledListSubjects -> {
-                        binding.switchKeto.isChecked = it.listSubjects[0].selected
+                        binding.switchHealth.isChecked = it.listSubjects[0].selected
                     }
                     is StateListSubjects.Error -> {
                         Toast.makeText(requireContext(), it.exception, Toast.LENGTH_LONG).show()
@@ -70,7 +73,20 @@ class ChoiceFragment : Fragment() {
         }
     }
 
+    private fun onCheckedListener(isChecked: Boolean, id: Int) {
+        viewModel.updateSubject(isChecked, id)
+    }
+
     companion object {
         fun newInstance() = ChoiceFragment()
+
+        const val IDHEALTH = 11
+        const val IDKETOCOURSES = 188
+        const val IDNUTRITION = 12
+        const val IDEVOLUTION = 20
+        const val IDTAGSKETO = 27
+        const val IDTAGSEDUCATION = 22
+        const val IDTAGSUSEFUL = 163
+        const val IDTAGSRECIPES = 39
     }
 }
