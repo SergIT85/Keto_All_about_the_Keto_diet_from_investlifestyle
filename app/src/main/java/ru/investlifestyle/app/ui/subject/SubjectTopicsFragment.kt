@@ -17,9 +17,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.App
 import ru.investlifestyle.app.R
+import ru.investlifestyle.app.data.repository.PostsRepositoryImpl
 import ru.investlifestyle.app.databinding.FragmentSubjectTopicsBinding
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
 import ru.investlifestyle.app.ui.subject.adapters.SubjectPostsAdapter
@@ -147,8 +149,21 @@ class SubjectTopicsFragment : Fragment() {
                             binding.tvTagsKeto.visibility = ViewGroup.GONE
                         }
                         is StateListSubjects.FilledListSubjects -> {
-
-                            observeHeals()
+                            it.listSubjects.collect {
+                                if (it.find {
+                                    it.nameCategory == PostsRepositoryImpl
+                                        .HEALTH
+                                }?.selected == true
+                                ) {
+                                    observeHeals()
+                                } else {
+                                    binding.apply {
+                                        tvHealthCategories.visibility = ViewGroup.GONE
+                                        rvHealthCategories.visibility = ViewGroup.GONE
+                                        shimmerHealthCategories.visibility = ViewGroup.GONE
+                                    }
+                                }
+                            }
 
                             subjectTopicsViewModel.loadKetoCourses.observe(viewLifecycleOwner) {
                                 adapterKetoCourses.submitList(it)

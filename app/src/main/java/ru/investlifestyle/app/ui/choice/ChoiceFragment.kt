@@ -63,7 +63,9 @@ class ChoiceFragment : Fragment() {
                         Toast.makeText(requireContext(), "ОШИБКА БД", Toast.LENGTH_LONG).show()
                     }
                     is StateListSubjects.FilledListSubjects -> {
-                        binding.switchHealth.isChecked = it.listSubjects[0].selected
+                        it.listSubjects.collect {
+                            binding.switchHealth.isChecked = it[0].selected
+                        }
                     }
                     is StateListSubjects.Error -> {
                         Toast.makeText(requireContext(), it.exception, Toast.LENGTH_LONG).show()

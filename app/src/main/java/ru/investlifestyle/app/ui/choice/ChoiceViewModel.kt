@@ -30,11 +30,13 @@ class ChoiceViewModel @Inject constructor(
             }
         }
     }
+
     fun updateSubject(selected: Boolean, id: Int) {
         viewModelScope.launch {
             updateSubjectUseCase.updateSubject(selected, id)
         }
     }
+
     init {
         getCategories()
     }

@@ -11,10 +11,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.EVOLUTION
 import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.HEALTH
-import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.KETOCOURSES
-import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.NUTRITION
 import ru.investlifestyle.app.domain.usecase.*
 import ru.investlifestyle.app.ui.home.StateListPosts
 import ru.investlifestyle.app.ui.models.PostUiModel
@@ -134,7 +131,15 @@ class SubjectTopicsViewModel @Inject constructor(
         allCategories.collect {
             when (it) {
                 is StateListSubjects.FilledListSubjects -> {
-                    val health = it.listSubjects.find { it.nameCategory == HEALTH }
+                    it.listSubjects.collect {
+                        val health = it.find { it.nameCategory == HEALTH }
+                        if (health != null && health.selected == true) {
+                            loadHealthPosts(health.idCategory)
+                        } else {
+                            health?.let { it1 -> notLoadHealthCategory(it1.idCategory) }
+                        }
+                    }
+                    /*val health = it.listSubjects.find { it.nameCategory == HEALTH }
                     val ketoCourses = it.listSubjects.find { it.nameCategory == KETOCOURSES }
                     val nutrition = it.listSubjects.find { it.nameCategory == NUTRITION }
                     val evolution = it.listSubjects.find { it.nameCategory == EVOLUTION }
@@ -170,7 +175,7 @@ class SubjectTopicsViewModel @Inject constructor(
                                 PERPAGE,
                                 true
                             )
-                    }
+                    }*/
                 }
                 is StateListSubjects.EmptyListSubjects -> {
                 }

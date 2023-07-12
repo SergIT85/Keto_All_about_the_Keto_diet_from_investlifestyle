@@ -4,11 +4,12 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ChoiceSubjectDaoRoom {
     @Query("SELECT * FROM choice_subject")
-    suspend fun getAllSubject(): List<ChoiceSubjectEntity>
+    fun getAllSubject(): Flow<List<ChoiceSubjectEntity>>
 
     @Query("SELECT * FROM choice_subject WHERE id=:subjectId LIMIT 1")
     suspend fun getSingleSubjectById(subjectId: Int): ChoiceSubjectEntity

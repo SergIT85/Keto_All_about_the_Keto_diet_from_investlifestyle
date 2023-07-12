@@ -5,9 +5,7 @@ import android.app.Application
 import androidx.paging.*
 import javax.inject.Inject
 import kotlin.random.Random
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import ru.investlifestyle.app.R
 import ru.investlifestyle.app.data.PostMapper
 import ru.investlifestyle.app.data.models.categories.SaveCategories
@@ -94,7 +92,7 @@ class PostsRepositoryImpl @Inject constructor(
     }
 
     // Will be fixed for requests from API when the backing is ready
-    override suspend fun getCategories(): List<SaveCategories> {
+    override fun getCategories(): Flow<List<SaveCategories>> {
         val categoryHealth = SaveCategories(
             HEALTH,
             CATEGORIES,
@@ -147,16 +145,11 @@ class PostsRepositoryImpl @Inject constructor(
             categoryHealth, categoryKetoCourses, categoryNutrition, categoryEvolution,
             tagsKeto, tagsEducation, tagsUseful, tagsRecipes
         )
-        return if (subjectDaoRoom.isEmpty()) {
-            subjectDaoRoom.save(mapper.mapListSubjectCategoryToListSubjectEntity(list))
-            mapper
-                .mapListChoiceSubjectEntityToListSubjectSaveCategories(
-                    subjectDaoRoom.getAllSubject()
-                )
-        } else {
-            mapper.mapListChoiceSubjectEntityToListSubjectSaveCategories(
-                subjectDaoRoom.getAllSubject()
-            )
+        subjectDaoRoom.getAllSubject().onEmpty {
+            emit(mapper.mapListSubjectCategoryToListSubjectEntity(list))
+        }
+        return subjectDaoRoom.getAllSubject().map {
+            mapper.mapListChoiceSubjectEntityToListSubjectSaveCategories(it)
         }
     }
 

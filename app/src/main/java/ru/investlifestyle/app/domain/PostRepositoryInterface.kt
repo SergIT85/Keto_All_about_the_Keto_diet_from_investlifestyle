@@ -30,7 +30,7 @@ interface PostRepositoryInterface {
         perPage: Int,
         embed: Boolean
     ): List<PostUiModel>
-    suspend fun getCategories(): List<SaveCategories>
+    fun getCategories(): Flow<List<SaveCategories>>
     fun getQuotes(): String
     suspend fun updateSubject(selected: Boolean, idCategory: Int)
     suspend fun getSingleSubjectById(idCategories: Int): SaveCategories
