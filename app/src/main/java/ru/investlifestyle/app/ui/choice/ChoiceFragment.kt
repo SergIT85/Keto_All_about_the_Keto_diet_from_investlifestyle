@@ -54,28 +54,28 @@ class ChoiceFragment : Fragment() {
     }
 
     private fun clickSwitch() {
-        binding.switchHealth.setOnCheckedChangeListener { compoundButton, isChecked ->
+        binding.switchHealth.setOnCheckedChangeListener { c, isChecked ->
             onCheckedListener(isChecked, IDHEALTH)
         }
-        binding.switchKetoCourses.setOnCheckedChangeListener { compoundButton, isChecked ->
+        binding.switchKetoCourses.setOnCheckedChangeListener { c, isChecked ->
             onCheckedListener(isChecked, IDKETOCOURSES)
         }
-        binding.switchTagsKeto.setOnCheckedChangeListener { compoundButton, isChecked ->
+        binding.switchTagsKeto.setOnCheckedChangeListener { c, isChecked ->
             onCheckedListener(isChecked, IDTAGSKETO)
         }
-        binding.switchNutrition.setOnCheckedChangeListener { compoundButton, isChecked ->
+        binding.switchNutrition.setOnCheckedChangeListener { c, isChecked ->
             onCheckedListener(isChecked, IDNUTRITION)
         }
-        binding.switchEvolution.setOnCheckedChangeListener { compoundButton, isChecked ->
+        binding.switchEvolution.setOnCheckedChangeListener { c, isChecked ->
             onCheckedListener(isChecked, IDEVOLUTION)
         }
-        binding.switchTagsEducation.setOnCheckedChangeListener { compoundButton, isChecked ->
+        binding.switchTagsEducation.setOnCheckedChangeListener { c, isChecked ->
             onCheckedListener(isChecked, IDTAGSEDUCATION)
         }
-        binding.switchTagsUseful.setOnCheckedChangeListener { compoundButton, isChecked ->
+        binding.switchTagsUseful.setOnCheckedChangeListener { c, isChecked ->
             onCheckedListener(isChecked, IDTAGSUSEFUL)
         }
-        binding.switchTagsRecipes.setOnCheckedChangeListener { compoundButton, isChecked ->
+        binding.switchTagsRecipes.setOnCheckedChangeListener { c, isChecked ->
             onCheckedListener(isChecked, IDTAGSRECIPES)
         }
     }

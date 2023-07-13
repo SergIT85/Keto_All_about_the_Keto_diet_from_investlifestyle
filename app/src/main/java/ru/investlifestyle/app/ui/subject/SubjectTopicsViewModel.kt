@@ -6,24 +6,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
-import java.io.IOException
 import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.HEALTH
 import ru.investlifestyle.app.domain.usecase.*
-import ru.investlifestyle.app.ui.home.StateListPosts
 import ru.investlifestyle.app.ui.models.PostUiModel
 
 @OptIn(ExperimentalPagingApi::class)
 @SuppressLint("CheckResult")
 class SubjectTopicsViewModel @Inject constructor(
-    private val loadPostsUseCase: LoadPostsUseCase,
     private val loadSubjectPostsUseCase: LoadSubjectPostsUseCase,
     private val loadSubjectPostsTagsUseCase: LoadSubjectTagsPostsUseCase,
     private val getCategoriesUseCase: GetCategoriesUseCase,
-    private val loadSubjectPostsFlowUseCase: LoadSubjectPostsFlowUseCase,
     private val fillingDbInitUseCase: fillingDbInitUseCase
 ) : ViewModel() {
 
@@ -42,48 +37,9 @@ class SubjectTopicsViewModel @Inject constructor(
         }
     }
 
-    private var _postListViewModel = MutableStateFlow<StateListPosts>(StateListPosts.Load)
-    val postListViewModel = _postListViewModel
-
-    private var _loadSubjectPost = MutableLiveData<List<PostUiModel>>()
-    val loadSubjectPost: LiveData<List<PostUiModel>>
-        get() = _loadSubjectPost
-
-    private val _loadHealthPost = MutableStateFlow<StateSubjectLoaded>(StateSubjectLoaded.Loading)
-    val stateLoadHealthPost: StateFlow<StateSubjectLoaded> = _loadHealthPost
-
-    private fun loadHealthPosts(category: Int) {
-        viewModelScope.launch {
-            try {
-                _loadHealthPost.value =
-                    StateSubjectLoaded.Loaded(
-                        loadSubjectPostsFlowUseCase.loadSubjectPostsFlow(
-                            category
-                        )
-                    )
-            } catch (exception: IOException) {
-                _loadHealthPost.value =
-                    StateSubjectLoaded.Error(exception.toString())
-            } catch (exception: HttpException) {
-                _loadHealthPost.value =
-                    StateSubjectLoaded.Error(exception.toString())
-            }
-        }
-    }
-
-    private fun notLoadHealthCategory(category: Int) {
-        viewModelScope.launch {
-            try {
-                _loadHealthPost.value = StateSubjectLoaded.NotLoaded
-            } catch (exception: Exception) {
-                _loadHealthPost.value = StateSubjectLoaded.Error(exception.toString())
-            }
-        }
-    }
-
-    private fun <T> Flow<T>.mergeWith(another: Flow<T>): Flow<T> {
-        return merge(this, another)
-    }
+    private var _loadHealth = MutableLiveData<List<PostUiModel>>()
+    val loadHealth: LiveData<List<PostUiModel>>
+        get() = _loadHealth
 
     private var _loadKetoCourses = MutableLiveData<List<PostUiModel>>()
     val loadKetoCourses: LiveData<List<PostUiModel>>
@@ -97,35 +53,27 @@ class SubjectTopicsViewModel @Inject constructor(
     val loadEvolution: LiveData<List<PostUiModel>>
         get() = _loadEvolution
 
-    private var _loadSubjectTagsPost = MutableLiveData<List<PostUiModel>>()
-    val loadSubjectTagsPost: LiveData<List<PostUiModel>>
-        get() = _loadSubjectTagsPost
+    private var _loadTagsKeto = MutableLiveData<List<PostUiModel>>()
+    val loadTagsKeto: LiveData<List<PostUiModel>>
+        get() = _loadTagsKeto
+
+    private var _loadTagsEducation = MutableLiveData<List<PostUiModel>>()
+    val loadTagsEducation: LiveData<List<PostUiModel>>
+        get() = _loadTagsEducation
+
+    private var _loadTagsUseful = MutableLiveData<List<PostUiModel>>()
+    val loadTagsUseful: LiveData<List<PostUiModel>>
+        get() = _loadTagsUseful
+
+    private var _loadTagsRecipes = MutableLiveData<List<PostUiModel>>()
+    val loadTagsRecipes: LiveData<List<PostUiModel>>
+        get() = _loadTagsRecipes
 
     init {
         viewModelScope.launch {
-            // getPostsApi()
             getCategories()
-            /*getCategories()
-            loadPostsCategories()
-            loadSubjectTagsPosts()*/
             loadPostsCategories()
             fillingDbInit()
-        }
-        // loadSubjectPost()
-    }
-
-    private fun stateSubjectLoaded() {
-    }
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    }
-    val text: LiveData<String> = _text
-
-    private fun loadSubjectPost() {
-        viewModelScope.launch {
-            _loadSubjectPost.value = loadSubjectPostsUseCase
-                .loadSubjectPosts(11, 1, PERPAGE, true)
         }
     }
 
@@ -136,50 +84,63 @@ class SubjectTopicsViewModel @Inject constructor(
                     it.listSubjects.collect {
                         val health = it.find { it.nameCategory == HEALTH }
                         if (health != null && health.selected == true) {
-                            loadHealthPosts(health.idCategory)
-                        } else {
-                            health?.let { it1 -> notLoadHealthCategory(it1.idCategory) }
+                            _loadHealth.value =
+                                loadSubjectPostsUseCase.loadSubjectPosts(health.idCategory)
+                        }
+
+                        val ketoCourses = it.find { it.nameCategory == KETOCOURSES }
+                        if (ketoCourses != null) {
+                            _loadKetoCourses.value =
+                                loadSubjectPostsUseCase.loadSubjectPosts(ketoCourses.idCategory)
+                        }
+
+                        val nutrition = it.find { it.nameCategory == NUTRITION }
+                        if (nutrition != null) {
+                            _loadNutrition.value =
+                                loadSubjectPostsUseCase.loadSubjectPosts(nutrition.idCategory)
+                        }
+
+                        val evolution = it.find { it.nameCategory == EVOLUTION }
+                        if (evolution != null) {
+                            _loadEvolution.value =
+                                loadSubjectPostsUseCase.loadSubjectPosts(evolution.idCategory)
+                        }
+
+                        val tagsKeto = it.find { it.nameCategory == TAGSKETO }
+                        if (tagsKeto != null) {
+                            _loadTagsKeto.value =
+                                loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(
+                                    tagsKeto.idCategory
+                                )
+                        }
+
+                        val tagsEducation = it.find { it.nameCategory == TAGSEDUCATION }
+                        if (tagsEducation != null) {
+                            _loadTagsEducation.value =
+                                loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(
+                                    tagsEducation.idCategory
+                                )
+                        }
+
+                        val tagsUseful = it.find { it.nameCategory == TAGSUSEFUL }
+                        if (tagsUseful != null) {
+                            _loadTagsUseful.value =
+                                loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(
+                                    tagsUseful.idCategory
+                                )
+                        }
+
+                        val tagsRecipes = it.find { it.nameCategory == TAGSRECIPES }
+                        if (tagsRecipes != null) {
+                            _loadTagsRecipes.value =
+                                loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(
+                                    tagsRecipes.idCategory
+                                )
                         }
                     }
-                    /*val health = it.listSubjects.find { it.nameCategory == HEALTH }
-                    val ketoCourses = it.listSubjects.find { it.nameCategory == KETOCOURSES }
-                    val nutrition = it.listSubjects.find { it.nameCategory == NUTRITION }
-                    val evolution = it.listSubjects.find { it.nameCategory == EVOLUTION }
-
-                    if (health != null && health.selected == true) {
-                        loadHealthPosts(health.idCategory)
-                    } else {
-                        health?.let { it1 -> notLoadHealthCategory(it1.idCategory) }
-                    }
-                    if (ketoCourses != null) {
-                        _loadKetoCourses.value =
-                            loadSubjectPostsUseCase.loadSubjectPosts(
-                                ketoCourses.idCategory,
-                                PAGE,
-                                PERPAGE,
-                                true
-                            )
-                    }
-                    if (nutrition != null) {
-                        _loadNutrition.value =
-                            loadSubjectPostsUseCase.loadSubjectPosts(
-                                nutrition.idCategory,
-                                PAGE,
-                                PERPAGE,
-                                true
-                            )
-                    }
-                    if (evolution != null) {
-                        _loadEvolution.value =
-                            loadSubjectPostsUseCase.loadSubjectPosts(
-                                evolution.idCategory,
-                                PAGE,
-                                PERPAGE,
-                                true
-                            )
-                    }*/
                 }
                 is StateListSubjects.EmptyListSubjects -> {
+                    fillingDbInit()
                 }
                 is StateListSubjects.Error -> {
                 }
@@ -187,20 +148,6 @@ class SubjectTopicsViewModel @Inject constructor(
         }
     }
 
-    /*private suspend fun loadSubjectTagsPosts() {
-        val ketoTags = getCategories.value?.find { it.nameCategory == TAGSKETO }
-        if (ketoTags != null) {
-            _loadSubjectTagsPost.value = loadSubjectPostsTagsUseCase
-                .loadSubjectTagsPosts(ketoTags.idCategory, PAGE, PERPAGE, true)
-        }
-    }*/
-
-    @SuppressLint("LogNotTimber")
-    suspend fun getPostsApi(): List<PostUiModel> {
-        // val result = getPostsListUseCase.getPostsList(1)
-        // Log.d("TopicsViewModel","${result.subscribe { it -> toString() }}")
-        return loadPostsUseCase.getMainPostList(1)
-    }
     private suspend fun fillingDbInit() {
         fillingDbInitUseCase.fillingDbInit()
     }
@@ -208,5 +155,14 @@ class SubjectTopicsViewModel @Inject constructor(
     companion object {
         const val PERPAGE = 10
         const val PAGE = 1
+
+        const val HEALTH = "Здоровье"
+        const val KETOCOURSES = "Кето курс"
+        const val NUTRITION = "Питание"
+        const val EVOLUTION = "Развитие"
+        const val TAGSKETO = "Кето"
+        const val TAGSEDUCATION = "Обучение"
+        const val TAGSUSEFUL = "Полезное"
+        const val TAGSRECIPES = "Рецепты"
     }
 }

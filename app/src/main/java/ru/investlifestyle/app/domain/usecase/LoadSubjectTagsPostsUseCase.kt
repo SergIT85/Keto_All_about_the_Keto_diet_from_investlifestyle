@@ -8,16 +8,18 @@ class LoadSubjectTagsPostsUseCase @Inject constructor(
     private val postRepository: PostRepositoryInterface
 ) {
     suspend fun loadSubjectTagsPosts(
-        tags: Int,
-        page: Int,
-        perPage: Int,
-        embed: Boolean
+        tags: Int
     ): List<PostUiModel> {
         return postRepository.loadSubjectTagsPosts(
             tags = tags,
-            page = page,
-            perPage = perPage,
-            embed = embed
+            page = PAGE,
+            perPage = PERPAGE,
+            embed = EMBED
         )
+    }
+    companion object {
+        const val PERPAGE = 10
+        const val PAGE = 1
+        const val EMBED = true
     }
 }

@@ -103,7 +103,7 @@ class PostsRepositoryImpl @Inject constructor(
             KETOCOURSES,
             CATEGORIES,
             IDKETOCOURSES,
-            true
+            false
         )
         val categoryNutrition = SaveCategories(
             NUTRITION,
@@ -133,7 +133,7 @@ class PostsRepositoryImpl @Inject constructor(
             TAGSUSEFUL,
             TAGS,
             IDTAGSUSEFUL,
-            false
+            true
         )
         val tagsRecipes = SaveCategories(
             TAGSRECIPES,

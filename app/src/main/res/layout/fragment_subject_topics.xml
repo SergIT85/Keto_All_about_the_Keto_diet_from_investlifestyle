@@ -15,7 +15,54 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/clTagsKeto">
+
+                <TextView
+                    android:id="@+id/tvTagsKeto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/material_margin_standard"
+                    android:layout_marginStart="@dimen/material_margin_normal"
+                    android:text="Наименование темы"
+                    android:textColor="#172368"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTagsKeto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTagsKeto"
+                    tools:listitem="@layout/item_subject_post" />
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerTagsKeto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/material_margin_normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shimmer_auto_start="true"
+                    >
+                    <include layout="@layout/shimmer_subject_posts"/>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/clHealthCategories">
 
                 <TextView
                     android:id="@+id/tvHealthCategories"
@@ -58,77 +105,277 @@
                 </com.facebook.shimmer.ShimmerFrameLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/tvNutritionCategories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#172368"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginStart="@dimen/material_margin_normal"
-                android:layout_marginTop="@dimen/material_margin_standard" />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvNutritionCategories"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/item_subject_post"
-                android:orientation="horizontal" />
+                android:id="@+id/clTagsRecipes">
 
-            <TextView
-                android:id="@+id/tvKetoCourses"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#172368"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginStart="@dimen/material_margin_normal"
-                android:layout_marginTop="@dimen/material_margin_standard"  />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvKetoCourses"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/item_subject_post"
-                android:orientation="horizontal" />
+                <TextView
+                    android:id="@+id/tvTagsRecipes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/material_margin_standard"
+                    android:layout_marginStart="@dimen/material_margin_normal"
+                    android:text="Наименование темы"
+                    android:textColor="#172368"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvTagsKeto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#172368"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginStart="@dimen/material_margin_normal"
-                android:layout_marginTop="@dimen/material_margin_standard"  />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTagsKeto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/item_subject_post"
-                android:orientation="horizontal" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTagsRecipes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTagsRecipes"
+                    tools:listitem="@layout/item_subject_post" />
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerTagsRecipes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/material_margin_normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shimmer_auto_start="true"
+                    >
+                    <include layout="@layout/shimmer_subject_posts"/>
 
-            <TextView
-                android:id="@+id/tvEvolution"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#172368"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginStart="@dimen/material_margin_normal"
-                android:layout_marginTop="@dimen/material_margin_standard"  />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvEvolution"
+                </com.facebook.shimmer.ShimmerFrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/item_subject_post"
-                android:orientation="horizontal" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvKetoCourses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/material_margin_standard"
+                    android:layout_marginStart="@dimen/material_margin_normal"
+                    android:text="Наименование темы"
+                    android:textColor="#172368"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvKetoCourses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvKetoCourses"
+                    tools:listitem="@layout/item_subject_post" />
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerKetoCourses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/material_margin_normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shimmer_auto_start="true"
+                    >
+                    <include layout="@layout/shimmer_subject_posts"/>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvNutritionCategories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/material_margin_standard"
+                    android:layout_marginStart="@dimen/material_margin_normal"
+                    android:text="Наименование темы"
+                    android:textColor="#172368"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvNutritionCategories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvNutritionCategories"
+                    tools:listitem="@layout/item_subject_post" />
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerNutritionCategories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/material_margin_normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shimmer_auto_start="true"
+                    >
+                    <include layout="@layout/shimmer_subject_posts"/>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvEvolution"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/material_margin_standard"
+                    android:layout_marginStart="@dimen/material_margin_normal"
+                    android:text="Наименование темы"
+                    android:textColor="#172368"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvEvolution"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvEvolution"
+                    tools:listitem="@layout/item_subject_post" />
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerEvolution"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/material_margin_normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shimmer_auto_start="true"
+                    >
+                    <include layout="@layout/shimmer_subject_posts"/>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvTagsUseful"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/material_margin_standard"
+                    android:layout_marginStart="@dimen/material_margin_normal"
+                    android:text="Наименование темы"
+                    android:textColor="#172368"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTagsUseful"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTagsUseful"
+                    tools:listitem="@layout/item_subject_post" />
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerTagsUseful"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/material_margin_normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shimmer_auto_start="true"
+                    >
+                    <include layout="@layout/shimmer_subject_posts"/>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvTagsEducation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/material_margin_standard"
+                    android:layout_marginStart="@dimen/material_margin_normal"
+                    android:text="Наименование темы"
+                    android:textColor="#172368"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTagsEducation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTagsEducation"
+                    tools:listitem="@layout/item_subject_post" />
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerTagsEducation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/material_margin_normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shimmer_auto_start="true"
+                    >
+                    <include layout="@layout/shimmer_subject_posts"/>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <TextView
                 android:id="@+id/correctSubjectFooter"
