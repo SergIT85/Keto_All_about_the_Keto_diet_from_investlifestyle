@@ -9,7 +9,6 @@ import androidx.paging.ExperimentalPagingApi
 import kotlinx.android.synthetic.main.activity_post.*
 import ru.investlifestyle.app.App
 import ru.investlifestyle.app.databinding.ActivityPostBinding
-import ru.investlifestyle.app.ui.home.HomeFragment
 
 @ExperimentalPagingApi
 class PostActivity : AppCompatActivity() {
@@ -29,7 +28,7 @@ class PostActivity : AppCompatActivity() {
         setContentView(binding.root)
         parseIntent()
         if (savedInstanceState == null) {
-            Log.d("intentPostActivity", "arguments =${postId}")
+            Log.d("intentPostActivity", "arguments =$postId")
             launchPostFragment(postId)
         }
     }
@@ -56,7 +55,7 @@ class PostActivity : AppCompatActivity() {
         fun intentPostActivity(context: Context, postId: Int): Intent {
             val intent = Intent(context, PostActivity::class.java)
             intent.putExtra(POST_ID, postId)
-            Log.d("intentPostActivity", "arguments =${postId}")
+            Log.d("intentPostActivity", "arguments =$postId")
             return intent
         }
     }

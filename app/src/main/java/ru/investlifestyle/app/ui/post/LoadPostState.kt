@@ -11,7 +11,7 @@ sealed class LoadPostState {
     ) : LoadPostState()
 
     data class Error(
-        val error:String
+        val error: String
     ) : LoadPostState()
 
     object Empty : LoadPostState()

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -14,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
+import javax.inject.Inject
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -24,7 +24,6 @@ import ru.investlifestyle.app.databinding.FragmentHomeBinding
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
 import ru.investlifestyle.app.ui.home.adapter.HomePostsAdapter
 import ru.investlifestyle.app.ui.post.PostActivity
-import javax.inject.Inject
 
 @ExperimentalPagingApi
 class HomeFragment : Fragment() {
@@ -41,7 +40,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private val binding get() = _binding!!
-
 
     override fun onAttach(context: Context) {
         component.inject(this)
@@ -82,7 +80,7 @@ class HomeFragment : Fragment() {
             }
                 .distinctUntilChanged()
                 .collect { LoadState ->
-                    when(LoadState) {
+                    when (LoadState) {
                         is LoadState.Loading -> {
                             shimmerState(true)
                         }
@@ -90,7 +88,6 @@ class HomeFragment : Fragment() {
                             shimmerState(false)
                         }
                         is LoadState.Error -> {
-
                         }
                     }
                 }
@@ -103,7 +100,6 @@ class HomeFragment : Fragment() {
                 adapter.submitData(lifecycle = lifecycle, pagingData = pagingData)
             }
         }
-
     }
 
     private fun setClickListener() {
@@ -128,10 +124,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun getQuotes() {
-        homeViewModel.quotes.observe(viewLifecycleOwner, Observer {
-            binding.tvThoughtMain.text = it
-        })
-
+        homeViewModel.quotes.observe(
+            viewLifecycleOwner,
+            Observer {
+                binding.tvThoughtMain.text = it
+            }
+        )
     }
 
     private fun shimmerState(isShimmer: Boolean) {

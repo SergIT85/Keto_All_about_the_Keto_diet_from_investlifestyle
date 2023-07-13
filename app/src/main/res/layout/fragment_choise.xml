@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.choice.ChoiceFragment" >
+
+    <TextView
+        android:id="@+id/tvTitleChoseTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/material_margin_large"
+        android:layout_marginTop="@dimen/material_margin_normal"
+        android:layout_marginEnd="@dimen/material_margin_large"
+        android:textSize="28sp"
+        tools:text="@string/choseCategoryTitle"
+        style="@style/TextViewHeaderOne"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_tags_keto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/material_margin_large"
+        android:layout_marginTop="@dimen/material_margin_normal"
+        android:layout_marginEnd="@dimen/material_margin_large"
+        style="@style/TextViewHeaderTwo"
+        android:textSize="17sp"
+        android:minHeight="48dp"
+        android:text="@string/tags_keto" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchHealth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/material_margin_large"
+        android:layout_marginTop="@dimen/material_margin_normal"
+        android:layout_marginEnd="@dimen/material_margin_large"
+        style="@style/TextViewHeaderTwo"
+        android:textSize="17sp"
+        android:minHeight="48dp"
+        android:text="@string/health" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_tags_recipes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/material_margin_large"
+        android:layout_marginTop="@dimen/material_margin_normal"
+        android:layout_marginEnd="@dimen/material_margin_large"
+        style="@style/TextViewHeaderTwo"
+        android:textSize="17sp"
+        android:minHeight="48dp"
+        android:text="@string/tags_recipes" />
+
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_keto_courses"
+        style="@style/TextViewHeaderTwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/material_margin_large"
+        android:layout_marginTop="@dimen/material_margin_normal"
+        android:layout_marginEnd="@dimen/material_margin_large"
+        android:minHeight="48dp"
+        android:text="@string/keto_courses"
+        android:textColor="#0277BD"
+        android:textSize="17sp" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_nutrition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/material_margin_large"
+        android:layout_marginTop="@dimen/material_margin_normal"
+        android:layout_marginEnd="@dimen/material_margin_large"
+        style="@style/TextViewHeaderTwo"
+        android:textSize="17sp"
+        android:minHeight="48dp"
+        android:text="@string/nutrition" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_evolution"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/material_margin_large"
+        android:layout_marginTop="@dimen/material_margin_normal"
+        android:layout_marginEnd="@dimen/material_margin_large"
+        style="@style/TextViewHeaderTwo"
+        android:textSize="17sp"
+        android:minHeight="48dp"
+        android:text="@string/evolution" />
+
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_tags_education"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/material_margin_large"
+        android:layout_marginTop="@dimen/material_margin_normal"
+        android:layout_marginEnd="@dimen/material_margin_large"
+        style="@style/TextViewHeaderTwo"
+        android:textSize="17sp"
+        android:minHeight="48dp"
+        android:text="@string/tags_education" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_tags_useful"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/material_margin_large"
+        android:layout_marginTop="@dimen/material_margin_normal"
+        android:layout_marginEnd="@dimen/material_margin_large"
+        style="@style/TextViewHeaderTwo"
+        android:textSize="17sp"
+        android:minHeight="48dp"
+        android:text="@string/tags_useful" />
+
+
+
+</LinearLayout>

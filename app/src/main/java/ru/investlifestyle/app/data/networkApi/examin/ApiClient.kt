@@ -11,9 +11,11 @@ object ApiClient {
     private const val BASE_URL = "https://investlifestyle.ru/"
 
     private var client: OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).apply {
-            this.level = HttpLoggingInterceptor.Level.BODY
-        })
+        .addInterceptor(
+            HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).apply {
+                this.level = HttpLoggingInterceptor.Level.BODY
+            }
+        )
         .build()
 
     val apiClient: PostsApiInterface by lazy {

@@ -27,5 +27,4 @@ interface PostDaoRoom {
         clear()
         save(listPosts)
     }
-
 }

@@ -3,23 +3,21 @@ package ru.investlifestyle.app.ui.home
 import android.annotation.SuppressLint
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.domain.usecase.GetPostPagingSourceUseCase
 import ru.investlifestyle.app.domain.usecase.GetQuotesUseCase
 import ru.investlifestyle.app.domain.usecase.LoadPostsUseCase
+import ru.investlifestyle.app.domain.usecase.fillingDbInitUseCase
 import ru.investlifestyle.app.ui.models.PostUiModel
-import ru.investlifestyle.app.ui.post.LoadPostState
-import javax.inject.Inject
 
 @SuppressLint("CheckResult")
 class HomeViewModel @Inject constructor(
     private val loadPostsUseCase: LoadPostsUseCase,
     private val getQuotesUseCase: GetQuotesUseCase,
-    private val getPostPagingSourceUseCase: GetPostPagingSourceUseCase
+    private val getPostPagingSourceUseCase: GetPostPagingSourceUseCase,
+    private val fillingDbInitUseCase: fillingDbInitUseCase
 ) : ViewModel() {
 
     private var _postsListViewModel = MutableStateFlow<StateListPosts>(StateListPosts.Load)
@@ -32,12 +30,13 @@ class HomeViewModel @Inject constructor(
     private val _posts = MutableLiveData(0)
     val posts = _posts.asFlow()
         .flatMapLatest {
-        getPostPagingSourceUseCase.getPostPagingSource().cachedIn(viewModelScope)
-    }
+            getPostPagingSourceUseCase.getPostPagingSource().cachedIn(viewModelScope)
+        }
 
     init {
-        //getPostList()
+        // getPostList()
         getQuotes()
+        fillingDbInit()
     }
 
     /*fun getPostListPagingSource() {
@@ -55,5 +54,9 @@ class HomeViewModel @Inject constructor(
     private fun getQuotes() {
         _quotes.value = getQuotesUseCase.getQuotes()
     }
-
+    private fun fillingDbInit() {
+        viewModelScope.launch {
+            fillingDbInitUseCase.fillingDbInit()
+        }
+    }
 }

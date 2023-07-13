@@ -4,18 +4,19 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import ru.investlifestyle.app.ui.dashboard.TopicsViewModel
+import ru.investlifestyle.app.ui.choice.ChoiceViewModel
 import ru.investlifestyle.app.ui.home.HomeViewModel
 import ru.investlifestyle.app.ui.notifications.NotificationsViewModel
 import ru.investlifestyle.app.ui.post.PostViewModel
+import ru.investlifestyle.app.ui.subject.SubjectTopicsViewModel
 
 @Module
 interface ViewModelModule {
 
     @IntoMap
-    @ViewModelKey(TopicsViewModel::class)
+    @ViewModelKey(SubjectTopicsViewModel::class)
     @Binds
-    fun bindTopicsViewModel(impl: TopicsViewModel): ViewModel
+    fun bindTopicsViewModel(impl: SubjectTopicsViewModel): ViewModel
 
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
@@ -31,4 +32,9 @@ interface ViewModelModule {
     @ViewModelKey(PostViewModel::class)
     @Binds
     fun bindPostViewModel(impl: PostViewModel): ViewModel
+
+    @IntoMap
+    @ViewModelKey(ChoiceViewModel::class)
+    @Binds
+    fun bindChoiceViewModel(impl: ChoiceViewModel): ViewModel
 }

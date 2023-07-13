@@ -1,11 +1,8 @@
 package ru.investlifestyle.app.domain
 
-import android.app.Application
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
-import io.reactivex.Single
 import kotlinx.coroutines.flow.Flow
-import ru.investlifestyle.app.data.networkApi.Categories
+import ru.investlifestyle.app.data.models.categories.SaveCategories
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.ui.models.PostUiModel
 
@@ -15,13 +12,27 @@ interface PostRepositoryInterface {
     suspend fun getPostsList(postsCount: Int): List<PostsModelDataItem>
     suspend fun getMainPostList(page: Int): List<PostUiModel>
     suspend fun loadOnePost(postId: Int): PostUiModel
-    fun loadSubjectPosts(
+    suspend fun loadSubjectPosts(
         categories: Int,
         page: Int,
         perPage: Int,
         embed: Boolean
-    ): Single<List<PostsModelDataItem>>
-
-    fun getCategories(): Single<List<Categories>>
+    ): List<PostUiModel>
+    suspend fun loadSubjectPostsFlow(
+        categories: Int,
+        page: Int,
+        perPage: Int,
+        embed: Boolean
+    ): List<PostUiModel>
+    suspend fun loadSubjectTagsPosts(
+        tags: Int,
+        page: Int,
+        perPage: Int,
+        embed: Boolean
+    ): List<PostUiModel>
+    fun getCategories(): Flow<List<SaveCategories>>
     fun getQuotes(): String
+    suspend fun updateSubject(selected: Boolean, idCategory: Int)
+    suspend fun getSingleSubjectById(idCategories: Int): SaveCategories
+    suspend fun fillingDbInit()
 }

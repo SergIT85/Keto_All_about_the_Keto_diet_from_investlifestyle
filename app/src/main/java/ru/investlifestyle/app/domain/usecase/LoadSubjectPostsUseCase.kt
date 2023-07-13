@@ -1,19 +1,25 @@
 package ru.investlifestyle.app.domain.usecase
 
-import io.reactivex.Single
-import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
+import javax.inject.Inject
 import ru.investlifestyle.app.domain.PostRepositoryInterface
+import ru.investlifestyle.app.ui.models.PostUiModel
 
-class LoadSubjectPostsUseCase(
-    private val postsRepository: PostRepositoryInterface
+class LoadSubjectPostsUseCase @Inject constructor(
+    private val postRepository: PostRepositoryInterface
 ) {
-    fun loadSubjectPosts(
-        categories: Int,
-        page: Int,
-        perPage: Int,
-        embed: Boolean
-    ): Single<List<PostsModelDataItem>> {
-        return postsRepository.loadSubjectPosts(categories, page, perPage, embed)
+    suspend fun loadSubjectPosts(
+        categories: Int
+    ): List<PostUiModel> {
+        return postRepository.loadSubjectPosts(
+            categories = categories,
+            page = PAGE,
+            perPage = PERPAGE,
+            embed = EMBED
+        )
     }
-
+    companion object {
+        const val PERPAGE = 10
+        const val PAGE = 1
+        const val EMBED = true
+    }
 }
