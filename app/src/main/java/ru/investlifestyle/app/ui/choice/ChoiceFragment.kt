@@ -50,8 +50,33 @@ class ChoiceFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactoryTest).get(ChoiceViewModel::class.java)
         observeSubject()
+        clickSwitch()
+    }
+
+    private fun clickSwitch() {
         binding.switchHealth.setOnCheckedChangeListener { compoundButton, isChecked ->
             onCheckedListener(isChecked, IDHEALTH)
+        }
+        binding.switchKetoCourses.setOnCheckedChangeListener { compoundButton, isChecked ->
+            onCheckedListener(isChecked, IDKETOCOURSES)
+        }
+        binding.switchTagsKeto.setOnCheckedChangeListener { compoundButton, isChecked ->
+            onCheckedListener(isChecked, IDTAGSKETO)
+        }
+        binding.switchNutrition.setOnCheckedChangeListener { compoundButton, isChecked ->
+            onCheckedListener(isChecked, IDNUTRITION)
+        }
+        binding.switchEvolution.setOnCheckedChangeListener { compoundButton, isChecked ->
+            onCheckedListener(isChecked, IDEVOLUTION)
+        }
+        binding.switchTagsEducation.setOnCheckedChangeListener { compoundButton, isChecked ->
+            onCheckedListener(isChecked, IDTAGSEDUCATION)
+        }
+        binding.switchTagsUseful.setOnCheckedChangeListener { compoundButton, isChecked ->
+            onCheckedListener(isChecked, IDTAGSUSEFUL)
+        }
+        binding.switchTagsRecipes.setOnCheckedChangeListener { compoundButton, isChecked ->
+            onCheckedListener(isChecked, IDTAGSRECIPES)
         }
     }
 
@@ -64,7 +89,38 @@ class ChoiceFragment : Fragment() {
                     }
                     is StateListSubjects.FilledListSubjects -> {
                         it.listSubjects.collect {
-                            binding.switchHealth.isChecked = it[0].selected
+                            binding.switchHealth.isChecked = it.find {
+                                it.nameCategory == HEALTH
+                            }?.selected
+                                ?: false
+                            binding.switchKetoCourses.isChecked = it.find {
+                                it.nameCategory == KETOCOURSES
+                            }?.selected
+                                ?: false
+                            binding.switchNutrition.isChecked = it.find {
+                                it.nameCategory == NUTRITION
+                            }?.selected
+                                ?: false
+                            binding.switchEvolution.isChecked = it.find {
+                                it.nameCategory == EVOLUTION
+                            }?.selected
+                                ?: false
+                            binding.switchTagsKeto.isChecked = it.find {
+                                it.nameCategory == TAGSKETO
+                            }?.selected
+                                ?: false
+                            binding.switchTagsEducation.isChecked = it.find {
+                                it.nameCategory == TAGSEDUCATION
+                            }?.selected
+                                ?: false
+                            binding.switchTagsUseful.isChecked = it.find {
+                                it.nameCategory == TAGSUSEFUL
+                            }?.selected
+                                ?: false
+                            binding.switchTagsRecipes.isChecked = it.find {
+                                it.nameCategory == TAGSRECIPES
+                            }?.selected
+                                ?: false
                         }
                     }
                     is StateListSubjects.Error -> {
@@ -90,5 +146,14 @@ class ChoiceFragment : Fragment() {
         const val IDTAGSEDUCATION = 22
         const val IDTAGSUSEFUL = 163
         const val IDTAGSRECIPES = 39
+
+        const val HEALTH = "Здоровье"
+        const val KETOCOURSES = "Кето курс"
+        const val NUTRITION = "Питание"
+        const val EVOLUTION = "Развитие"
+        const val TAGSKETO = "Кето"
+        const val TAGSEDUCATION = "Обучение"
+        const val TAGSUSEFUL = "Полезное"
+        const val TAGSRECIPES = "Рецепты"
     }
 }
