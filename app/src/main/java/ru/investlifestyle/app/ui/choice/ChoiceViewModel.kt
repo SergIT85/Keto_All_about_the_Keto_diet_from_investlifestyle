@@ -9,12 +9,14 @@ import kotlinx.coroutines.launch
 import ru.investlifestyle.app.domain.usecase.GetCategoriesUseCase
 import ru.investlifestyle.app.domain.usecase.GetSingleSubjectByIdUseCase
 import ru.investlifestyle.app.domain.usecase.UpdateSubjectUseCase
+import ru.investlifestyle.app.domain.usecase.fillingDbInitUseCase
 import ru.investlifestyle.app.ui.subject.StateListSubjects
 
 class ChoiceViewModel @Inject constructor(
     private val getCategoriesUseCase: GetCategoriesUseCase,
     private val getSingleSubjectByIdUseCase: GetSingleSubjectByIdUseCase,
-    private val updateSubjectUseCase: UpdateSubjectUseCase
+    private val updateSubjectUseCase: UpdateSubjectUseCase,
+    private val fillingDbInitUseCase: fillingDbInitUseCase
 ) : ViewModel() {
 
     private var _getCategories =
@@ -36,8 +38,15 @@ class ChoiceViewModel @Inject constructor(
             updateSubjectUseCase.updateSubject(selected, id)
         }
     }
+    private suspend fun fillingDbInit() {
+        fillingDbInitUseCase.fillingDbInit()
+    }
 
     init {
+        viewModelScope.launch {
+            fillingDbInit()
+        }
+
         getCategories()
     }
 }

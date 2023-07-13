@@ -92,7 +92,7 @@ class PostsRepositoryImpl @Inject constructor(
     }
 
     // Will be fixed for requests from API when the backing is ready
-    override fun getCategories(): Flow<List<SaveCategories>> {
+    override suspend fun fillingDbInit() {
         val categoryHealth = SaveCategories(
             HEALTH,
             CATEGORIES,
@@ -109,13 +109,13 @@ class PostsRepositoryImpl @Inject constructor(
             NUTRITION,
             CATEGORIES,
             IDNUTRITION,
-            true
+            false
         )
         val categoryEvolution = SaveCategories(
             EVOLUTION,
             CATEGORIES,
             IDEVOLUTION,
-            true
+            false
         )
         val tagsKeto = SaveCategories(
             TAGSKETO,
@@ -127,13 +127,13 @@ class PostsRepositoryImpl @Inject constructor(
             TAGSEDUCATION,
             TAGS,
             IDTAGSEDUCATION,
-            true
+            false
         )
         val tagsUseful = SaveCategories(
             TAGSUSEFUL,
             TAGS,
             IDTAGSUSEFUL,
-            true
+            false
         )
         val tagsRecipes = SaveCategories(
             TAGSRECIPES,
@@ -145,9 +145,12 @@ class PostsRepositoryImpl @Inject constructor(
             categoryHealth, categoryKetoCourses, categoryNutrition, categoryEvolution,
             tagsKeto, tagsEducation, tagsUseful, tagsRecipes
         )
-        subjectDaoRoom.getAllSubject().onEmpty {
-            emit(mapper.mapListSubjectCategoryToListSubjectEntity(list))
+        if (subjectDaoRoom.isEmpty()) {
+            subjectDaoRoom.save(mapper.mapListSubjectCategoryToListSubjectEntity(list))
         }
+    }
+
+    override fun getCategories(): Flow<List<SaveCategories>> {
         return subjectDaoRoom.getAllSubject().map {
             mapper.mapListChoiceSubjectEntityToListSubjectSaveCategories(it)
         }

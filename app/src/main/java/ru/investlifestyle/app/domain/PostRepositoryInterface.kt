@@ -34,4 +34,5 @@ interface PostRepositoryInterface {
     fun getQuotes(): String
     suspend fun updateSubject(selected: Boolean, idCategory: Int)
     suspend fun getSingleSubjectById(idCategories: Int): SaveCategories
+    suspend fun fillingDbInit()
 }

@@ -23,7 +23,8 @@ class SubjectTopicsViewModel @Inject constructor(
     private val loadSubjectPostsUseCase: LoadSubjectPostsUseCase,
     private val loadSubjectPostsTagsUseCase: LoadSubjectTagsPostsUseCase,
     private val getCategoriesUseCase: GetCategoriesUseCase,
-    private val loadSubjectPostsFlowUseCase: LoadSubjectPostsFlowUseCase
+    private val loadSubjectPostsFlowUseCase: LoadSubjectPostsFlowUseCase,
+    private val fillingDbInitUseCase: fillingDbInitUseCase
 ) : ViewModel() {
 
     private var _getCategories =
@@ -108,6 +109,7 @@ class SubjectTopicsViewModel @Inject constructor(
             loadPostsCategories()
             loadSubjectTagsPosts()*/
             loadPostsCategories()
+            fillingDbInit()
         }
         // loadSubjectPost()
     }
@@ -198,6 +200,9 @@ class SubjectTopicsViewModel @Inject constructor(
         // val result = getPostsListUseCase.getPostsList(1)
         // Log.d("TopicsViewModel","${result.subscribe { it -> toString() }}")
         return loadPostsUseCase.getMainPostList(1)
+    }
+    private suspend fun fillingDbInit() {
+        fillingDbInitUseCase.fillingDbInit()
     }
 
     companion object {

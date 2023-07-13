@@ -5,16 +5,19 @@ import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import javax.inject.Inject
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import ru.investlifestyle.app.domain.usecase.GetPostPagingSourceUseCase
 import ru.investlifestyle.app.domain.usecase.GetQuotesUseCase
 import ru.investlifestyle.app.domain.usecase.LoadPostsUseCase
+import ru.investlifestyle.app.domain.usecase.fillingDbInitUseCase
 import ru.investlifestyle.app.ui.models.PostUiModel
 
 @SuppressLint("CheckResult")
 class HomeViewModel @Inject constructor(
     private val loadPostsUseCase: LoadPostsUseCase,
     private val getQuotesUseCase: GetQuotesUseCase,
-    private val getPostPagingSourceUseCase: GetPostPagingSourceUseCase
+    private val getPostPagingSourceUseCase: GetPostPagingSourceUseCase,
+    private val fillingDbInitUseCase: fillingDbInitUseCase
 ) : ViewModel() {
 
     private var _postsListViewModel = MutableStateFlow<StateListPosts>(StateListPosts.Load)
@@ -33,6 +36,7 @@ class HomeViewModel @Inject constructor(
     init {
         // getPostList()
         getQuotes()
+        fillingDbInit()
     }
 
     /*fun getPostListPagingSource() {
@@ -49,5 +53,10 @@ class HomeViewModel @Inject constructor(
 
     private fun getQuotes() {
         _quotes.value = getQuotesUseCase.getQuotes()
+    }
+    private fun fillingDbInit() {
+        viewModelScope.launch {
+            fillingDbInitUseCase.fillingDbInit()
+        }
     }
 }

@@ -7,4 +7,13 @@
     <string name="hello_subtext">Хороший день, что бы начать - это сегодня.</string>
     <string name="placeholder_article">Статья с очень интересной темой для вас в которой что то написано</string>
     <string name="choseCategory"><u>Выбрать категории</u></string>
+    <string name="choseCategoryTitle">Выбрать категории</string>
+    <string name="health">Здоровье</string>
+    <string name="keto_courses">Кето курс</string>
+    <string name="nutrition">Питание</string>
+    <string name="evolution">Развитие</string>
+    <string name="tags_keto">Кето</string>
+    <string name="tags_education">Обучение</string>
+    <string name="tags_useful">Полезное</string>
+    <string name="tags_recipes">Рецепты</string>
 </resources>
