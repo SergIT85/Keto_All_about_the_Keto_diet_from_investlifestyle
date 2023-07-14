@@ -8,15 +8,15 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import ru.investlifestyle.app.domain.usecase.GetCategoriesUseCase
+import ru.investlifestyle.app.domain.usecase.FillingDbInitUseCase
+import ru.investlifestyle.app.domain.usecase.GetCategoriesForChoiceFragmentUseCase
 import ru.investlifestyle.app.domain.usecase.UpdateSubjectUseCase
-import ru.investlifestyle.app.domain.usecase.fillingDbInitUseCase
 import ru.investlifestyle.app.ui.subject.StateListSubjects
 
 class ChoiceViewModel @Inject constructor(
-    private val getCategoriesUseCase: GetCategoriesUseCase,
+    private val getCategoriesUseCase: GetCategoriesForChoiceFragmentUseCase,
     private val updateSubjectUseCase: UpdateSubjectUseCase,
-    private val fillingDbInitUseCase: fillingDbInitUseCase
+    private val fillingDbInitUseCase: FillingDbInitUseCase
 ) : ViewModel() {
 
     private var _getCategories =

@@ -11,6 +11,9 @@ interface ChoiceSubjectDaoRoom {
     @Query("SELECT * FROM choice_subject")
     fun getAllSubject(): Flow<List<ChoiceSubjectEntity>>
 
+    @Query("SELECT * FROM choice_subject")
+    fun getAllSubjectForChoiceModel(): Flow<List<ChoiceSubjectEntity>>
+
     @Query("SELECT * FROM choice_subject WHERE id=:subjectId LIMIT 1")
     suspend fun getSingleSubjectById(subjectId: Int): ChoiceSubjectEntity
 

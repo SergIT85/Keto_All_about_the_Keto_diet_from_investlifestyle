@@ -10,7 +10,6 @@ import androidx.paging.ExperimentalPagingApi
 import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.HEALTH
 import ru.investlifestyle.app.domain.usecase.*
 import ru.investlifestyle.app.ui.models.PostUiModel
 
@@ -20,7 +19,7 @@ class SubjectTopicsViewModel @Inject constructor(
     private val loadSubjectPostsUseCase: LoadSubjectPostsUseCase,
     private val loadSubjectPostsTagsUseCase: LoadSubjectTagsPostsUseCase,
     private val getCategoriesUseCase: GetCategoriesUseCase,
-    private val fillingDbInitUseCase: fillingDbInitUseCase
+    private val fillingDbInitUseCase: FillingDbInitUseCase
 ) : ViewModel() {
 
     private var _getCategories =
@@ -76,8 +75,47 @@ class SubjectTopicsViewModel @Inject constructor(
                 fillingDbInit()
                 getCategories()
             }
-            loadPostsCategories()
         }
+    }
+
+    suspend fun loadPostsHealth(id: Int) {
+        _loadHealth.value =
+            loadSubjectPostsUseCase.loadSubjectPosts(id)
+    }
+
+    suspend fun loadPostsKetoCourses(id: Int) {
+        _loadKetoCourses.value =
+            loadSubjectPostsUseCase.loadSubjectPosts(id)
+    }
+
+    suspend fun loadPostsNutrition(id: Int) {
+        _loadNutrition.value =
+            loadSubjectPostsUseCase.loadSubjectPosts(id)
+    }
+
+    suspend fun loadPostsEvolution(id: Int) {
+        _loadEvolution.value =
+            loadSubjectPostsUseCase.loadSubjectPosts(id)
+    }
+
+    suspend fun loadPostsTagsKeto(id: Int) {
+        _loadTagsKeto.value =
+            loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(id)
+    }
+
+    suspend fun loadPostsTagsEducation(id: Int) {
+        _loadTagsEducation.value =
+            loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(id)
+    }
+
+    suspend fun loadPostsTagsUseful(id: Int) {
+        _loadTagsUseful.value =
+            loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(id)
+    }
+
+    suspend fun loadPostsTagsRecipes(id: Int) {
+        _loadTagsRecipes.value =
+            loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(id)
     }
 
     @SuppressLint("LogNotTimber")
@@ -86,11 +124,16 @@ class SubjectTopicsViewModel @Inject constructor(
             when (it) {
                 is StateListSubjects.FilledListSubjects -> {
                     it.listSubjects.collect {
-                        val health = it.find { it.nameCategory == HEALTH }
+                        /*val health = it.find { it.nameCategory == HEALTH }
                         if (health != null && health.selected == true) {
                             _loadHealth.value =
                                 loadSubjectPostsUseCase.loadSubjectPosts(health.idCategory)
-                        }
+                            Log.d(
+                                "https://investlifestyle.",
+                                " ОТРАБОТКА loadPostsCategories() в " +
+                                    "it.listSubjects.collect в SubjectTopicsViewModel"
+                            )
+                        }*/
 
                         val ketoCourses = it.find { it.nameCategory == KETOCOURSES }
                         if (ketoCourses != null && ketoCourses.selected) {

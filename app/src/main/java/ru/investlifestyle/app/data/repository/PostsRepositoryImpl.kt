@@ -156,6 +156,12 @@ class PostsRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getCategoriesForChoiceFragment(): Flow<List<SaveCategories>> {
+        return subjectDaoRoom.getAllSubjectForChoiceModel().map {
+            mapper.mapListChoiceSubjectEntityToListSubjectSaveCategories(it)
+        }
+    }
+
     @SuppressLint("LogNotTimber")
     override fun getQuotes(): String {
         val randomString = Random(System.currentTimeMillis())

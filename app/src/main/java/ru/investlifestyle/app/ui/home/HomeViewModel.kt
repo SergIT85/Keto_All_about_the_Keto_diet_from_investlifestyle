@@ -6,10 +6,10 @@ import androidx.paging.cachedIn
 import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ru.investlifestyle.app.domain.usecase.FillingDbInitUseCase
 import ru.investlifestyle.app.domain.usecase.GetPostPagingSourceUseCase
 import ru.investlifestyle.app.domain.usecase.GetQuotesUseCase
 import ru.investlifestyle.app.domain.usecase.LoadPostsUseCase
-import ru.investlifestyle.app.domain.usecase.fillingDbInitUseCase
 import ru.investlifestyle.app.ui.models.PostUiModel
 
 @SuppressLint("CheckResult")
@@ -17,7 +17,7 @@ class HomeViewModel @Inject constructor(
     private val loadPostsUseCase: LoadPostsUseCase,
     private val getQuotesUseCase: GetQuotesUseCase,
     private val getPostPagingSourceUseCase: GetPostPagingSourceUseCase,
-    private val fillingDbInitUseCase: fillingDbInitUseCase
+    private val fillingDbInitUseCase: FillingDbInitUseCase
 ) : ViewModel() {
 
     private var _postsListViewModel = MutableStateFlow<StateListPosts>(StateListPosts.Load)
