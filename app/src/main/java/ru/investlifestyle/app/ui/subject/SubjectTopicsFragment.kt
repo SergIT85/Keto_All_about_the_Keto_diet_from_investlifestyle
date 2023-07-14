@@ -3,6 +3,7 @@ package ru.investlifestyle.app.ui.subject
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,6 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import ru.investlifestyle.app.App
 import ru.investlifestyle.app.R
 import ru.investlifestyle.app.databinding.FragmentSubjectTopicsBinding
@@ -123,7 +123,7 @@ class SubjectTopicsFragment : Fragment() {
     }
 
     private fun observeSubjectList() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 subjectTopicsViewModel.allCategories.collect {
                     when (it) {
@@ -146,6 +146,11 @@ class SubjectTopicsFragment : Fragment() {
                                 }?.selected == true
                                 ) {
                                     binding.shimmerHealthCategories.isVisible = true
+                                    subjectTopicsViewModel.loadPostsHealth(
+                                        it.find {
+                                            it.nameCategory == HEALTH
+                                        }!!.idCategory
+                                    )
                                     subjectTopicsViewModel
                                         .loadHealth
                                         .observe(viewLifecycleOwner) {
@@ -154,6 +159,12 @@ class SubjectTopicsFragment : Fragment() {
                                             adapterHealth.submitList(it)
                                             binding.tvHealthCategories.text = HEALTH
                                             binding.shimmerHealthCategories.isVisible = false
+                                            Log.d(
+                                                "https://investlifestyle.",
+                                                " ОТРАБОТКА observeSubjectList() в " +
+                                                    "StateListSubjects.FilledListSubjects в " +
+                                                    "SubjectTopicsFragment"
+                                            )
                                         }
                                 } else {
                                     binding.apply {
@@ -165,6 +176,11 @@ class SubjectTopicsFragment : Fragment() {
 
                                 if (it.find { it.nameCategory == KETOCOURSES }?.selected == true) {
                                     binding.shimmerKetoCourses.isVisible = true
+                                    subjectTopicsViewModel.loadPostsKetoCourses(
+                                        it.find {
+                                            it.nameCategory == KETOCOURSES
+                                        }!!.idCategory
+                                    )
                                     subjectTopicsViewModel
                                         .loadKetoCourses
                                         .observe(viewLifecycleOwner) {
@@ -184,6 +200,11 @@ class SubjectTopicsFragment : Fragment() {
 
                                 if (it.find { it.nameCategory == NUTRITION }?.selected == true) {
                                     binding.shimmerNutritionCategories.isVisible = true
+                                    subjectTopicsViewModel.loadPostsNutrition(
+                                        it.find {
+                                            it.nameCategory == NUTRITION
+                                        }!!.idCategory
+                                    )
                                     subjectTopicsViewModel
                                         .loadNutrition
                                         .observe((viewLifecycleOwner)) {
@@ -203,6 +224,11 @@ class SubjectTopicsFragment : Fragment() {
 
                                 if (it.find { it.nameCategory == EVOLUTION }?.selected == true) {
                                     binding.shimmerEvolution.isVisible = true
+                                    subjectTopicsViewModel.loadPostsEvolution(
+                                        it.find {
+                                            it.nameCategory == EVOLUTION
+                                        }!!.idCategory
+                                    )
                                     subjectTopicsViewModel
                                         .loadEvolution
                                         .observe(viewLifecycleOwner) {
@@ -222,6 +248,11 @@ class SubjectTopicsFragment : Fragment() {
 
                                 if (it.find { it.nameCategory == TAGSKETO }?.selected == true) {
                                     binding.shimmerTagsKeto.isVisible = true
+                                    subjectTopicsViewModel.loadPostsTagsKeto(
+                                        it.find {
+                                            it.nameCategory == TAGSKETO
+                                        }!!.idCategory
+                                    )
                                     subjectTopicsViewModel
                                         .loadTagsKeto
                                         .observe(viewLifecycleOwner) {
@@ -244,6 +275,11 @@ class SubjectTopicsFragment : Fragment() {
                                 }?.selected == true
                                 ) {
                                     binding.shimmerTagsEducation.isVisible = true
+                                    subjectTopicsViewModel.loadPostsTagsEducation(
+                                        it.find {
+                                            it.nameCategory == TAGSEDUCATION
+                                        }!!.idCategory
+                                    )
                                     subjectTopicsViewModel
                                         .loadTagsEducation
                                         .observe(viewLifecycleOwner) {
@@ -263,6 +299,11 @@ class SubjectTopicsFragment : Fragment() {
 
                                 if (it.find { it.nameCategory == TAGSUSEFUL }?.selected == true) {
                                     binding.shimmerTagsUseful.isVisible = true
+                                    subjectTopicsViewModel.loadPostsTagsUseful(
+                                        it.find {
+                                            it.nameCategory == TAGSUSEFUL
+                                        }!!.idCategory
+                                    )
                                     subjectTopicsViewModel
                                         .loadTagsUseful
                                         .observe(viewLifecycleOwner) {
@@ -282,6 +323,11 @@ class SubjectTopicsFragment : Fragment() {
 
                                 if (it.find { it.nameCategory == TAGSRECIPES }?.selected == true) {
                                     binding.shimmerTagsRecipes.isVisible = true
+                                    subjectTopicsViewModel.loadPostsTagsRecipes(
+                                        it.find {
+                                            it.nameCategory == TAGSRECIPES
+                                        }!!.idCategory
+                                    )
                                     subjectTopicsViewModel
                                         .loadTagsRecipes
                                         .observe(viewLifecycleOwner) {

@@ -31,6 +31,7 @@ interface PostRepositoryInterface {
         embed: Boolean
     ): List<PostUiModel>
     fun getCategories(): Flow<List<SaveCategories>>
+    fun getCategoriesForChoiceFragment(): Flow<List<SaveCategories>>
     fun getQuotes(): String
     suspend fun updateSubject(selected: Boolean, idCategory: Int)
     suspend fun getSingleSubjectById(idCategories: Int): SaveCategories

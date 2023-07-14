@@ -1,6 +1,7 @@
 package ru.investlifestyle.app.ui.subject
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +10,6 @@ import androidx.paging.ExperimentalPagingApi
 import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.investlifestyle.app.data.repository.PostsRepositoryImpl.Companion.HEALTH
 import ru.investlifestyle.app.domain.usecase.*
 import ru.investlifestyle.app.ui.models.PostUiModel
 
@@ -19,7 +19,7 @@ class SubjectTopicsViewModel @Inject constructor(
     private val loadSubjectPostsUseCase: LoadSubjectPostsUseCase,
     private val loadSubjectPostsTagsUseCase: LoadSubjectTagsPostsUseCase,
     private val getCategoriesUseCase: GetCategoriesUseCase,
-    private val fillingDbInitUseCase: fillingDbInitUseCase
+    private val fillingDbInitUseCase: FillingDbInitUseCase
 ) : ViewModel() {
 
     private var _getCategories =
@@ -71,43 +71,90 @@ class SubjectTopicsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getCategories()
-            loadPostsCategories()
-            fillingDbInit()
+            if (allCategories.value is StateListSubjects.EmptyListSubjects) {
+                fillingDbInit()
+                getCategories()
+            }
         }
     }
 
+    suspend fun loadPostsHealth(id: Int) {
+        _loadHealth.value =
+            loadSubjectPostsUseCase.loadSubjectPosts(id)
+    }
+
+    suspend fun loadPostsKetoCourses(id: Int) {
+        _loadKetoCourses.value =
+            loadSubjectPostsUseCase.loadSubjectPosts(id)
+    }
+
+    suspend fun loadPostsNutrition(id: Int) {
+        _loadNutrition.value =
+            loadSubjectPostsUseCase.loadSubjectPosts(id)
+    }
+
+    suspend fun loadPostsEvolution(id: Int) {
+        _loadEvolution.value =
+            loadSubjectPostsUseCase.loadSubjectPosts(id)
+    }
+
+    suspend fun loadPostsTagsKeto(id: Int) {
+        _loadTagsKeto.value =
+            loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(id)
+    }
+
+    suspend fun loadPostsTagsEducation(id: Int) {
+        _loadTagsEducation.value =
+            loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(id)
+    }
+
+    suspend fun loadPostsTagsUseful(id: Int) {
+        _loadTagsUseful.value =
+            loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(id)
+    }
+
+    suspend fun loadPostsTagsRecipes(id: Int) {
+        _loadTagsRecipes.value =
+            loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(id)
+    }
+
+    @SuppressLint("LogNotTimber")
     private suspend fun loadPostsCategories() {
         allCategories.collect {
             when (it) {
                 is StateListSubjects.FilledListSubjects -> {
                     it.listSubjects.collect {
-                        val health = it.find { it.nameCategory == HEALTH }
+                        /*val health = it.find { it.nameCategory == HEALTH }
                         if (health != null && health.selected == true) {
                             _loadHealth.value =
                                 loadSubjectPostsUseCase.loadSubjectPosts(health.idCategory)
-                        }
+                            Log.d(
+                                "https://investlifestyle.",
+                                " ОТРАБОТКА loadPostsCategories() в " +
+                                    "it.listSubjects.collect в SubjectTopicsViewModel"
+                            )
+                        }*/
 
                         val ketoCourses = it.find { it.nameCategory == KETOCOURSES }
-                        if (ketoCourses != null) {
+                        if (ketoCourses != null && ketoCourses.selected) {
                             _loadKetoCourses.value =
                                 loadSubjectPostsUseCase.loadSubjectPosts(ketoCourses.idCategory)
                         }
 
                         val nutrition = it.find { it.nameCategory == NUTRITION }
-                        if (nutrition != null) {
+                        if (nutrition != null && nutrition.selected) {
                             _loadNutrition.value =
                                 loadSubjectPostsUseCase.loadSubjectPosts(nutrition.idCategory)
                         }
 
                         val evolution = it.find { it.nameCategory == EVOLUTION }
-                        if (evolution != null) {
+                        if (evolution != null && evolution.selected) {
                             _loadEvolution.value =
                                 loadSubjectPostsUseCase.loadSubjectPosts(evolution.idCategory)
                         }
 
                         val tagsKeto = it.find { it.nameCategory == TAGSKETO }
-                        if (tagsKeto != null) {
+                        if (tagsKeto != null && tagsKeto.selected) {
                             _loadTagsKeto.value =
                                 loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(
                                     tagsKeto.idCategory
@@ -115,7 +162,7 @@ class SubjectTopicsViewModel @Inject constructor(
                         }
 
                         val tagsEducation = it.find { it.nameCategory == TAGSEDUCATION }
-                        if (tagsEducation != null) {
+                        if (tagsEducation != null && tagsEducation.selected) {
                             _loadTagsEducation.value =
                                 loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(
                                     tagsEducation.idCategory
@@ -123,7 +170,7 @@ class SubjectTopicsViewModel @Inject constructor(
                         }
 
                         val tagsUseful = it.find { it.nameCategory == TAGSUSEFUL }
-                        if (tagsUseful != null) {
+                        if (tagsUseful != null && tagsUseful.selected) {
                             _loadTagsUseful.value =
                                 loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(
                                     tagsUseful.idCategory
@@ -131,7 +178,7 @@ class SubjectTopicsViewModel @Inject constructor(
                         }
 
                         val tagsRecipes = it.find { it.nameCategory == TAGSRECIPES }
-                        if (tagsRecipes != null) {
+                        if (tagsRecipes != null && tagsRecipes.selected) {
                             _loadTagsRecipes.value =
                                 loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(
                                     tagsRecipes.idCategory
@@ -141,6 +188,11 @@ class SubjectTopicsViewModel @Inject constructor(
                 }
                 is StateListSubjects.EmptyListSubjects -> {
                     fillingDbInit()
+                    Log.d(
+                        "https://investlifestyle.",
+                        " ОТРАБОТКА _fillingDbInit() в " +
+                            "StateListSubjects.EmptyListSubjects в SubjectTopicsViewModel"
+                    )
                 }
                 is StateListSubjects.Error -> {
                 }
