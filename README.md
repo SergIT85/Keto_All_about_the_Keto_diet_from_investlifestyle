@@ -6,7 +6,7 @@
 <br>https://investlifestyle.ru/ 
 <br>https://www.youtube.com/channel/UCqOYTFZRk61gizZh04yyVAQ
 <br>
-В данном репозитории только Android прилоожение. Бэк разарбатывается отдельно другим участником проекта и организован на базе Wordpress RestApi
+В данном репозитории только Android приложение. Бэк разрабатывается отдельно, другим участником проекта (PHP) и организован на базе Wordpress RestApi
 <br>
 <br>
 
