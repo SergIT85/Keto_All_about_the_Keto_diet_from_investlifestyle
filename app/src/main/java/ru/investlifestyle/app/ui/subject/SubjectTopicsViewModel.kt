@@ -1,6 +1,7 @@
 package ru.investlifestyle.app.ui.subject
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -71,12 +72,15 @@ class SubjectTopicsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getCategories()
+            if (allCategories.value is StateListSubjects.EmptyListSubjects) {
+                fillingDbInit()
+                getCategories()
+            }
             loadPostsCategories()
-            fillingDbInit()
         }
     }
 
+    @SuppressLint("LogNotTimber")
     private suspend fun loadPostsCategories() {
         allCategories.collect {
             when (it) {
@@ -89,25 +93,25 @@ class SubjectTopicsViewModel @Inject constructor(
                         }
 
                         val ketoCourses = it.find { it.nameCategory == KETOCOURSES }
-                        if (ketoCourses != null) {
+                        if (ketoCourses != null && ketoCourses.selected) {
                             _loadKetoCourses.value =
                                 loadSubjectPostsUseCase.loadSubjectPosts(ketoCourses.idCategory)
                         }
 
                         val nutrition = it.find { it.nameCategory == NUTRITION }
-                        if (nutrition != null) {
+                        if (nutrition != null && nutrition.selected) {
                             _loadNutrition.value =
                                 loadSubjectPostsUseCase.loadSubjectPosts(nutrition.idCategory)
                         }
 
                         val evolution = it.find { it.nameCategory == EVOLUTION }
-                        if (evolution != null) {
+                        if (evolution != null && evolution.selected) {
                             _loadEvolution.value =
                                 loadSubjectPostsUseCase.loadSubjectPosts(evolution.idCategory)
                         }
 
                         val tagsKeto = it.find { it.nameCategory == TAGSKETO }
-                        if (tagsKeto != null) {
+                        if (tagsKeto != null && tagsKeto.selected) {
                             _loadTagsKeto.value =
                                 loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(
                                     tagsKeto.idCategory
@@ -115,7 +119,7 @@ class SubjectTopicsViewModel @Inject constructor(
                         }
 
                         val tagsEducation = it.find { it.nameCategory == TAGSEDUCATION }
-                        if (tagsEducation != null) {
+                        if (tagsEducation != null && tagsEducation.selected) {
                             _loadTagsEducation.value =
                                 loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(
                                     tagsEducation.idCategory
@@ -123,7 +127,7 @@ class SubjectTopicsViewModel @Inject constructor(
                         }
 
                         val tagsUseful = it.find { it.nameCategory == TAGSUSEFUL }
-                        if (tagsUseful != null) {
+                        if (tagsUseful != null && tagsUseful.selected) {
                             _loadTagsUseful.value =
                                 loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(
                                     tagsUseful.idCategory
@@ -131,7 +135,7 @@ class SubjectTopicsViewModel @Inject constructor(
                         }
 
                         val tagsRecipes = it.find { it.nameCategory == TAGSRECIPES }
-                        if (tagsRecipes != null) {
+                        if (tagsRecipes != null && tagsRecipes.selected) {
                             _loadTagsRecipes.value =
                                 loadSubjectPostsTagsUseCase.loadSubjectTagsPosts(
                                     tagsRecipes.idCategory
@@ -141,6 +145,11 @@ class SubjectTopicsViewModel @Inject constructor(
                 }
                 is StateListSubjects.EmptyListSubjects -> {
                     fillingDbInit()
+                    Log.d(
+                        "https://investlifestyle.",
+                        " ОТРАБОТКА _fillingDbInit() в " +
+                            "StateListSubjects.EmptyListSubjects в SubjectTopicsViewModel"
+                    )
                 }
                 is StateListSubjects.Error -> {
                 }
