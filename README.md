@@ -1,9 +1,12 @@
 # Keto_All_about_the_Keto_diet_from_investlifestyle<br>
 Создание приложения для ресурса блога investlifestyle.ru
-<br>Коммерческий, но открытый проект, для сайта и блога YouTube по питанию и здоровью.
+<br>Разработка для сайта и блога YouTube по питанию и здоровью:
+
 
 <br>https://investlifestyle.ru/ 
 <br>https://www.youtube.com/channel/UCqOYTFZRk61gizZh04yyVAQ
+<br>
+В данном репозитории только Android прилоожение. Бэк разарбатывается отдельно другим участником проекта и организован на базе Wordpress RestApi
 <br>
 <br>
 
