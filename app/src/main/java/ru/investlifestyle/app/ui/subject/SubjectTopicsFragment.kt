@@ -23,6 +23,7 @@ import ru.investlifestyle.app.App
 import ru.investlifestyle.app.R
 import ru.investlifestyle.app.databinding.FragmentSubjectTopicsBinding
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
+import ru.investlifestyle.app.ui.post.PostActivity
 import ru.investlifestyle.app.ui.subject.adapters.SubjectPostsAdapter
 
 @ExperimentalPagingApi
@@ -81,6 +82,42 @@ class SubjectTopicsFragment : Fragment() {
         bindingAdapter()
         observeSubjectList()
         setChoiceSubjectClickListener()
+        setClickListener()
+    }
+
+    private fun setClickListener() {
+        adapterHealth.onPostClickListener = {
+            val intent = PostActivity.intentPostActivity(requireContext(), it.id)
+            startActivity(intent)
+        }
+        adapterEvolution.onPostClickListener = {
+            val intent = PostActivity.intentPostActivity(requireContext(), it.id)
+            startActivity(intent)
+        }
+        adapterTagsKeto.onPostClickListener = {
+            val intent = PostActivity.intentPostActivity(requireContext(), it.id)
+            startActivity(intent)
+        }
+        adapterNutrition.onPostClickListener = {
+            val intent = PostActivity.intentPostActivity(requireContext(), it.id)
+            startActivity(intent)
+        }
+        adapterKetoCourses.onPostClickListener = {
+            val intent = PostActivity.intentPostActivity(requireContext(), it.id)
+            startActivity(intent)
+        }
+        adapterTagsEducation.onPostClickListener = {
+            val intent = PostActivity.intentPostActivity(requireContext(), it.id)
+            startActivity(intent)
+        }
+        adapterTagsRecipes.onPostClickListener = {
+            val intent = PostActivity.intentPostActivity(requireContext(), it.id)
+            startActivity(intent)
+        }
+        adapterTagsUseful.onPostClickListener = {
+            val intent = PostActivity.intentPostActivity(requireContext(), it.id)
+            startActivity(intent)
+        }
     }
 
     private fun setChoiceSubjectClickListener() {
@@ -145,27 +182,30 @@ class SubjectTopicsFragment : Fragment() {
                                     it.nameCategory == HEALTH
                                 }?.selected == true
                                 ) {
-                                    binding.shimmerHealthCategories.isVisible = true
+                                    if (adapterHealth.itemCount == 0) {
+                                        binding.shimmerHealthCategories.isVisible = true
+                                        subjectTopicsViewModel
+                                            .loadHealth
+                                            .observe(viewLifecycleOwner) {
+                                                binding.tvHealthCategories.isVisible = true
+                                                binding.rvHealthCategories.isVisible = true
+                                                adapterHealth.submitList(it)
+                                                binding.tvHealthCategories.text = HEALTH
+                                                binding.shimmerHealthCategories.isVisible = false
+                                                Log.d(
+                                                    "https://investlifestyle.",
+                                                    " ОТРАБОТКА observeSubjectList() в " +
+                                                        "StateListSubjects.FilledListSubjects в " +
+                                                        "SubjectTopicsFragment"
+                                                )
+                                            }
+                                    }
+
                                     subjectTopicsViewModel.loadPostsHealth(
                                         it.find {
                                             it.nameCategory == HEALTH
                                         }!!.idCategory
                                     )
-                                    subjectTopicsViewModel
-                                        .loadHealth
-                                        .observe(viewLifecycleOwner) {
-                                            binding.tvHealthCategories.isVisible = true
-                                            binding.rvHealthCategories.isVisible = true
-                                            adapterHealth.submitList(it)
-                                            binding.tvHealthCategories.text = HEALTH
-                                            binding.shimmerHealthCategories.isVisible = false
-                                            Log.d(
-                                                "https://investlifestyle.",
-                                                " ОТРАБОТКА observeSubjectList() в " +
-                                                    "StateListSubjects.FilledListSubjects в " +
-                                                    "SubjectTopicsFragment"
-                                            )
-                                        }
                                 } else {
                                     binding.apply {
                                         tvHealthCategories.visibility = ViewGroup.GONE
@@ -175,21 +215,23 @@ class SubjectTopicsFragment : Fragment() {
                                 }
 
                                 if (it.find { it.nameCategory == KETOCOURSES }?.selected == true) {
-                                    binding.shimmerKetoCourses.isVisible = true
+                                    if (adapterKetoCourses.itemCount == 0) {
+                                        binding.shimmerKetoCourses.isVisible = true
+                                        subjectTopicsViewModel
+                                            .loadKetoCourses
+                                            .observe(viewLifecycleOwner) {
+                                                binding.tvKetoCourses.isVisible = true
+                                                binding.rvKetoCourses.isVisible = true
+                                                adapterKetoCourses.submitList(it)
+                                                binding.tvKetoCourses.text = KETOCOURSES
+                                                binding.shimmerKetoCourses.isVisible = false
+                                            }
+                                    }
                                     subjectTopicsViewModel.loadPostsKetoCourses(
                                         it.find {
                                             it.nameCategory == KETOCOURSES
                                         }!!.idCategory
                                     )
-                                    subjectTopicsViewModel
-                                        .loadKetoCourses
-                                        .observe(viewLifecycleOwner) {
-                                            binding.tvKetoCourses.isVisible = true
-                                            binding.rvKetoCourses.isVisible = true
-                                            adapterKetoCourses.submitList(it)
-                                            binding.tvKetoCourses.text = KETOCOURSES
-                                            binding.shimmerKetoCourses.isVisible = false
-                                        }
                                 } else {
                                     binding.apply {
                                         tvKetoCourses.visibility = ViewGroup.GONE
@@ -199,21 +241,23 @@ class SubjectTopicsFragment : Fragment() {
                                 }
 
                                 if (it.find { it.nameCategory == NUTRITION }?.selected == true) {
-                                    binding.shimmerNutritionCategories.isVisible = true
+                                    if (adapterNutrition.itemCount == 0) {
+                                        binding.shimmerNutritionCategories.isVisible = true
+                                        subjectTopicsViewModel
+                                            .loadNutrition
+                                            .observe((viewLifecycleOwner)) {
+                                                binding.tvNutritionCategories.isVisible = true
+                                                binding.rvNutritionCategories.isVisible = true
+                                                adapterNutrition.submitList(it)
+                                                binding.tvNutritionCategories.text = NUTRITION
+                                                binding.shimmerNutritionCategories.isVisible = false
+                                            }
+                                    }
                                     subjectTopicsViewModel.loadPostsNutrition(
                                         it.find {
                                             it.nameCategory == NUTRITION
                                         }!!.idCategory
                                     )
-                                    subjectTopicsViewModel
-                                        .loadNutrition
-                                        .observe((viewLifecycleOwner)) {
-                                            binding.tvNutritionCategories.isVisible = true
-                                            binding.rvNutritionCategories.isVisible = true
-                                            adapterNutrition.submitList(it)
-                                            binding.tvNutritionCategories.text = NUTRITION
-                                            binding.shimmerNutritionCategories.isVisible = false
-                                        }
                                 } else {
                                     binding.apply {
                                         shimmerNutritionCategories.visibility = ViewGroup.GONE
@@ -223,21 +267,23 @@ class SubjectTopicsFragment : Fragment() {
                                 }
 
                                 if (it.find { it.nameCategory == EVOLUTION }?.selected == true) {
-                                    binding.shimmerEvolution.isVisible = true
+                                    if (adapterEvolution.itemCount == 0) {
+                                        binding.shimmerEvolution.isVisible = true
+                                        subjectTopicsViewModel
+                                            .loadEvolution
+                                            .observe(viewLifecycleOwner) {
+                                                binding.tvEvolution.isVisible = true
+                                                binding.rvEvolution.isVisible = true
+                                                adapterEvolution.submitList(it)
+                                                binding.tvEvolution.text = EVOLUTION
+                                                binding.shimmerEvolution.isVisible = false
+                                            }
+                                    }
                                     subjectTopicsViewModel.loadPostsEvolution(
                                         it.find {
                                             it.nameCategory == EVOLUTION
                                         }!!.idCategory
                                     )
-                                    subjectTopicsViewModel
-                                        .loadEvolution
-                                        .observe(viewLifecycleOwner) {
-                                            binding.tvEvolution.isVisible = true
-                                            binding.rvEvolution.isVisible = true
-                                            adapterEvolution.submitList(it)
-                                            binding.tvEvolution.text = EVOLUTION
-                                            binding.shimmerEvolution.isVisible = false
-                                        }
                                 } else {
                                     binding.apply {
                                         shimmerEvolution.visibility = ViewGroup.GONE
@@ -247,21 +293,23 @@ class SubjectTopicsFragment : Fragment() {
                                 }
 
                                 if (it.find { it.nameCategory == TAGSKETO }?.selected == true) {
-                                    binding.shimmerTagsKeto.isVisible = true
+                                    if (adapterTagsKeto.itemCount == 0) {
+                                        binding.shimmerTagsKeto.isVisible = true
+                                        subjectTopicsViewModel
+                                            .loadTagsKeto
+                                            .observe(viewLifecycleOwner) {
+                                                binding.tvTagsKeto.isVisible = true
+                                                binding.rvTagsKeto.isVisible = true
+                                                adapterTagsKeto.submitList(it)
+                                                binding.tvTagsKeto.text = TAGSKETO
+                                                binding.shimmerTagsKeto.isVisible = false
+                                            }
+                                    }
                                     subjectTopicsViewModel.loadPostsTagsKeto(
                                         it.find {
                                             it.nameCategory == TAGSKETO
                                         }!!.idCategory
                                     )
-                                    subjectTopicsViewModel
-                                        .loadTagsKeto
-                                        .observe(viewLifecycleOwner) {
-                                            binding.tvTagsKeto.isVisible = true
-                                            binding.rvTagsKeto.isVisible = true
-                                            adapterTagsKeto.submitList(it)
-                                            binding.tvTagsKeto.text = TAGSKETO
-                                            binding.shimmerTagsKeto.isVisible = false
-                                        }
                                 } else {
                                     binding.apply {
                                         shimmerTagsKeto.visibility = ViewGroup.GONE
@@ -274,21 +322,23 @@ class SubjectTopicsFragment : Fragment() {
                                     it.nameCategory == TAGSEDUCATION
                                 }?.selected == true
                                 ) {
-                                    binding.shimmerTagsEducation.isVisible = true
+                                    if (adapterTagsEducation.itemCount == 0) {
+                                        binding.shimmerTagsEducation.isVisible = true
+                                        subjectTopicsViewModel
+                                            .loadTagsEducation
+                                            .observe(viewLifecycleOwner) {
+                                                binding.tvTagsEducation.isVisible = true
+                                                binding.rvTagsEducation.isVisible = true
+                                                adapterTagsEducation.submitList(it)
+                                                binding.tvTagsEducation.text = TAGSEDUCATION
+                                                binding.shimmerTagsEducation.isVisible = false
+                                            }
+                                    }
                                     subjectTopicsViewModel.loadPostsTagsEducation(
                                         it.find {
                                             it.nameCategory == TAGSEDUCATION
                                         }!!.idCategory
                                     )
-                                    subjectTopicsViewModel
-                                        .loadTagsEducation
-                                        .observe(viewLifecycleOwner) {
-                                            binding.tvTagsEducation.isVisible = true
-                                            binding.rvTagsEducation.isVisible = true
-                                            adapterTagsEducation.submitList(it)
-                                            binding.tvTagsEducation.text = TAGSEDUCATION
-                                            binding.shimmerTagsEducation.isVisible = false
-                                        }
                                 } else {
                                     binding.apply {
                                         shimmerTagsEducation.visibility = ViewGroup.GONE
@@ -298,21 +348,23 @@ class SubjectTopicsFragment : Fragment() {
                                 }
 
                                 if (it.find { it.nameCategory == TAGSUSEFUL }?.selected == true) {
-                                    binding.shimmerTagsUseful.isVisible = true
+                                    if (adapterTagsUseful.itemCount == 0) {
+                                        binding.shimmerTagsUseful.isVisible = true
+                                        subjectTopicsViewModel
+                                            .loadTagsUseful
+                                            .observe(viewLifecycleOwner) {
+                                                binding.tvTagsUseful.isVisible = true
+                                                binding.rvTagsUseful.isVisible = true
+                                                adapterTagsUseful.submitList(it)
+                                                binding.tvTagsUseful.text = TAGSUSEFUL
+                                                binding.shimmerTagsUseful.isVisible = false
+                                            }
+                                    }
                                     subjectTopicsViewModel.loadPostsTagsUseful(
                                         it.find {
                                             it.nameCategory == TAGSUSEFUL
                                         }!!.idCategory
                                     )
-                                    subjectTopicsViewModel
-                                        .loadTagsUseful
-                                        .observe(viewLifecycleOwner) {
-                                            binding.tvTagsUseful.isVisible = true
-                                            binding.rvTagsUseful.isVisible = true
-                                            adapterTagsUseful.submitList(it)
-                                            binding.tvTagsUseful.text = TAGSUSEFUL
-                                            binding.shimmerTagsUseful.isVisible = false
-                                        }
                                 } else {
                                     binding.apply {
                                         shimmerTagsUseful.visibility = ViewGroup.GONE
@@ -322,21 +374,23 @@ class SubjectTopicsFragment : Fragment() {
                                 }
 
                                 if (it.find { it.nameCategory == TAGSRECIPES }?.selected == true) {
-                                    binding.shimmerTagsRecipes.isVisible = true
+                                    if (adapterTagsRecipes.itemCount == 0) {
+                                        binding.shimmerTagsRecipes.isVisible = true
+                                        subjectTopicsViewModel
+                                            .loadTagsRecipes
+                                            .observe(viewLifecycleOwner) {
+                                                binding.tvTagsRecipes.isVisible = true
+                                                binding.rvTagsRecipes.isVisible = true
+                                                adapterTagsRecipes.submitList(it)
+                                                binding.tvTagsRecipes.text = TAGSRECIPES
+                                                binding.shimmerTagsRecipes.isVisible = false
+                                            }
+                                    }
                                     subjectTopicsViewModel.loadPostsTagsRecipes(
                                         it.find {
                                             it.nameCategory == TAGSRECIPES
                                         }!!.idCategory
                                     )
-                                    subjectTopicsViewModel
-                                        .loadTagsRecipes
-                                        .observe(viewLifecycleOwner) {
-                                            binding.tvTagsRecipes.isVisible = true
-                                            binding.rvTagsRecipes.isVisible = true
-                                            adapterTagsRecipes.submitList(it)
-                                            binding.tvTagsRecipes.text = TAGSRECIPES
-                                            binding.shimmerTagsRecipes.isVisible = false
-                                        }
                                 } else {
                                     binding.apply {
                                         shimmerTagsRecipes.visibility = ViewGroup.GONE
