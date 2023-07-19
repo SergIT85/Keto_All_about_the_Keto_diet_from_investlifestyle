@@ -14,6 +14,7 @@ import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.data.networkApi.examin.Repo
 import ru.investlifestyle.app.data.paging.PostPagingRemoteMediator
 import ru.investlifestyle.app.data.room.ChoiceSubjectDaoRoom
+import ru.investlifestyle.app.data.room.LikePostsDaoRoom
 import ru.investlifestyle.app.data.room.PostDaoRoom
 import ru.investlifestyle.app.domain.PostRepositoryInterface
 import ru.investlifestyle.app.ui.models.PostUiModel
@@ -24,7 +25,8 @@ class PostsRepositoryImpl @Inject constructor(
     private val mapper: PostMapper,
     private val application: Application,
     private val postDaoRoom: PostDaoRoom,
-    private val subjectDaoRoom: ChoiceSubjectDaoRoom
+    private val subjectDaoRoom: ChoiceSubjectDaoRoom,
+    private val likePostsDaoRoom: LikePostsDaoRoom
 ) : PostRepositoryInterface {
 
     private val postPagingRemoteMediator = PostPagingRemoteMediator(postDaoRoom, apiClient, mapper)

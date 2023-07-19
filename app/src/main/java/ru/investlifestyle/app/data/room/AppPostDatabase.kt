@@ -8,7 +8,8 @@ import androidx.room.RoomDatabase
 @Database(
     entities = [
         PostDbModelEntity::class,
-        ChoiceSubjectEntity::class
+        ChoiceSubjectEntity::class,
+        LikePostsDbModelEntity::class
     ],
     version = 1, exportSchema = false
 )
@@ -16,6 +17,7 @@ abstract class AppPostDatabase : RoomDatabase() {
 
     abstract fun postDaoRoom(): PostDaoRoom
     abstract fun subjectChoiceRoom(): ChoiceSubjectDaoRoom
+    abstract fun likePostDaoRoom(): LikePostsDaoRoom
 
     companion object {
         private var INSTANCE: AppPostDatabase? = null
