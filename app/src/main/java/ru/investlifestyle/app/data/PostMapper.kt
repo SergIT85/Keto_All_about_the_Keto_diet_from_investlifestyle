@@ -4,10 +4,43 @@ import javax.inject.Inject
 import ru.investlifestyle.app.data.models.categories.SaveCategories
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.data.room.ChoiceSubjectEntity
+import ru.investlifestyle.app.data.room.LikePostsDbModelEntity
 import ru.investlifestyle.app.data.room.PostDbModelEntity
 import ru.investlifestyle.app.ui.models.PostUiModel
 
 class PostMapper @Inject constructor() {
+
+    fun mapLikePostDbModelToPostUiModel(dbLikePost: LikePostsDbModelEntity) = PostUiModel(
+        id = dbLikePost.idPosts,
+        link = dbLikePost.link,
+        title = dbLikePost.title,
+        content = dbLikePost.content,
+        posterMediaLinkUrl = dbLikePost.posterMediaLinkUrl,
+        protected = false,
+        author = dbLikePost.author,
+        categories = dbLikePost.categories
+            .removeSurrounding("[", "]")
+            .split(",")
+            .map { it.toInt() },
+        liked = dbLikePost.liked,
+        modifiedGmt = dbLikePost.modifiedGmt
+    )
+
+    fun mapPostUiModelToLikePostDbModel(postUiModel: PostUiModel) = LikePostsDbModelEntity(
+        idPosts = postUiModel.id,
+        link = postUiModel.link,
+        title = postUiModel.title,
+        content = postUiModel.content,
+        author = postUiModel.author,
+        categories = postUiModel.categories.toString(),
+        posterMediaLinkUrl = postUiModel.posterMediaLinkUrl,
+        liked = postUiModel.liked,
+        modifiedGmt = postUiModel.modifiedGmt
+    )
+
+    fun mapListLikePostBdModelToListPostUiModel(list: List<LikePostsDbModelEntity>) = list.map {
+        mapLikePostDbModelToPostUiModel(it)
+    }
 
     fun mapSubjectSaveCategoriesToChoiceSubjectEntity(subjectSaveCategories: SaveCategories) =
         ChoiceSubjectEntity(
@@ -16,6 +49,7 @@ class PostMapper @Inject constructor() {
             type = subjectSaveCategories.typeCategory,
             selected = subjectSaveCategories.selected
         )
+
     fun mapListSubjectCategoryToListSubjectEntity(list: List<SaveCategories>) = list.map {
         mapSubjectSaveCategoriesToChoiceSubjectEntity(it)
     }
@@ -65,7 +99,10 @@ class PostMapper @Inject constructor() {
         content = postModelData.content,
         protected = postModelData.protected,
         author = "postModelData.author.",
-        categories = listOf(1, 2, 3), // ----------------------ПЕРЕДЕЛАТЬ НА MAP в LIST!!!!!
+        categories = postModelData.categories
+            .removeSurrounding("[", "]")
+            .split(",")
+            .map { it.toInt() },
         modifiedGmt = postModelData.modifiedGmt
     )
 
@@ -93,6 +130,7 @@ class PostMapper @Inject constructor() {
         val list = regPattern.findAll(text.toString()).map { it.value }.toList()
         return list
     }
+
     companion object {
         const val REGEX_URL = """(?:https?|ftp)://\S+"""
         const val IMAGER_URL_REGEX = "wp-content"

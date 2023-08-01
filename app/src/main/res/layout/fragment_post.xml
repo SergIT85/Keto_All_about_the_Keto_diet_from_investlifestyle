@@ -71,14 +71,34 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView"
-                    style="@style/TextViewHeaderOne"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/material_margin_small"
-                    android:layout_marginBottom="@dimen/material_margin_normal"
-                    tools:text="САТАТЬЯ" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        style="@style/TextViewHeaderOne"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/material_margin_small"
+                        android:layout_weight="87"
+                        android:layout_marginBottom="@dimen/material_margin_normal"
+                        tools:text="САТАТЬЯ" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="12"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/material_margin_small"
+                        android:layout_marginStart="@dimen/material_margin_super_small"
+                        android:button="@drawable/custom_checkbox"/>
+
+                </LinearLayout>
+
+
 
                 <WebView
                     android:id="@+id/wv_post"

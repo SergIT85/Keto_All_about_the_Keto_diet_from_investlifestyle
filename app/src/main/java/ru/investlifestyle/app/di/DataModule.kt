@@ -9,6 +9,7 @@ import javax.inject.Singleton
 import ru.investlifestyle.app.data.repository.PostsRepositoryImpl
 import ru.investlifestyle.app.data.room.AppPostDatabase
 import ru.investlifestyle.app.data.room.ChoiceSubjectDaoRoom
+import ru.investlifestyle.app.data.room.LikePostsDaoRoom
 import ru.investlifestyle.app.data.room.PostDaoRoom
 import ru.investlifestyle.app.domain.PostRepositoryInterface
 
@@ -33,6 +34,12 @@ interface DataModule {
             application: Application
         ): ChoiceSubjectDaoRoom {
             return AppPostDatabase.getInstanceDb(application).subjectChoiceRoom()
+        }
+        @Provides
+        fun provideLikePostDao(
+            application: Application
+        ): LikePostsDaoRoom {
+            return AppPostDatabase.getInstanceDb(application).likePostDaoRoom()
         }
     }
 }
