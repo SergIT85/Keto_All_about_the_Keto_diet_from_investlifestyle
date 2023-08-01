@@ -40,4 +40,5 @@ interface PostRepositoryInterface {
     suspend fun getAllLikePosts(): List<PostUiModel>
     suspend fun insertLikePost(likePost: PostUiModel)
     suspend fun deleteLikePostById(id: Int)
+    suspend fun getLikePostByIdBoolean(id: Int): Boolean
 }

@@ -63,6 +63,7 @@ class PostFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(PostViewModel::class.java)
         requirePost(postId)
+        likedPosts()
     }
 
     private fun requirePost(postId: Int) {
@@ -96,6 +97,9 @@ class PostFragment : Fragment() {
                         )
                         binding.textView.text = it.post.title
                         Picasso.get().load(it.post.posterMediaLinkUrl).into(binding.appBarImage)
+                        viewModel.likedPosts.observe(viewLifecycleOwner) {
+                            binding.checkBox.isSelected = it
+                        }
                     }
                     else -> {
                         throw RuntimeException(
@@ -104,6 +108,18 @@ class PostFragment : Fragment() {
                         )
                     }
                 }
+            }
+        }
+    }
+
+    private fun likedPosts() {
+        binding.checkBox.setOnClickListener {
+            if (binding.checkBox.isSelected) {
+                viewModel.deleteLikePostById()
+                binding.checkBox.isSelected = false
+            } else {
+                viewModel.insertLikePost()
+                binding.checkBox.isSelected = true
             }
         }
     }

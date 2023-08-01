@@ -11,12 +11,15 @@ interface LikePostsDaoRoom {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLikePost(likePostsDbModelEntity: LikePostsDbModelEntity)
 
-    @Query("SELECT * FROM like_posts WHERE id = :postId LIMIT 1")
+    @Query("SELECT * FROM like_posts WHERE idPosts = :postId LIMIT 1")
     suspend fun getLikePostById(postId: Int): LikePostsDbModelEntity
+
+    @Query("SELECT EXISTS(SELECT * FROM like_posts WHERE idPosts = :postId)")
+    suspend fun getLikePostByIdBoolean(postId: Int): Boolean
 
     @Query("SELECT * FROM like_posts")
     suspend fun getAllLikePosts(): List<LikePostsDbModelEntity>
 
-    @Query("DELETE FROM post_items WHERE id=:postItemId")
+    @Query("DELETE FROM like_posts WHERE idPosts =:postItemId")
     suspend fun deleteLikePostById(postItemId: Int)
 }

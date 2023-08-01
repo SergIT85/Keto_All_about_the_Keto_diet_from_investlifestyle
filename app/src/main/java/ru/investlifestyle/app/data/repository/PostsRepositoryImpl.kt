@@ -197,6 +197,10 @@ class PostsRepositoryImpl @Inject constructor(
         likePostsDaoRoom.deleteLikePostById(id)
     }
 
+    override suspend fun getLikePostByIdBoolean(id: Int): Boolean {
+        return likePostsDaoRoom.getLikePostByIdBoolean(id)
+    }
+
     companion object {
         const val HEALTH = "Здоровье"
         const val KETOCOURSES = "Кето курс"
