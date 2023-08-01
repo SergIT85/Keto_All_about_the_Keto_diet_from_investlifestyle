@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface LikePostsDaoRoom {
@@ -16,5 +15,8 @@ interface LikePostsDaoRoom {
     suspend fun getLikePostById(postId: Int): LikePostsDbModelEntity
 
     @Query("SELECT * FROM like_posts")
-    fun getAllLikePosts(): Flow<LikePostsDbModelEntity>
+    suspend fun getAllLikePosts(): List<LikePostsDbModelEntity>
+
+    @Query("DELETE FROM post_items WHERE id=:postItemId")
+    suspend fun deleteLikePostById(postItemId: Int)
 }

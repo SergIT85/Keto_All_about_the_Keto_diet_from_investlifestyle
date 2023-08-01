@@ -19,6 +19,7 @@ class ApiRequestModule {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .addNetworkInterceptor(StethoInterceptor())
+            .retryOnConnectionFailure(true)
             .build()
     }
 

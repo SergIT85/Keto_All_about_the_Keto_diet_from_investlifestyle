@@ -181,6 +181,22 @@ class PostsRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun getLikePostById(postId: Int): PostUiModel {
+        return mapper.mapLikePostDbModelToPostUiModel(likePostsDaoRoom.getLikePostById(postId))
+    }
+
+    override suspend fun getAllLikePosts(): List<PostUiModel> {
+        return mapper.mapListLikePostBdModelToListPostUiModel(likePostsDaoRoom.getAllLikePosts())
+    }
+
+    override suspend fun insertLikePost(likePost: PostUiModel) {
+        likePostsDaoRoom.insertLikePost(mapper.mapPostUiModelToLikePostDbModel(likePost))
+    }
+
+    override suspend fun deleteLikePostById(id: Int) {
+        likePostsDaoRoom.deleteLikePostById(id)
+    }
+
     companion object {
         const val HEALTH = "Здоровье"
         const val KETOCOURSES = "Кето курс"
