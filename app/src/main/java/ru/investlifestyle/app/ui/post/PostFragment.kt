@@ -63,6 +63,11 @@ class PostFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(PostViewModel::class.java)
         requirePost(postId)
+        likedPosts()
+        viewModel.likedPosts.observe(viewLifecycleOwner) {
+            Log.d("PostViewModel", "PostFragment $it")
+            binding.checkBox.isChecked = it
+        }
     }
 
     private fun requirePost(postId: Int) {
@@ -104,6 +109,18 @@ class PostFragment : Fragment() {
                         )
                     }
                 }
+            }
+        }
+    }
+
+    private fun likedPosts() {
+        binding.checkBox.setOnClickListener {
+            if (binding.checkBox.isChecked) {
+                viewModel.insertLikePost()
+                binding.checkBox.isChecked = true
+            } else {
+                viewModel.deleteLikePostById()
+                binding.checkBox.isChecked = false
             }
         }
     }

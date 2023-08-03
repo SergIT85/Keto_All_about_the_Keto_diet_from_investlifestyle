@@ -3,7 +3,6 @@ package ru.investlifestyle.app.ui.subject
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +36,7 @@ class SubjectTopicsFragment : Fragment() {
         (requireActivity().application as App).daggerAppComponent
     }
 
+    lateinit var adapterLikePosts: SubjectPostsAdapter
     lateinit var adapterHealth: SubjectPostsAdapter
     lateinit var adapterKetoCourses: SubjectPostsAdapter
     lateinit var adapterNutrition: SubjectPostsAdapter
@@ -118,6 +118,10 @@ class SubjectTopicsFragment : Fragment() {
             val intent = PostActivity.intentPostActivity(requireContext(), it.id)
             startActivity(intent)
         }
+        adapterLikePosts.onPostClickListener = {
+            val intent = PostActivity.intentPostActivity(requireContext(), it.id)
+            startActivity(intent)
+        }
     }
 
     private fun setChoiceSubjectClickListener() {
@@ -133,6 +137,10 @@ class SubjectTopicsFragment : Fragment() {
     }
 
     private fun bindingAdapter() {
+
+        adapterLikePosts = SubjectPostsAdapter(requireContext())
+        binding.rvLikePosts.adapter = adapterLikePosts
+
         adapterHealth = SubjectPostsAdapter(requireContext())
         adapterHealth.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
         binding.rvHealthCategories.adapter = adapterHealth
@@ -179,6 +187,31 @@ class SubjectTopicsFragment : Fragment() {
                         is StateListSubjects.FilledListSubjects -> {
                             it.listSubjects.collect {
                                 if (it.find {
+                                    it.nameCategory == LIKEPOSTS
+                                }?.selected == true
+                                ) {
+                                    if (adapterLikePosts.itemCount == 0) {
+                                        binding.shimmerLikePosts.isVisible = true
+                                        subjectTopicsViewModel
+                                            .loadLikePosts
+                                            .observe(viewLifecycleOwner) {
+                                                binding.tvLikePosts.isVisible = true
+                                                binding.rvLikePosts.isVisible = true
+                                                adapterLikePosts.submitList(it)
+                                                binding.tvLikePosts.text = LIKEPOSTS
+                                                binding.shimmerLikePosts.isVisible = false
+                                            }
+                                    }
+                                    subjectTopicsViewModel.loadLikePost()
+                                } else {
+                                    binding.apply {
+                                        tvLikePosts.visibility = ViewGroup.GONE
+                                        rvLikePosts.visibility = ViewGroup.GONE
+                                        shimmerLikePosts.visibility = ViewGroup.GONE
+                                    }
+                                }
+
+                                if (it.find {
                                     it.nameCategory == HEALTH
                                 }?.selected == true
                                 ) {
@@ -192,12 +225,6 @@ class SubjectTopicsFragment : Fragment() {
                                                 adapterHealth.submitList(it)
                                                 binding.tvHealthCategories.text = HEALTH
                                                 binding.shimmerHealthCategories.isVisible = false
-                                                Log.d(
-                                                    "https://investlifestyle.",
-                                                    " ОТРАБОТКА observeSubjectList() в " +
-                                                        "StateListSubjects.FilledListSubjects в " +
-                                                        "SubjectTopicsFragment"
-                                                )
                                             }
                                     }
 
@@ -414,6 +441,7 @@ class SubjectTopicsFragment : Fragment() {
     }
 
     companion object {
+        const val LIKEPOSTS = "Сохранённые"
         const val HEALTH = "Здоровье"
         const val KETOCOURSES = "Кето курс"
         const val NUTRITION = "Питание"

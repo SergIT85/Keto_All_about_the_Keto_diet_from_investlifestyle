@@ -143,9 +143,15 @@ class PostsRepositoryImpl @Inject constructor(
             IDTAGSRECIPES,
             true
         )
+        val likePosts = SaveCategories(
+            LIKEPOSTS,
+            TAGS,
+            IDLIKEPOSTS,
+            true
+        )
         val list = listOf(
             categoryHealth, categoryKetoCourses, categoryNutrition, categoryEvolution,
-            tagsKeto, tagsEducation, tagsUseful, tagsRecipes
+            tagsKeto, tagsEducation, tagsUseful, tagsRecipes, likePosts
         )
         if (subjectDaoRoom.isEmpty()) {
             subjectDaoRoom.save(mapper.mapListSubjectCategoryToListSubjectEntity(list))
@@ -197,7 +203,12 @@ class PostsRepositoryImpl @Inject constructor(
         likePostsDaoRoom.deleteLikePostById(id)
     }
 
+    override suspend fun getLikePostByIdBoolean(id: Int): Boolean {
+        return likePostsDaoRoom.getLikePostByIdBoolean(id)
+    }
+
     companion object {
+        const val LIKEPOSTS = "Сохранённые"
         const val HEALTH = "Здоровье"
         const val KETOCOURSES = "Кето курс"
         const val NUTRITION = "Питание"
@@ -207,6 +218,7 @@ class PostsRepositoryImpl @Inject constructor(
         const val TAGSUSEFUL = "Полезное"
         const val TAGSRECIPES = "Рецепты"
 
+        const val IDLIKEPOSTS = 0
         const val IDHEALTH = 11
         const val IDKETOCOURSES = 188
         const val IDNUTRITION = 12

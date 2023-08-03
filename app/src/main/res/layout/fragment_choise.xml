@@ -116,6 +116,16 @@
         android:minHeight="48dp"
         android:text="@string/tags_useful" />
 
-
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_tags_like_posts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/material_margin_large"
+        android:layout_marginTop="@dimen/material_margin_normal"
+        android:layout_marginEnd="@dimen/material_margin_large"
+        style="@style/TextViewHeaderTwo"
+        android:textSize="17sp"
+        android:minHeight="48dp"
+        android:text="@string/tags_like_posts" />
 
 </LinearLayout>
