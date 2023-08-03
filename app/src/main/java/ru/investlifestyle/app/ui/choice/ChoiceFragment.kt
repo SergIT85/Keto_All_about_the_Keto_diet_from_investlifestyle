@@ -78,6 +78,9 @@ class ChoiceFragment : Fragment() {
         binding.switchTagsRecipes.setOnCheckedChangeListener { c, isChecked ->
             onCheckedListener(isChecked, IDTAGSRECIPES)
         }
+        binding.switchTagsLikePosts.setOnCheckedChangeListener { c, isChecked ->
+            onCheckedListener(isChecked, IDLIKEPOSTS)
+        }
     }
 
     private fun observeSubject() {
@@ -121,6 +124,10 @@ class ChoiceFragment : Fragment() {
                                 it.nameCategory == TAGSRECIPES
                             }?.selected
                                 ?: false
+                            binding.switchTagsLikePosts.isChecked = it.find {
+                                it.nameCategory == LIKEPOSTS
+                            }?.selected
+                                ?: false
                         }
                     }
                     is StateListSubjects.Error -> {
@@ -138,6 +145,7 @@ class ChoiceFragment : Fragment() {
     companion object {
         fun newInstance() = ChoiceFragment()
 
+        const val LIKEPOSTS = "Сохранённые"
         const val IDHEALTH = 11
         const val IDKETOCOURSES = 188
         const val IDNUTRITION = 12
@@ -147,6 +155,7 @@ class ChoiceFragment : Fragment() {
         const val IDTAGSUSEFUL = 163
         const val IDTAGSRECIPES = 39
 
+        const val IDLIKEPOSTS = 0
         const val HEALTH = "Здоровье"
         const val KETOCOURSES = "Кето курс"
         const val NUTRITION = "Питание"

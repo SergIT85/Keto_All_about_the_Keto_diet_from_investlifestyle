@@ -16,4 +16,5 @@
     <string name="tags_education">Обучение</string>
     <string name="tags_useful">Полезное</string>
     <string name="tags_recipes">Рецепты</string>
+    <string name="tags_like_posts">Сохранённое</string>
 </resources>

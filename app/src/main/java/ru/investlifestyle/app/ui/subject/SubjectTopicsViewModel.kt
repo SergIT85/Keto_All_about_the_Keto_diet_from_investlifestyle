@@ -19,7 +19,9 @@ class SubjectTopicsViewModel @Inject constructor(
     private val loadSubjectPostsUseCase: LoadSubjectPostsUseCase,
     private val loadSubjectPostsTagsUseCase: LoadSubjectTagsPostsUseCase,
     private val getCategoriesUseCase: GetCategoriesUseCase,
-    private val fillingDbInitUseCase: FillingDbInitUseCase
+    private val fillingDbInitUseCase: FillingDbInitUseCase,
+    private val getAllLikePosts: GetAllLikePostsUseCase
+
 ) : ViewModel() {
 
     private var _getCategories =
@@ -36,6 +38,10 @@ class SubjectTopicsViewModel @Inject constructor(
             }
         }
     }
+
+    private var _loadLikePosts = MutableLiveData<List<PostUiModel>>()
+    val loadLikePosts: MutableLiveData<List<PostUiModel>>
+        get() = _loadLikePosts
 
     private var _loadHealth = MutableLiveData<List<PostUiModel>>()
     val loadHealth: LiveData<List<PostUiModel>>
@@ -76,6 +82,10 @@ class SubjectTopicsViewModel @Inject constructor(
                 getCategories()
             }
         }
+    }
+
+    suspend fun loadLikePost() {
+        _loadLikePosts.value = getAllLikePosts.getAllLikePosts()
     }
 
     suspend fun loadPostsHealth(id: Int) {
