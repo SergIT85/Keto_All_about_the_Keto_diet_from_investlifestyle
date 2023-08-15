@@ -11,7 +11,8 @@ import ru.investlifestyle.app.ui.models.PostUiModel
 
 class PostPagingSource @Inject constructor(
     private val apiClient: PostsApiInterface,
-    private val mapper: PostMapper
+    private val mapper: PostMapper,
+    private val categoryId: Int,
 ) : PagingSource<Int, PostUiModel>() {
     override fun getRefreshKey(state: PagingState<Int, PostUiModel>): Int? {
         return state.anchorPosition
@@ -21,7 +22,12 @@ class PostPagingSource @Inject constructor(
         return try {
 
             val position = params.key ?: 1
-            val post = apiClient.getPostsList(page = position)
+            val post = apiClient.loadSubjectPosts(
+                categories = categoryId,
+                page = position,
+                perPage = params.loadSize,
+                embed = true
+            )
 
             return LoadResult.Page(
                 data = mapper.mapListPostDataToListPostUi(post),
@@ -36,6 +42,6 @@ class PostPagingSource @Inject constructor(
     }
 
     companion object {
-        private const val WORDPRESS_STARTING_PAGE_INDEX = 0
+        private const val WORDPRESS_STARTING_PAGE_INDEX = 1
     }
 }

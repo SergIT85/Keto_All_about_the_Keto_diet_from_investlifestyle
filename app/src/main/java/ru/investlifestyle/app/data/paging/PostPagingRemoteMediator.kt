@@ -47,7 +47,7 @@ class PostPagingRemoteMediator(
 
     private fun getPageIndex(loadType: LoadType): Int? {
         pageIndex = when (loadType) {
-            LoadType.REFRESH -> 1
+            LoadType.REFRESH -> STARTING_PAGE_INDEX
             LoadType.PREPEND -> return null
             LoadType.APPEND -> ++pageIndex
         }
@@ -60,5 +60,9 @@ class PostPagingRemoteMediator(
 
     interface Factory {
         fun create(): PostPagingRemoteMediator
+    }
+
+    companion object {
+        private const val STARTING_PAGE_INDEX = 1
     }
 }

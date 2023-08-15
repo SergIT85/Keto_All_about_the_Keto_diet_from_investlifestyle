@@ -13,6 +13,7 @@ import ru.investlifestyle.app.data.networkApi.PostsApiInterface
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.data.networkApi.examin.Repo
 import ru.investlifestyle.app.data.paging.PostPagingRemoteMediator
+import ru.investlifestyle.app.data.paging.PostPagingSource
 import ru.investlifestyle.app.data.room.ChoiceSubjectDaoRoom
 import ru.investlifestyle.app.data.room.LikePostsDaoRoom
 import ru.investlifestyle.app.data.room.PostDaoRoom
@@ -32,7 +33,7 @@ class PostsRepositoryImpl @Inject constructor(
     private val postPagingRemoteMediator = PostPagingRemoteMediator(postDaoRoom, apiClient, mapper)
 
     private val service = Repo()
-    override fun getPostPagingSource(): Flow<PagingData<PostUiModel>> {
+    override fun getPostPagingRemoteMediator(): Flow<PagingData<PostUiModel>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
@@ -48,6 +49,21 @@ class PostsRepositoryImpl @Inject constructor(
                 pagingDate.map { mapper.mapPostDbModelToPostUiModel(it) }
             }
     }
+
+    override fun getPostPagingSource(categoryId: Int) = Pager(
+        config = PagingConfig(
+            pageSize = 10,
+            maxSize = 30,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = {
+            PostPagingSource(
+                categoryId = categoryId,
+                apiClient = apiClient,
+                mapper = mapper
+            )
+        }
+    ).flow
 
     override suspend fun getPostsList(postsCount: Int): List<PostsModelDataItem> {
         return service.getPost(1)
