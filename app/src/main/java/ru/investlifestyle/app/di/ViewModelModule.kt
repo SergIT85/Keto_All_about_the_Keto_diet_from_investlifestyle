@@ -9,9 +9,15 @@ import ru.investlifestyle.app.ui.home.HomeViewModel
 import ru.investlifestyle.app.ui.notifications.NotificationsViewModel
 import ru.investlifestyle.app.ui.post.PostViewModel
 import ru.investlifestyle.app.ui.subject.SubjectTopicsViewModel
+import ru.investlifestyle.app.ui.theme.ThemeViewModel
 
 @Module
 interface ViewModelModule {
+
+    @IntoMap
+    @ViewModelKey(ThemeViewModel::class)
+    @Binds
+    fun bindThemeViewModel(impl: ThemeViewModel): ViewModel
 
     @IntoMap
     @ViewModelKey(SubjectTopicsViewModel::class)

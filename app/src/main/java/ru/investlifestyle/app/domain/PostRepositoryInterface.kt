@@ -8,7 +8,8 @@ import ru.investlifestyle.app.ui.models.PostUiModel
 
 interface PostRepositoryInterface {
 
-    fun getPostPagingSource(): Flow<PagingData<PostUiModel>>
+    fun getPostPagingRemoteMediator(): Flow<PagingData<PostUiModel>>
+    fun getPostPagingSource(categoryId: Int): Flow<PagingData<PostUiModel>>
     suspend fun getPostsList(postsCount: Int): List<PostsModelDataItem>
     suspend fun getMainPostList(page: Int): List<PostUiModel>
     suspend fun loadOnePost(postId: Int): PostUiModel

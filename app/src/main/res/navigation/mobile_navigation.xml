@@ -15,7 +15,17 @@
         android:id="@+id/navigation_dashboard"
         android:name="ru.investlifestyle.app.ui.subject.SubjectTopicsFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_subject_topics" />
+        tools:layout="@layout/fragment_subject_topics" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_themeFragment"
+            app:destination="@id/themeFragment" />
+        <action
+            android:id="@+id/action_navigation_dashboard_to_choiceFragment"
+            app:destination="@id/choiceFragment" />
+        <action
+            android:id="@+id/action_navigation_dashboard_to_postActivity2"
+            app:destination="@id/postActivity2" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
@@ -32,4 +42,13 @@
         android:name="ru.investlifestyle.app.ui.choice.ChoiceFragment"
         android:label="fragment_choise"
         tools:layout="@layout/fragment_choise" />
+    <fragment
+        android:id="@+id/themeFragment"
+        android:name="ru.investlifestyle.app.ui.theme.ThemeFragment"
+        android:label="fragment_theme"
+        tools:layout="@layout/fragment_theme" >
+        <argument
+            android:name="categoryId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

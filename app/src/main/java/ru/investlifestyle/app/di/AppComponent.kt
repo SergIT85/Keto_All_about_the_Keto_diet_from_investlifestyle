@@ -13,6 +13,7 @@ import ru.investlifestyle.app.ui.post.PostActivity
 import ru.investlifestyle.app.ui.post.PostFragment
 import ru.investlifestyle.app.ui.subject.SubjectTopicsFragment
 import ru.investlifestyle.app.ui.subject.SubjectTopicsViewModel
+import ru.investlifestyle.app.ui.theme.ThemeFragment
 
 @ExperimentalPagingApi
 @Singleton
@@ -26,6 +27,7 @@ interface AppComponent {
     fun inject(activity: PostActivity)
 
     // Fragments
+    fun inject(fragment: ThemeFragment)
     fun inject(fragment: SubjectTopicsFragment)
     fun inject(fragment: HomeFragment)
     fun inject(fragment: NotificationsFragment)

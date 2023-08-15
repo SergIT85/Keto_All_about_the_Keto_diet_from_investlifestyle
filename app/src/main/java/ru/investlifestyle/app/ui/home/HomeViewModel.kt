@@ -7,7 +7,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.domain.usecase.FillingDbInitUseCase
-import ru.investlifestyle.app.domain.usecase.GetPostPagingSourceUseCase
+import ru.investlifestyle.app.domain.usecase.GetPostPagingRemoteMediatorUseCase
 import ru.investlifestyle.app.domain.usecase.GetQuotesUseCase
 import ru.investlifestyle.app.domain.usecase.LoadPostsUseCase
 import ru.investlifestyle.app.ui.models.PostUiModel
@@ -16,7 +16,7 @@ import ru.investlifestyle.app.ui.models.PostUiModel
 class HomeViewModel @Inject constructor(
     private val loadPostsUseCase: LoadPostsUseCase,
     private val getQuotesUseCase: GetQuotesUseCase,
-    private val getPostPagingSourceUseCase: GetPostPagingSourceUseCase,
+    private val getPostPagingRemoteMediatorUseCase: GetPostPagingRemoteMediatorUseCase,
     private val fillingDbInitUseCase: FillingDbInitUseCase
 ) : ViewModel() {
 
@@ -30,7 +30,9 @@ class HomeViewModel @Inject constructor(
     private val _posts = MutableLiveData(0)
     val posts = _posts.asFlow()
         .flatMapLatest {
-            getPostPagingSourceUseCase.getPostPagingSource().cachedIn(viewModelScope)
+            getPostPagingRemoteMediatorUseCase
+                .getPostPagingRemoteMediator()
+                .cachedIn(viewModelScope)
         }
 
     init {

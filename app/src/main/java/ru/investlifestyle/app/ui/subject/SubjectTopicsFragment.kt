@@ -83,6 +83,11 @@ class SubjectTopicsFragment : Fragment() {
         observeSubjectList()
         setChoiceSubjectClickListener()
         setClickListener()
+
+        // для проверки открытия фрагмента
+        binding.tvKetoCourses.setOnClickListener {
+            launchFragmentThemeCategory()
+        }
     }
 
     private fun setClickListener() {
@@ -134,6 +139,17 @@ class SubjectTopicsFragment : Fragment() {
         val navHostFragment = requireActivity().supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_activity_main)
         navHostFragment?.findNavController()?.navigate(R.id.choiceFragment)
+    }
+
+    private fun launchFragmentThemeCategory() {
+        findNavController().navigate(
+            SubjectTopicsFragmentDirections.actionNavigationDashboardToThemeFragment(IDKETOCOURSES)
+        )
+
+        /*val navHostFragment = requireActivity().supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment_activity_main)
+
+        navHostFragment?.findNavController()?.navigate(R.id.themeFragment)*/
     }
 
     private fun bindingAdapter() {
@@ -450,5 +466,15 @@ class SubjectTopicsFragment : Fragment() {
         const val TAGSEDUCATION = "Обучение"
         const val TAGSUSEFUL = "Полезное"
         const val TAGSRECIPES = "Рецепты"
+
+        private const val IDLIKEPOSTS = 0
+        private const val IDHEALTH = 11
+        private const val IDKETOCOURSES = 188
+        private const val IDNUTRITION = 12
+        private const val IDEVOLUTION = 20
+        private const val IDTAGSKETO = 27
+        private const val IDTAGSEDUCATION = 22
+        private const val IDTAGSUSEFUL = 163
+        private const val IDTAGSRECIPES = 39
     }
 }

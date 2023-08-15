@@ -6,10 +6,11 @@ import kotlinx.coroutines.flow.Flow
 import ru.investlifestyle.app.domain.PostRepositoryInterface
 import ru.investlifestyle.app.ui.models.PostUiModel
 
-class GetPostPagingSourceUseCase @Inject constructor(
-    private val postRepositoryInterface: PostRepositoryInterface
+class GetPostPagingRemoteMediatorUseCase @Inject constructor(
+    private val postRepository: PostRepositoryInterface
 ) {
-    fun getPostPagingSource(categoryId: Int): Flow<PagingData<PostUiModel>> {
-        return postRepositoryInterface.getPostPagingSource(categoryId)
+
+    fun getPostPagingRemoteMediator(): Flow<PagingData<PostUiModel>> {
+        return postRepository.getPostPagingRemoteMediator()
     }
 }
