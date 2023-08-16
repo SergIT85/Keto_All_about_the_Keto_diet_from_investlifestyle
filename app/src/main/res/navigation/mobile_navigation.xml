@@ -40,15 +40,21 @@
     <fragment
         android:id="@+id/choiceFragment"
         android:name="ru.investlifestyle.app.ui.choice.ChoiceFragment"
-        android:label="fragment_choise"
+        android:label="@string/title_chose"
         tools:layout="@layout/fragment_choise" />
     <fragment
         android:id="@+id/themeFragment"
         android:name="ru.investlifestyle.app.ui.theme.ThemeFragment"
-        android:label="fragment_theme"
-        tools:layout="@layout/fragment_theme" >
+        android:label="@string/title_none"
+        tools:layout="@layout/fragment_theme">
         <argument
             android:name="categoryId"
             app:argType="integer" />
+        <argument
+            android:name="categoryTitle"
+            app:argType="string" />
+        <argument
+            android:name="categoryType"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -83,11 +83,7 @@ class SubjectTopicsFragment : Fragment() {
         observeSubjectList()
         setChoiceSubjectClickListener()
         setClickListener()
-
-        // для проверки открытия фрагмента
-        binding.tvKetoCourses.setOnClickListener {
-            launchFragmentThemeCategory()
-        }
+        setClickListenerTitle()
     }
 
     private fun setClickListener() {
@@ -141,15 +137,49 @@ class SubjectTopicsFragment : Fragment() {
         navHostFragment?.findNavController()?.navigate(R.id.choiceFragment)
     }
 
-    private fun launchFragmentThemeCategory() {
+    private fun launchFragmentThemeCategory(
+        idCategory: Int,
+        titleCategory: String,
+        typeCategory: String
+    ) {
         findNavController().navigate(
-            SubjectTopicsFragmentDirections.actionNavigationDashboardToThemeFragment(IDKETOCOURSES)
+            SubjectTopicsFragmentDirections.actionNavigationDashboardToThemeFragment(
+                idCategory,
+                titleCategory,
+                typeCategory
+            )
         )
+    }
 
-        /*val navHostFragment = requireActivity().supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment_activity_main)
-
-        navHostFragment?.findNavController()?.navigate(R.id.themeFragment)*/
+    private fun setClickListenerTitle() {
+        binding.tvKetoCourses.setOnClickListener {
+            launchFragmentThemeCategory(
+                IDKETOCOURSES,
+                KETOCOURSES,
+                CATEGORIES
+            )
+        }
+        binding.tvEvolution.setOnClickListener {
+            launchFragmentThemeCategory(
+                IDEVOLUTION,
+                EVOLUTION,
+                CATEGORIES
+            )
+        }
+        binding.tvHealthCategories.setOnClickListener {
+            launchFragmentThemeCategory(
+                IDHEALTH,
+                HEALTH,
+                CATEGORIES
+            )
+        }
+        binding.tvNutritionCategories.setOnClickListener {
+            launchFragmentThemeCategory(
+                IDNUTRITION,
+                NUTRITION,
+                CATEGORIES
+            )
+        }
     }
 
     private fun bindingAdapter() {
@@ -189,17 +219,8 @@ class SubjectTopicsFragment : Fragment() {
                 subjectTopicsViewModel.allCategories.collect {
                     when (it) {
                         is StateListSubjects.EmptyListSubjects -> {
-                            /*binding.tvHealthCategories.visibility = ViewGroup.GONE
-                            binding.rvHealthCategories.visibility = ViewGroup.GONE
-                            binding.rvKetoCourses.visibility = ViewGroup.GONE
-                            binding.tvKetoCourses.visibility = ViewGroup.GONE
-                            binding.rvNutritionCategories.visibility = ViewGroup.GONE
-                            binding.tvNutritionCategories.visibility = ViewGroup.GONE
-                            binding.rvEvolution.visibility = ViewGroup.GONE
-                            binding.tvEvolution.visibility = ViewGroup.GONE
-                            binding.rvTagsKeto.visibility = ViewGroup.GONE
-                            binding.tvTagsKeto.visibility = ViewGroup.GONE*/
                         }
+
                         is StateListSubjects.FilledListSubjects -> {
                             it.listSubjects.collect {
                                 if (it.find {
@@ -443,6 +464,7 @@ class SubjectTopicsFragment : Fragment() {
                                 }
                             }
                         }
+
                         is StateListSubjects.Error -> {
                             Toast.makeText(
                                 requireContext(),
@@ -476,5 +498,8 @@ class SubjectTopicsFragment : Fragment() {
         private const val IDTAGSEDUCATION = 22
         private const val IDTAGSUSEFUL = 163
         private const val IDTAGSRECIPES = 39
+
+        const val CATEGORIES = "categories"
+        const val TAGS = "tags"
     }
 }
