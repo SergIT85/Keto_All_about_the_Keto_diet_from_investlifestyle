@@ -3,7 +3,7 @@ package ru.investlifestyle.app.ui.theme.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_home_article.view.ivItemPost
@@ -13,7 +13,9 @@ import ru.investlifestyle.app.ui.models.PostUiModel
 
 class ThemePostsAdapter(
     private val context: Context
-) : ListAdapter<PostUiModel, ThemePostsAdapter.ThemePostsViewHolder>(ThemeDiffCallback) {
+) : PagingDataAdapter<PostUiModel, ThemePostsAdapter.ThemePostsViewHolder>(ThemeDiffCallback) {
+
+    var onPostClickListener: ((PostUiModel) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ThemePostsViewHolder {
         val binding = ItemHomeArticleBinding
@@ -24,10 +26,15 @@ class ThemePostsAdapter(
     override fun onBindViewHolder(holder: ThemePostsViewHolder, position: Int) {
         val item = getItem(position)
 
-        with(holder.itemView) {
-            with(item) {
-                tvItemHomePost.text = title
-                Picasso.get().load(posterMediaLinkUrl).into(ivItemPost)
+        if (item != null) {
+            with(holder.itemView) {
+                with(item) {
+                    tvItemHomePost.text = title
+                    Picasso.get().load(posterMediaLinkUrl).into(ivItemPost)
+                    rootView.setOnClickListener {
+                        onPostClickListener?.invoke(item)
+                    }
+                }
             }
         }
     }

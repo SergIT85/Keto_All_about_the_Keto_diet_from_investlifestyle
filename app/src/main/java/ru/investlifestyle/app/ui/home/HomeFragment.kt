@@ -79,8 +79,8 @@ class HomeFragment : Fragment() {
                 it.refresh
             }
                 .distinctUntilChanged()
-                .collect { LoadState ->
-                    when (LoadState) {
+                .collect { loadState ->
+                    when (loadState) {
                         is LoadState.Loading -> {
                             shimmerState(true)
                         }
