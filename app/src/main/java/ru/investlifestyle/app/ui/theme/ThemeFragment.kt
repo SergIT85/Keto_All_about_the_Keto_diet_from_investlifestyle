@@ -5,20 +5,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.navigation.fragment.navArgs
 import androidx.paging.ExperimentalPagingApi
 import javax.inject.Inject
 import ru.investlifestyle.app.App
 import ru.investlifestyle.app.databinding.FragmentThemeBinding
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
+import ru.investlifestyle.app.ui.theme.adapters.ThemePostsAdapter
 
 @ExperimentalPagingApi
 class ThemeFragment : Fragment() {
 
-    // private val args by navArgs<ThemeFragmentArgs>()
+    private val args by navArgs<ThemeFragmentArgs>()
+    private lateinit var adapterSubject: ThemePostsAdapter
 
     private var _binding: FragmentThemeBinding? = null
     private val binding get() = _binding!!
@@ -49,11 +54,29 @@ class ThemeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ThemeViewModel::class.java)
+        bindingAdapter()
+        observeAdapter()
+        binding.themeDetailShimmerLayout.isVisible = false
+        binding.themeCoordinator.isVisible = true
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun bindingAdapter() {
+        adapterSubject = ThemePostsAdapter(requireContext())
+        binding.rvSubject.adapter = adapterSubject
+    }
+
+    private fun observeAdapter() {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.getPostLivedataByCategoryId(args.categoryId)
+            viewModel.postLiveData.observe(viewLifecycleOwner) {
+                adapterSubject.submitList(it)
+            }
+        }
     }
 
     companion object {
