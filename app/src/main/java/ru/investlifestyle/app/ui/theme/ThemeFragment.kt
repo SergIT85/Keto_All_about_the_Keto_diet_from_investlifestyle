@@ -1,5 +1,6 @@
 package ru.investlifestyle.app.ui.theme
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -62,10 +63,7 @@ class ThemeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ThemeViewModel::class.java)
         bindingAdapter()
-        if (args.categoryType == CATEGORIESID) {
-            loadingCategory(args.categoryId)
-        } else {
-        }
+        loadingCategory(categoryId = args.categoryId, categoryType = args.categoryType)
         loadStateScreen()
         setAdapterClickListener()
     }
@@ -81,9 +79,10 @@ class ThemeFragment : Fragment() {
         binding.rvSubject.adapter = adapterSubject
     }
 
-    private fun loadingCategory(categoryId: Int) {
+    @SuppressLint("LogNotTimber")
+    private fun loadingCategory(categoryId: Int, categoryType: String) {
         lifecycleScope.launch {
-            viewModel.postsPagingDataCategory(categoryId).collect { pagingData ->
+            viewModel.postsPagingDataCategory(categoryId, categoryType).collect { pagingData ->
                 adapterSubject.submitData(lifecycle = lifecycle, pagingData = pagingData)
                 binding.tvThemeHeader.text = args.categoryTitle
             }

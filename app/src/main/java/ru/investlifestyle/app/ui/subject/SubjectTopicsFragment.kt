@@ -151,6 +151,7 @@ class SubjectTopicsFragment : Fragment() {
         )
     }
 
+    @SuppressLint("LogNotTimber")
     private fun setClickListenerTitle() {
         binding.tvKetoCourses.setOnClickListener {
             launchFragmentThemeCategory(
@@ -178,6 +179,34 @@ class SubjectTopicsFragment : Fragment() {
                 IDNUTRITION,
                 NUTRITION,
                 CATEGORIES
+            )
+        }
+        binding.tvTagsEducation.setOnClickListener {
+            launchFragmentThemeCategory(
+                idCategory = IDTAGSEDUCATION,
+                titleCategory = TAGSEDUCATION,
+                typeCategory = TAGS
+            )
+        }
+        binding.tvTagsKeto.setOnClickListener {
+            launchFragmentThemeCategory(
+                idCategory = IDTAGSKETO,
+                titleCategory = TAGSKETO,
+                typeCategory = TAGS
+            )
+        }
+        binding.tvTagsRecipes.setOnClickListener {
+            launchFragmentThemeCategory(
+                IDTAGSRECIPES,
+                TAGSRECIPES,
+                TAGS
+            )
+        }
+        binding.tvTagsUseful.setOnClickListener {
+            launchFragmentThemeCategory(
+                IDTAGSUSEFUL,
+                TAGSUSEFUL,
+                TAGS
             )
         }
     }

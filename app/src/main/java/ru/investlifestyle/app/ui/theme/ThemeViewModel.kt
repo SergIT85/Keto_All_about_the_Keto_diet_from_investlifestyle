@@ -14,10 +14,10 @@ class ThemeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var _postsPagingData = MutableLiveData(0)
-    fun postsPagingDataCategory(categoryId: Int) = _postsPagingData.asFlow()
+    fun postsPagingDataCategory(categoryId: Int, categoryType: String) = _postsPagingData.asFlow()
         .flatMapLatest {
             getPostPagingSourceUseCase
-                .getPostPagingSource(categoryId)
+                .getPostPagingSource(categoryId, categoryType)
                 .cachedIn(viewModelScope)
         }
 }
