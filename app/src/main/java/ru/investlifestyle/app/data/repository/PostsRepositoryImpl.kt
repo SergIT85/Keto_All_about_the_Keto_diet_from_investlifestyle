@@ -14,6 +14,7 @@ import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.data.networkApi.examin.Repo
 import ru.investlifestyle.app.data.paging.PostPagingRemoteMediator
 import ru.investlifestyle.app.data.paging.PostPagingSource
+import ru.investlifestyle.app.data.paging.PostTagsPagingSource
 import ru.investlifestyle.app.data.room.ChoiceSubjectDaoRoom
 import ru.investlifestyle.app.data.room.LikePostsDaoRoom
 import ru.investlifestyle.app.data.room.PostDaoRoom
@@ -65,6 +66,21 @@ class PostsRepositoryImpl @Inject constructor(
         }
     ).flow
 
+    override fun getPostTagsPagingSource(tagsId: Int) = Pager(
+        config = PagingConfig(
+            pageSize = 10,
+            maxSize = 30,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = {
+            PostTagsPagingSource(
+                tagsId = tagsId,
+                apiClient = apiClient,
+                mapper = mapper
+            )
+        }
+    ).flow
+
     override suspend fun getPostsList(postsCount: Int): List<PostsModelDataItem> {
         return service.getPost(1)
     }
@@ -73,7 +89,6 @@ class PostsRepositoryImpl @Inject constructor(
         return mapper.mapListPostDataToListPostUi(apiClient.getPostsList(page))
     }
 
-    // исправить на загрузку из БД!!!! когда будет создана
     override suspend fun loadOnePost(postId: Int): PostUiModel =
         mapper.mapPostModelDataToPostUiModel(apiClient.loadOnePostById(postId))
 

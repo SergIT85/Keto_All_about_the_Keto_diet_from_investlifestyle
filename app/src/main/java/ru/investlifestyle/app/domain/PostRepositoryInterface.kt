@@ -10,6 +10,7 @@ interface PostRepositoryInterface {
 
     fun getPostPagingRemoteMediator(): Flow<PagingData<PostUiModel>>
     fun getPostPagingSource(categoryId: Int): Flow<PagingData<PostUiModel>>
+    fun getPostTagsPagingSource(tagsId: Int): Flow<PagingData<PostUiModel>>
     suspend fun getPostsList(postsCount: Int): List<PostsModelDataItem>
     suspend fun getMainPostList(page: Int): List<PostUiModel>
     suspend fun loadOnePost(postId: Int): PostUiModel
