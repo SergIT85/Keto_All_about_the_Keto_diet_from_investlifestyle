@@ -15,15 +15,34 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.ExperimentalPagingApi
+import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
-import kotlinx.coroutines.flow.collect
 import ru.investlifestyle.app.App
 import ru.investlifestyle.app.R
 import ru.investlifestyle.app.databinding.FragmentSubjectTopicsBinding
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
 import ru.investlifestyle.app.ui.post.PostActivity
+import ru.investlifestyle.app.ui.subject.adapters.FooterAdapter
 import ru.investlifestyle.app.ui.subject.adapters.SubjectPostsAdapter
+import ru.investlifestyle.app.utils.EVOLUTION
+import ru.investlifestyle.app.utils.HEALTH
+import ru.investlifestyle.app.utils.IDEVOLUTION
+import ru.investlifestyle.app.utils.IDHEALTH
+import ru.investlifestyle.app.utils.IDKETOCOURSES
+import ru.investlifestyle.app.utils.IDNUTRITION
+import ru.investlifestyle.app.utils.IDTAGSEDUCATION
+import ru.investlifestyle.app.utils.IDTAGSKETO
+import ru.investlifestyle.app.utils.IDTAGSRECIPES
+import ru.investlifestyle.app.utils.IDTAGSUSEFUL
+import ru.investlifestyle.app.utils.KETOCOURSES
+import ru.investlifestyle.app.utils.LIKEPOSTS
+import ru.investlifestyle.app.utils.NUTRITION
+import ru.investlifestyle.app.utils.TAGSEDUCATION
+import ru.investlifestyle.app.utils.TAGSKETO
+import ru.investlifestyle.app.utils.TAGSRECIPES
+import ru.investlifestyle.app.utils.TAGSUSEFUL
 
 @ExperimentalPagingApi
 class SubjectTopicsFragment : Fragment() {
@@ -36,6 +55,14 @@ class SubjectTopicsFragment : Fragment() {
         (requireActivity().application as App).daggerAppComponent
     }
 
+    lateinit var footerAdapterHealth: FooterAdapter
+    lateinit var footerAdapterEvolution: FooterAdapter
+    lateinit var footerAdapterKetoCourses: FooterAdapter
+    lateinit var footerAdapterNutrition: FooterAdapter
+    lateinit var footerAdapterTagsKeto: FooterAdapter
+    lateinit var footerAdapterTagsEducation: FooterAdapter
+    lateinit var footerAdapterTagsUseful: FooterAdapter
+    lateinit var footerAdapterTagsRecipes: FooterAdapter
     lateinit var adapterLikePosts: SubjectPostsAdapter
     lateinit var adapterHealth: SubjectPostsAdapter
     lateinit var adapterKetoCourses: SubjectPostsAdapter
@@ -209,37 +236,130 @@ class SubjectTopicsFragment : Fragment() {
                 TAGS
             )
         }
+        footerAdapterHealth.onPostClickListener = {
+            launchFragmentThemeCategory(
+                IDHEALTH,
+                HEALTH,
+                CATEGORIES
+            )
+        }
+        footerAdapterKetoCourses.onPostClickListener = {
+            launchFragmentThemeCategory(
+                IDKETOCOURSES,
+                KETOCOURSES,
+                CATEGORIES
+            )
+        }
+        footerAdapterNutrition.onPostClickListener = {
+            launchFragmentThemeCategory(
+                IDNUTRITION,
+                NUTRITION,
+                CATEGORIES
+            )
+        }
+        footerAdapterEvolution.onPostClickListener = {
+            launchFragmentThemeCategory(
+                IDEVOLUTION,
+                EVOLUTION,
+                CATEGORIES
+            )
+        }
+        footerAdapterTagsKeto.onPostClickListener = {
+            launchFragmentThemeCategory(
+                IDTAGSKETO,
+                TAGSKETO,
+                TAGS
+            )
+        }
+        footerAdapterTagsEducation.onPostClickListener = {
+            launchFragmentThemeCategory(
+                IDTAGSEDUCATION,
+                TAGSEDUCATION,
+                TAGS
+            )
+        }
+        footerAdapterTagsUseful.onPostClickListener = {
+            launchFragmentThemeCategory(
+                IDTAGSUSEFUL,
+                TAGSUSEFUL,
+                TAGS
+            )
+        }
+        footerAdapterTagsRecipes.onPostClickListener = {
+            launchFragmentThemeCategory(
+                IDTAGSRECIPES,
+                TAGSRECIPES,
+                TAGS
+            )
+        }
     }
 
     private fun bindingAdapter() {
 
+        val linearLayoutManager = LinearLayoutManager(
+            requireContext(),
+            RecyclerView.HORIZONTAL,
+            false
+        )
+
         adapterLikePosts = SubjectPostsAdapter(requireContext())
         binding.rvLikePosts.adapter = adapterLikePosts
 
+        footerAdapterHealth = FooterAdapter(requireContext())
         adapterHealth = SubjectPostsAdapter(requireContext())
-        adapterHealth.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.ALLOW
-        binding.rvHealthCategories.adapter = adapterHealth
+        binding.rvHealthCategories.run {
+            /*layoutManager = linearLayoutManager*/
+            adapter = ConcatAdapter(adapterHealth, footerAdapterHealth)
+        }
 
+        footerAdapterKetoCourses = FooterAdapter(requireContext())
         adapterKetoCourses = SubjectPostsAdapter((requireContext()))
-        binding.rvKetoCourses.adapter = adapterKetoCourses
+        binding.rvKetoCourses.run {
+            /*layoutManager = linearLayoutManager*/
+            adapter = ConcatAdapter(adapterKetoCourses, footerAdapterKetoCourses)
+        }
 
+        footerAdapterNutrition = FooterAdapter(requireContext())
         adapterNutrition = SubjectPostsAdapter((requireContext()))
-        binding.rvNutritionCategories.adapter = adapterNutrition
+        binding.rvNutritionCategories.run {
+            /*layoutManager = linearLayoutManager*/
+            adapter = ConcatAdapter(adapterNutrition, footerAdapterNutrition)
+        }
 
+        footerAdapterEvolution = FooterAdapter(requireContext())
         adapterEvolution = SubjectPostsAdapter((requireContext()))
-        binding.rvEvolution.adapter = adapterEvolution
+        binding.rvEvolution.run {
+            /*layoutManager = linearLayoutManager*/
+            adapter = ConcatAdapter(adapterEvolution, footerAdapterEvolution)
+        }
 
+        footerAdapterTagsKeto = FooterAdapter(requireContext())
         adapterTagsKeto = SubjectPostsAdapter((requireContext()))
-        binding.rvTagsKeto.adapter = adapterTagsKeto
+        binding.rvTagsKeto.run {
+            /*layoutManager = linearLayoutManager*/
+            adapter = ConcatAdapter(adapterTagsKeto, footerAdapterTagsKeto)
+        }
 
+        footerAdapterTagsEducation = FooterAdapter(requireContext())
         adapterTagsEducation = SubjectPostsAdapter((requireContext()))
-        binding.rvTagsEducation.adapter = adapterTagsEducation
+        binding.rvTagsEducation.run {
+            /*layoutManager = linearLayoutManager*/
+            adapter = ConcatAdapter(adapterTagsEducation, footerAdapterTagsEducation)
+        }
 
+        footerAdapterTagsUseful = FooterAdapter(requireContext())
         adapterTagsUseful = SubjectPostsAdapter((requireContext()))
-        binding.rvTagsUseful.adapter = adapterTagsUseful
+        binding.rvTagsUseful.run {
+            /*layoutManager = linearLayoutManager*/
+            adapter = ConcatAdapter(adapterTagsUseful, footerAdapterTagsUseful)
+        }
 
+        footerAdapterTagsRecipes = FooterAdapter(requireContext())
         adapterTagsRecipes = SubjectPostsAdapter((requireContext()))
-        binding.rvTagsRecipes.adapter = adapterTagsRecipes
+        binding.rvTagsRecipes.run {
+            /*layoutManager = linearLayoutManager*/
+            adapter = ConcatAdapter(adapterTagsRecipes, footerAdapterTagsRecipes)
+        }
     }
 
     private fun observeSubjectList() {
@@ -292,8 +412,12 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.tvHealthCategories.text = HEALTH
                                                 binding.shimmerHealthCategories.isVisible = false
                                             }
+                                        subjectTopicsViewModel.footerAdapterLiveDataHealth.observe(
+                                            viewLifecycleOwner
+                                        ) {
+                                            footerAdapterHealth.submitList(listOf(it))
+                                        }
                                     }
-
                                     subjectTopicsViewModel.loadPostsHealth(
                                         it.find {
                                             it.nameCategory == HEALTH
@@ -319,6 +443,11 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.tvKetoCourses.text = KETOCOURSES
                                                 binding.shimmerKetoCourses.isVisible = false
                                             }
+                                    }
+                                    subjectTopicsViewModel.footerAdapterLiveDataKetoCourses.observe(
+                                        viewLifecycleOwner
+                                    ) {
+                                        footerAdapterKetoCourses.submitList(listOf(it))
                                     }
                                     subjectTopicsViewModel.loadPostsKetoCourses(
                                         it.find {
@@ -346,6 +475,11 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.shimmerNutritionCategories.isVisible = false
                                             }
                                     }
+                                    subjectTopicsViewModel.footerAdapterLiveDataNutrition.observe(
+                                        viewLifecycleOwner
+                                    ) {
+                                        footerAdapterNutrition.submitList(listOf(it))
+                                    }
                                     subjectTopicsViewModel.loadPostsNutrition(
                                         it.find {
                                             it.nameCategory == NUTRITION
@@ -372,6 +506,11 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.shimmerEvolution.isVisible = false
                                             }
                                     }
+                                    subjectTopicsViewModel.footerAdapterLiveDataEvolution.observe(
+                                        viewLifecycleOwner
+                                    ) {
+                                        footerAdapterEvolution.submitList(listOf(it))
+                                    }
                                     subjectTopicsViewModel.loadPostsEvolution(
                                         it.find {
                                             it.nameCategory == EVOLUTION
@@ -397,6 +536,11 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.tvTagsKeto.text = TAGSKETO
                                                 binding.shimmerTagsKeto.isVisible = false
                                             }
+                                    }
+                                    subjectTopicsViewModel.footerAdapterLiveDataTagsKeto.observe(
+                                        viewLifecycleOwner
+                                    ) {
+                                        footerAdapterTagsKeto.submitList(listOf(it))
                                     }
                                     subjectTopicsViewModel.loadPostsTagsKeto(
                                         it.find {
@@ -427,6 +571,11 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.shimmerTagsEducation.isVisible = false
                                             }
                                     }
+                                    subjectTopicsViewModel
+                                        .footerAdapterLiveDataTagsEducation
+                                        .observe(viewLifecycleOwner) {
+                                            footerAdapterTagsEducation.submitList(listOf(it))
+                                        }
                                     subjectTopicsViewModel.loadPostsTagsEducation(
                                         it.find {
                                             it.nameCategory == TAGSEDUCATION
@@ -452,6 +601,11 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.tvTagsUseful.text = TAGSUSEFUL
                                                 binding.shimmerTagsUseful.isVisible = false
                                             }
+                                    }
+                                    subjectTopicsViewModel.footerAdapterLiveDataTagsUseful.observe(
+                                        viewLifecycleOwner
+                                    ) {
+                                        footerAdapterTagsUseful.submitList(listOf(it))
                                     }
                                     subjectTopicsViewModel.loadPostsTagsUseful(
                                         it.find {
@@ -479,6 +633,11 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.shimmerTagsRecipes.isVisible = false
                                             }
                                     }
+                                    subjectTopicsViewModel
+                                        .footerAdapterLiveDataTagsRecipes
+                                        .observe(viewLifecycleOwner) {
+                                            footerAdapterTagsRecipes.submitList(listOf(it))
+                                        }
                                     subjectTopicsViewModel.loadPostsTagsRecipes(
                                         it.find {
                                             it.nameCategory == TAGSRECIPES
@@ -508,25 +667,6 @@ class SubjectTopicsFragment : Fragment() {
     }
 
     companion object {
-        const val LIKEPOSTS = "Сохранённые"
-        const val HEALTH = "Здоровье"
-        const val KETOCOURSES = "Кето курс"
-        const val NUTRITION = "Питание"
-        const val EVOLUTION = "Развитие"
-        const val TAGSKETO = "Кето"
-        const val TAGSEDUCATION = "Обучение"
-        const val TAGSUSEFUL = "Полезное"
-        const val TAGSRECIPES = "Рецепты"
-
-        private const val IDLIKEPOSTS = 0
-        private const val IDHEALTH = 11
-        private const val IDKETOCOURSES = 188
-        private const val IDNUTRITION = 12
-        private const val IDEVOLUTION = 20
-        private const val IDTAGSKETO = 27
-        private const val IDTAGSEDUCATION = 22
-        private const val IDTAGSUSEFUL = 163
-        private const val IDTAGSRECIPES = 39
 
         const val CATEGORIES = "categories"
         const val TAGS = "tags"

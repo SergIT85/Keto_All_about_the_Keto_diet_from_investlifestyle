@@ -27,7 +27,7 @@ class SubjectPostsAdapter(private val context: Context) : ListAdapter<
             parent,
             false
         )
-        return SubjectPostsViewHolder((binding))
+        return SubjectPostsViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: SubjectPostsViewHolder, position: Int) {
