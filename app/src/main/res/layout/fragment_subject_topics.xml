@@ -79,6 +79,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:descendantFocusability="blocksDescendants"
                     android:id="@+id/rvHealthCategories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
