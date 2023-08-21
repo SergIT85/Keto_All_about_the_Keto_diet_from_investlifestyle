@@ -20,4 +20,8 @@
     <string name="tags_recipes">Рецепты</string>
     <string name="tags_like_posts">Сохранённое</string>
     <string name="see_all">Смотреть всё</string>
+    <string name="name">Имя</string>
+    <string name="button_save_name">Сохранить</string>
+    <string name="clue_name">Имя сохранятеся только в приложении.</string>
+    <string name="save_theme">Сохраненные статьи</string>
 </resources>
