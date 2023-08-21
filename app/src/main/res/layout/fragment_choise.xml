@@ -6,17 +6,6 @@
     android:orientation="vertical"
     tools:context=".ui.choice.ChoiceFragment" >
 
-    <TextView
-        android:id="@+id/tvTitleChoseTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/material_margin_large"
-        android:layout_marginTop="@dimen/material_margin_normal"
-        android:layout_marginEnd="@dimen/material_margin_large"
-        android:textSize="28sp"
-        tools:text="@string/choseCategoryTitle"
-        style="@style/TextViewHeaderOne"/>
-
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switch_tags_keto"
         android:layout_width="match_parent"
