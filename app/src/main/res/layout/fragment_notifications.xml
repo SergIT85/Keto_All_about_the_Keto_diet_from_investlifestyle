@@ -9,37 +9,57 @@
     tools:context=".ui.notifications.NotificationsFragment">
 
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/request_name_cabinet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginStart="@dimen/material_margin_normal"
+        android:layout_marginTop="@dimen/material_margin_super_small"
+        android:layout_marginEnd="@dimen/material_margin_normal"
+        app:cardCornerRadius="@dimen/material_margin_super_small">
 
-        <EditText
-            android:id="@+id/ed_t_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="text"
-            android:minHeight="48dp"
-            android:text="@string/name" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_save_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/button_save_name" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_clue_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/clue_name"
-            android:layout_marginTop="@dimen/material_margin_super_small"
-            android:textColor="@color/textHeaderColor"
-            android:textSize="14sp"/>
+                <EditText
+                    android:id="@+id/ed_t_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/name"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                     />
+
+                <Button
+                    android:id="@+id/btn_save_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/button_save_name" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_clue_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/material_margin_super_small"
+                android:text="@string/clue_name"
+                android:textColor="@color/textHeaderColor"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/textView6"

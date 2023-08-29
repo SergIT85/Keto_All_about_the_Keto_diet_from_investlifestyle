@@ -5,9 +5,13 @@ import kotlinx.coroutines.flow.Flow
 import ru.investlifestyle.app.data.models.categories.SaveCategories
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.ui.models.PostUiModel
+import ru.investlifestyle.app.ui.models.UserName
 
 interface PostRepositoryInterface {
 
+    suspend fun getUserName(): UserName
+    suspend fun saveUserName(userName: UserName)
+    suspend fun userNameIsEmpty(): Boolean
     fun getPostPagingRemoteMediator(): Flow<PagingData<PostUiModel>>
     fun getPostPagingSource(categoryId: Int): Flow<PagingData<PostUiModel>>
     fun getPostTagsPagingSource(tagsId: Int): Flow<PagingData<PostUiModel>>

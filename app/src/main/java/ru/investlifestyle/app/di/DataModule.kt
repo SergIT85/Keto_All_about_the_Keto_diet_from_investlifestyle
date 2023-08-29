@@ -11,6 +11,7 @@ import ru.investlifestyle.app.data.room.AppPostDatabase
 import ru.investlifestyle.app.data.room.ChoiceSubjectDaoRoom
 import ru.investlifestyle.app.data.room.LikePostsDaoRoom
 import ru.investlifestyle.app.data.room.PostDaoRoom
+import ru.investlifestyle.app.data.room.UserNameDaoRoom
 import ru.investlifestyle.app.domain.PostRepositoryInterface
 
 @ExperimentalPagingApi
@@ -40,6 +41,13 @@ interface DataModule {
             application: Application
         ): LikePostsDaoRoom {
             return AppPostDatabase.getInstanceDb(application).likePostDaoRoom()
+        }
+
+        @Provides
+        fun provideUserNameDao(
+            application: Application
+        ): UserNameDaoRoom {
+            return AppPostDatabase.getInstanceDb(application).userNameDaoRoom()
         }
     }
 }

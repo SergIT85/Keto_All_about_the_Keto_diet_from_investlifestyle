@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.invoke
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.App
 import ru.investlifestyle.app.databinding.FragmentHomeBinding
@@ -37,7 +39,7 @@ class HomeFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactoryTest
 
     private lateinit var homeViewModel: HomeViewModel
-    private val binding get() = _binding
+    private val binding get() = _binding!!
 
     override fun onAttach(context: Context) {
         component.inject(this)
@@ -50,7 +52,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-        return binding!!.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,7 +64,9 @@ class HomeFragment : Fragment() {
         adapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.ALLOW
 
-        binding?.homeFragmentRecycleViev?.adapter = adapter
+        if (_binding != null) {
+            binding.homeFragmentRecycleViev.adapter = adapter
+        }
 
         loading()
         loadListPosts()
@@ -93,10 +97,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun loading() {
-        lifecycleScope.launch {
-            homeViewModel.posts.collect { pagingData ->
-                adapter.submitData(lifecycle = lifecycle, pagingData = pagingData)
+        try {
+            lifecycleScope.launch {
+                homeViewModel.posts.collect { pagingData ->
+                    adapter.submitData(lifecycle = lifecycle, pagingData = pagingData)
+                }
             }
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -116,21 +124,25 @@ class HomeFragment : Fragment() {
         homeViewModel.quotes.observe(
             viewLifecycleOwner,
             Observer {
-                binding?.tvThoughtMain?.text = it
+                binding.tvThoughtMain.text = it
             }
         )
     }
 
     private fun shimmerState(isShimmer: Boolean) {
         if (isShimmer) {
-            binding?.mainDetailShimmerLayout?.isVisible = isShimmer
-            binding?.homeFragmentRecycleViev?.isVisible = false
-            binding?.appbar?.isVisible = false
+            if (_binding != null) {
+                binding.mainDetailShimmerLayout.isVisible = isShimmer
+                binding.homeFragmentRecycleViev.isVisible = false
+                binding.appbar.isVisible = false
+            }
         } else {
-            binding?.mainDetailShimmerLayout?.isVisible = isShimmer
-            binding?.mainCoordinatorLayout?.isVisible = true
-            binding?.homeFragmentRecycleViev?.isVisible = true
-            binding?.appbar?.isVisible = true
+            if (_binding != null) {
+                binding.mainDetailShimmerLayout.isVisible = isShimmer
+                binding.mainCoordinatorLayout.isVisible = true
+                binding.homeFragmentRecycleViev.isVisible = true
+                binding.appbar.isVisible = true
+            }
         }
     }
 }

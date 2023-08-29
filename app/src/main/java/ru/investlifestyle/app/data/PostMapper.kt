@@ -6,9 +6,19 @@ import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.data.room.ChoiceSubjectEntity
 import ru.investlifestyle.app.data.room.LikePostsDbModelEntity
 import ru.investlifestyle.app.data.room.PostDbModelEntity
+import ru.investlifestyle.app.data.room.UserNameEntity
 import ru.investlifestyle.app.ui.models.PostUiModel
+import ru.investlifestyle.app.ui.models.UserName
 
 class PostMapper @Inject constructor() {
+
+    fun mapUserNameEntityToUserName(userNameEntity: UserNameEntity) = UserName(
+        userName = userNameEntity.userName
+    )
+    fun mapUserNameToUserNameEntity(userName: UserName) = UserNameEntity(
+        userName = userName.userName
+    )
+    // fun mapListUserNameEntityToUserName
 
     fun mapLikePostDbModelToPostUiModel(dbLikePost: LikePostsDbModelEntity) = PostUiModel(
         id = dbLikePost.idPosts,
