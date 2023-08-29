@@ -9,7 +9,8 @@ import androidx.room.RoomDatabase
     entities = [
         PostDbModelEntity::class,
         ChoiceSubjectEntity::class,
-        LikePostsDbModelEntity::class
+        LikePostsDbModelEntity::class,
+        UserNameEntity::class
     ],
     version = 1, exportSchema = false
 )
@@ -18,6 +19,7 @@ abstract class AppPostDatabase : RoomDatabase() {
     abstract fun postDaoRoom(): PostDaoRoom
     abstract fun subjectChoiceRoom(): ChoiceSubjectDaoRoom
     abstract fun likePostDaoRoom(): LikePostsDaoRoom
+    abstract fun userNameDaoRoom(): UserNameDaoRoom
 
     companion object {
         private var INSTANCE: AppPostDatabase? = null

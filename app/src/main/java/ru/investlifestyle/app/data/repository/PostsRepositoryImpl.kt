@@ -18,8 +18,10 @@ import ru.investlifestyle.app.data.paging.PostTagsPagingSource
 import ru.investlifestyle.app.data.room.ChoiceSubjectDaoRoom
 import ru.investlifestyle.app.data.room.LikePostsDaoRoom
 import ru.investlifestyle.app.data.room.PostDaoRoom
+import ru.investlifestyle.app.data.room.UserNameDaoRoom
 import ru.investlifestyle.app.domain.PostRepositoryInterface
 import ru.investlifestyle.app.ui.models.PostUiModel
+import ru.investlifestyle.app.ui.models.UserName
 
 @ExperimentalPagingApi
 class PostsRepositoryImpl @Inject constructor(
@@ -28,12 +30,25 @@ class PostsRepositoryImpl @Inject constructor(
     private val application: Application,
     private val postDaoRoom: PostDaoRoom,
     private val subjectDaoRoom: ChoiceSubjectDaoRoom,
-    private val likePostsDaoRoom: LikePostsDaoRoom
+    private val likePostsDaoRoom: LikePostsDaoRoom,
+    private val userNameDaoRoom: UserNameDaoRoom
 ) : PostRepositoryInterface {
 
     private val postPagingRemoteMediator = PostPagingRemoteMediator(postDaoRoom, apiClient, mapper)
 
     private val service = Repo()
+    override suspend fun getUserName(): UserName {
+        return mapper.mapUserNameEntityToUserName(userNameDaoRoom.getUserName())
+    }
+
+    override suspend fun saveUserName(userName: UserName) {
+        userNameDaoRoom.save(mapper.mapUserNameToUserNameEntity(userName))
+    }
+
+    override suspend fun userNameIsEmpty(): Boolean {
+        return userNameDaoRoom.isEmpty()
+    }
+
     override fun getPostPagingRemoteMediator(): Flow<PagingData<PostUiModel>> {
         return Pager(
             config = PagingConfig(

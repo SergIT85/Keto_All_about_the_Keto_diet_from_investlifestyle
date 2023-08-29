@@ -22,6 +22,6 @@
     <string name="see_all">Смотреть всё</string>
     <string name="name">Имя</string>
     <string name="button_save_name">Сохранить</string>
-    <string name="clue_name">Имя сохранятеся только в приложении.</string>
+    <string name="clue_name">Имя сохранятеся только в вашем телефоне.</string>
     <string name="save_theme">Сохраненные статьи</string>
 </resources>

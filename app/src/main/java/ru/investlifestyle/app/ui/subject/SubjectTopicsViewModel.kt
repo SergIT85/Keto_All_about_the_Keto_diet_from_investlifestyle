@@ -72,7 +72,7 @@ class SubjectTopicsViewModel @Inject constructor(
         get() = _footerAdapterLiveDataTagsRecipes
 
     private var _loadLikePosts = MutableLiveData<List<PostUiModel>>()
-    val loadLikePosts: MutableLiveData<List<PostUiModel>>
+    val loadLikePosts: LiveData<List<PostUiModel>>
         get() = _loadLikePosts
 
     private var _loadHealth = MutableLiveData<List<PostUiModel>>()
