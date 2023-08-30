@@ -22,4 +22,7 @@ interface LikePostsDaoRoom {
 
     @Query("DELETE FROM like_posts WHERE idPosts =:postItemId")
     suspend fun deleteLikePostById(postItemId: Int)
+
+    @Query("SELECT(SELECT COUNT(*) FROM like_posts) == 0")
+    suspend fun isEmpty(): Boolean
 }
