@@ -233,6 +233,8 @@ class PostsRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun likePostIsEmpty(): Boolean = userNameDaoRoom.isEmpty()
+
     override suspend fun getLikePostById(postId: Int): PostUiModel {
         return mapper.mapLikePostDbModelToPostUiModel(likePostsDaoRoom.getLikePostById(postId))
     }

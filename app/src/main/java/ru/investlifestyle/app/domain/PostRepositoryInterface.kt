@@ -42,6 +42,7 @@ interface PostRepositoryInterface {
     suspend fun updateSubject(selected: Boolean, idCategory: Int)
     suspend fun getSingleSubjectById(idCategories: Int): SaveCategories
     suspend fun fillingDbInit()
+    suspend fun likePostIsEmpty(): Boolean
     suspend fun getLikePostById(postId: Int): PostUiModel
     suspend fun getAllLikePosts(): List<PostUiModel>
     suspend fun insertLikePost(likePost: PostUiModel)
