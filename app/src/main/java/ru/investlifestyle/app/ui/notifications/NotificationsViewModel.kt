@@ -28,26 +28,29 @@ class NotificationsViewModel @Inject constructor(
     }
     private fun initialNotificationScreen() {
         viewModelScope.launch {
-            if (userNameIsEmptyUseCase.userNameIsEmpty()) {
-                if (likePostsIsEmptyUseCase.likePostsIsEmpty()) {
-                    _notificationState.value = NotificationState.UserNameAndSavePostIsEmpty
-                } else {
-                    _notificationState.value = NotificationState.LoadedSavePostsOnly(
-                        getAllLikePostsUseCase.getAllLikePosts()
-                    )
-                }
-            } else {
-                if (likePostsIsEmptyUseCase.likePostsIsEmpty()) {
-                    _notificationState.value = NotificationState.LoadedUserNameOnly(
-                        getUserNameUseCase.getUserName()
-                    )
-                } else {
-                    _notificationState.value = NotificationState.LoadedSavePostsAndUserNAme(
-                        postList = getAllLikePostsUseCase.getAllLikePosts(),
-                        userName = getUserNameUseCase.getUserName()
-                    )
-                }
-            }
+            _notificationState.value = NotificationState.LoadedSavePostsOnly(
+                getAllLikePostsUseCase.getAllLikePosts()
+            )
+//            if (userNameIsEmptyUseCase.userNameIsEmpty()) {
+//                if (likePostsIsEmptyUseCase.likePostsIsEmpty()) {
+//                    _notificationState.value = NotificationState.UserNameAndSavePostIsEmpty
+//                } else {
+//                    _notificationState.value = NotificationState.LoadedSavePostsOnly(
+//                        getAllLikePostsUseCase.getAllLikePosts()
+//                    )
+//                }
+//            } else {
+//                if (likePostsIsEmptyUseCase.likePostsIsEmpty()) {
+//                    _notificationState.value = NotificationState.LoadedUserNameOnly(
+//                        getUserNameUseCase.getUserName()
+//                    )
+//                } else {
+//                    _notificationState.value = NotificationState.LoadedSavePostsAndUserName(
+//                        postList = getAllLikePostsUseCase.getAllLikePosts(),
+//                        userName = getUserNameUseCase.getUserName()
+//                    )
+//                }
+//            }
         }
     }
 }

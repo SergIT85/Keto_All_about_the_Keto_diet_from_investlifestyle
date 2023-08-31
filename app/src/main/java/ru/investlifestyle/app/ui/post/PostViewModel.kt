@@ -17,7 +17,6 @@ import ru.investlifestyle.app.domain.usecase.*
 
 class PostViewModel @Inject constructor(
     private val loadOnePostUseCase: LoadOnePostUseCase,
-    private val getLikePostByIdUseCase: GetLikePostByIdUseCase,
     private val insertLikePostUseCase: InsertLikePostUseCase,
     private val deleteLikePostByIdUseCase: DeleteLikePostByIdUseCase,
     private val getLikePostByIdBooleanUseCase: GetLikePostByIdBooleanUseCase,
