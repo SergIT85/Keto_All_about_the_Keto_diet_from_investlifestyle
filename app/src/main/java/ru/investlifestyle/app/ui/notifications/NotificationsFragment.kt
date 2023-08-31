@@ -5,12 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import javax.inject.Inject
 import ru.investlifestyle.app.App
 import ru.investlifestyle.app.databinding.FragmentNotificationsBinding
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
+import ru.investlifestyle.app.ui.notifications.adapter.NotificationAdapter
 
 @androidx.paging.ExperimentalPagingApi
 class NotificationsFragment : Fragment() {
@@ -24,6 +29,7 @@ class NotificationsFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactoryTest
     private lateinit var viewModel: NotificationsViewModel
+    lateinit var notificationAdapter: NotificationAdapter
 
     override fun onAttach(context: Context) {
         component.inject(this)
@@ -34,19 +40,58 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        viewModel =
+            ViewModelProvider(this, viewModelFactory).get(NotificationsViewModel::class.java)
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel =
-            ViewModelProvider(this, viewModelFactory).get(NotificationsViewModel::class.java)
+
+        bindingAdapter()
+        observeStateScreen()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun bindingAdapter() {
+        notificationAdapter = NotificationAdapter(requireContext())
+        binding.rvNotificationLikePost.adapter = notificationAdapter
+    }
+
+    /////// дальше доделать эту функцию!
+    private fun observeStateScreen() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.notificationState.collect { state ->
+                    when (state) {
+                        is NotificationState.Load -> {
+                            isShimmer(true)
+                        }
+                        is NotificationState.LoadedSavePostsAndUserName -> {
+                        }
+                        is NotificationState.LoadedUserNameOnly -> {
+                        }
+                        is NotificationState.LoadedSavePostsOnly -> {
+                            binding.requestNameCabinet.visibility = ViewGroup.GONE
+                            isShimmer(false)
+                            notificationAdapter.submitList(state.postList)
+                        }
+
+                        NotificationState.UserNameAndSavePostIsEmpty -> TODO()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun isShimmer(isSimmer: Boolean) {
+        binding.ntfDetailShimmerLayout.isVisible = isSimmer
+        binding.rvNotificationLikePost.isVisible = !isSimmer
+        binding.linerNotification.isVisible = !isSimmer
     }
 }

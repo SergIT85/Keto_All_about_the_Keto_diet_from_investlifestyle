@@ -6,7 +6,7 @@ import ru.investlifestyle.app.ui.models.UserName
 sealed class NotificationState {
     object Load : NotificationState()
 
-    data class LoadedSavePostsAndUserNAme(
+    data class LoadedSavePostsAndUserName(
         val postList: List<PostUiModel>,
         val userName: UserName
     ) : NotificationState()
