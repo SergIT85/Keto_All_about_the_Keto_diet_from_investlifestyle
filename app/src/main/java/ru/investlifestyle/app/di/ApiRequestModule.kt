@@ -13,6 +13,7 @@ import ru.investlifestyle.app.data.networkApi.PostsApiInterface
 
 @Module
 class ApiRequestModule {
+
     @Provides
     @Singleton
     fun provideHttpClient(): OkHttpClient {

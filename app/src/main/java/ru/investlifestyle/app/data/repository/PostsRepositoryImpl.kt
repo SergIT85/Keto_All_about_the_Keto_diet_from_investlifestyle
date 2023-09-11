@@ -19,6 +19,7 @@ import ru.investlifestyle.app.data.room.ChoiceSubjectDaoRoom
 import ru.investlifestyle.app.data.room.LikePostsDaoRoom
 import ru.investlifestyle.app.data.room.PostDaoRoom
 import ru.investlifestyle.app.data.room.UserNameDaoRoom
+import ru.investlifestyle.app.domain.CategoryAndTagsName
 import ru.investlifestyle.app.domain.PostRepositoryInterface
 import ru.investlifestyle.app.ui.models.PostUiModel
 import ru.investlifestyle.app.ui.models.UserName
@@ -142,59 +143,56 @@ class PostsRepositoryImpl @Inject constructor(
     // Will be fixed for requests from API when the backing is ready
     override suspend fun fillingDbInit() {
         val categoryHealth = SaveCategories(
-            HEALTH,
-            CATEGORIES,
-            IDHEALTH,
-            true
+            CategoryAndTagsName.HEALTH.titleCategory,
+            CategoryAndTagsName.HEALTH.typeCategory,
+            CategoryAndTagsName.HEALTH.idCategory
         )
         val categoryKetoCourses = SaveCategories(
-            KETOCOURSES,
-            CATEGORIES,
-            IDKETOCOURSES,
-            false
+            CategoryAndTagsName.KETOCOURSES.titleCategory,
+            CategoryAndTagsName.KETOCOURSES.typeCategory,
+            CategoryAndTagsName.KETOCOURSES.idCategory
         )
         val categoryNutrition = SaveCategories(
-            NUTRITION,
-            CATEGORIES,
-            IDNUTRITION,
+            CategoryAndTagsName.NUTRITION.titleCategory,
+            CategoryAndTagsName.NUTRITION.typeCategory,
+            CategoryAndTagsName.NUTRITION.idCategory,
             false
         )
         val categoryEvolution = SaveCategories(
-            EVOLUTION,
-            CATEGORIES,
-            IDEVOLUTION,
+            CategoryAndTagsName.EVOLUTION.titleCategory,
+            CategoryAndTagsName.EVOLUTION.typeCategory,
+            CategoryAndTagsName.EVOLUTION.idCategory,
             false
         )
         val tagsKeto = SaveCategories(
-            TAGSKETO,
-            TAGS,
-            IDTAGSKETO,
-            true
+            CategoryAndTagsName.TAGSKETO.titleCategory,
+            CategoryAndTagsName.TAGSKETO.typeCategory,
+            CategoryAndTagsName.TAGSKETO.idCategory,
+            false
         )
         val tagsEducation = SaveCategories(
-            TAGSEDUCATION,
-            TAGS,
-            IDTAGSEDUCATION,
+            CategoryAndTagsName.TAGSEDUCATION.titleCategory,
+            CategoryAndTagsName.TAGSEDUCATION.typeCategory,
+            CategoryAndTagsName.TAGSEDUCATION.idCategory,
             false
         )
         val tagsUseful = SaveCategories(
-            TAGSUSEFUL,
-            TAGS,
-            IDTAGSUSEFUL,
-            true
+            CategoryAndTagsName.TAGSUSEFUL.titleCategory,
+            CategoryAndTagsName.TAGSUSEFUL.typeCategory,
+            CategoryAndTagsName.TAGSUSEFUL.idCategory,
+            false
         )
         val tagsRecipes = SaveCategories(
-            TAGSRECIPES,
-            TAGS,
-            IDTAGSRECIPES,
-            true
+            CategoryAndTagsName.TAGSRECIPES.titleCategory,
+            CategoryAndTagsName.TAGSRECIPES.typeCategory,
+            CategoryAndTagsName.TAGSRECIPES.idCategory
         )
         val likePosts = SaveCategories(
-            LIKEPOSTS,
-            TAGS,
-            IDLIKEPOSTS,
-            true
+            CategoryAndTagsName.LIKEPOSTS.titleCategory,
+            CategoryAndTagsName.LIKEPOSTS.typeCategory,
+            CategoryAndTagsName.LIKEPOSTS.idCategory
         )
+
         val list = listOf(
             categoryHealth, categoryKetoCourses, categoryNutrition, categoryEvolution,
             tagsKeto, tagsEducation, tagsUseful, tagsRecipes, likePosts
@@ -253,30 +251,5 @@ class PostsRepositoryImpl @Inject constructor(
 
     override suspend fun getLikePostByIdBoolean(id: Int): Boolean {
         return likePostsDaoRoom.getLikePostByIdBoolean(id)
-    }
-
-    companion object {
-        const val LIKEPOSTS = "Сохранённые"
-        const val HEALTH = "Здоровье"
-        const val KETOCOURSES = "Кето курс"
-        const val NUTRITION = "Питание"
-        const val EVOLUTION = "Развитие"
-        const val TAGSKETO = "Кето"
-        const val TAGSEDUCATION = "Обучение"
-        const val TAGSUSEFUL = "Полезное"
-        const val TAGSRECIPES = "Рецепты"
-
-        const val IDLIKEPOSTS = 0
-        const val IDHEALTH = 11
-        const val IDKETOCOURSES = 188
-        const val IDNUTRITION = 12
-        const val IDEVOLUTION = 20
-        const val IDTAGSKETO = 27
-        const val IDTAGSEDUCATION = 22
-        const val IDTAGSUSEFUL = 163
-        const val IDTAGSRECIPES = 39
-
-        const val CATEGORIES = "categories"
-        const val TAGS = "tags"
     }
 }

@@ -63,7 +63,7 @@ class NotificationsFragment : Fragment() {
         binding.rvNotificationLikePost.adapter = notificationAdapter
     }
 
-    /////// дальше доделать эту функцию!
+    // ///// дальше доделать эту функцию!
     private fun observeStateScreen() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {

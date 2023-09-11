@@ -22,27 +22,11 @@ import javax.inject.Inject
 import ru.investlifestyle.app.App
 import ru.investlifestyle.app.R
 import ru.investlifestyle.app.databinding.FragmentSubjectTopicsBinding
+import ru.investlifestyle.app.domain.CategoryAndTagsName
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
 import ru.investlifestyle.app.ui.post.PostActivity
 import ru.investlifestyle.app.ui.subject.adapters.FooterAdapter
 import ru.investlifestyle.app.ui.subject.adapters.SubjectPostsAdapter
-import ru.investlifestyle.app.utils.EVOLUTION
-import ru.investlifestyle.app.utils.HEALTH
-import ru.investlifestyle.app.utils.IDEVOLUTION
-import ru.investlifestyle.app.utils.IDHEALTH
-import ru.investlifestyle.app.utils.IDKETOCOURSES
-import ru.investlifestyle.app.utils.IDNUTRITION
-import ru.investlifestyle.app.utils.IDTAGSEDUCATION
-import ru.investlifestyle.app.utils.IDTAGSKETO
-import ru.investlifestyle.app.utils.IDTAGSRECIPES
-import ru.investlifestyle.app.utils.IDTAGSUSEFUL
-import ru.investlifestyle.app.utils.KETOCOURSES
-import ru.investlifestyle.app.utils.LIKEPOSTS
-import ru.investlifestyle.app.utils.NUTRITION
-import ru.investlifestyle.app.utils.TAGSEDUCATION
-import ru.investlifestyle.app.utils.TAGSKETO
-import ru.investlifestyle.app.utils.TAGSRECIPES
-import ru.investlifestyle.app.utils.TAGSUSEFUL
 
 @ExperimentalPagingApi
 class SubjectTopicsFragment : Fragment() {
@@ -182,114 +166,114 @@ class SubjectTopicsFragment : Fragment() {
     private fun setClickListenerTitle() {
         binding.tvKetoCourses.setOnClickListener {
             launchFragmentThemeCategory(
-                IDKETOCOURSES,
-                KETOCOURSES,
-                CATEGORIES
+                CategoryAndTagsName.KETOCOURSES.idCategory,
+                CategoryAndTagsName.KETOCOURSES.titleCategory,
+                CategoryAndTagsName.KETOCOURSES.typeCategory
             )
         }
         binding.tvEvolution.setOnClickListener {
             launchFragmentThemeCategory(
-                IDEVOLUTION,
-                EVOLUTION,
-                CATEGORIES
+                CategoryAndTagsName.EVOLUTION.idCategory,
+                CategoryAndTagsName.EVOLUTION.titleCategory,
+                CategoryAndTagsName.EVOLUTION.typeCategory
             )
         }
         binding.tvHealthCategories.setOnClickListener {
             launchFragmentThemeCategory(
-                IDHEALTH,
-                HEALTH,
-                CATEGORIES
+                CategoryAndTagsName.HEALTH.idCategory,
+                CategoryAndTagsName.HEALTH.titleCategory,
+                CategoryAndTagsName.HEALTH.typeCategory
             )
         }
         binding.tvNutritionCategories.setOnClickListener {
             launchFragmentThemeCategory(
-                IDNUTRITION,
-                NUTRITION,
-                CATEGORIES
+                CategoryAndTagsName.NUTRITION.idCategory,
+                CategoryAndTagsName.NUTRITION.titleCategory,
+                CategoryAndTagsName.NUTRITION.typeCategory
             )
         }
         binding.tvTagsEducation.setOnClickListener {
             launchFragmentThemeCategory(
-                idCategory = IDTAGSEDUCATION,
-                titleCategory = TAGSEDUCATION,
-                typeCategory = TAGS
+                CategoryAndTagsName.TAGSEDUCATION.idCategory,
+                CategoryAndTagsName.TAGSEDUCATION.titleCategory,
+                CategoryAndTagsName.TAGSEDUCATION.typeCategory
             )
         }
         binding.tvTagsKeto.setOnClickListener {
             launchFragmentThemeCategory(
-                idCategory = IDTAGSKETO,
-                titleCategory = TAGSKETO,
-                typeCategory = TAGS
+                CategoryAndTagsName.TAGSKETO.idCategory,
+                CategoryAndTagsName.TAGSKETO.titleCategory,
+                CategoryAndTagsName.TAGSKETO.typeCategory
             )
         }
         binding.tvTagsRecipes.setOnClickListener {
             launchFragmentThemeCategory(
-                IDTAGSRECIPES,
-                TAGSRECIPES,
-                TAGS
+                CategoryAndTagsName.TAGSRECIPES.idCategory,
+                CategoryAndTagsName.TAGSRECIPES.titleCategory,
+                CategoryAndTagsName.TAGSRECIPES.typeCategory
             )
         }
         binding.tvTagsUseful.setOnClickListener {
             launchFragmentThemeCategory(
-                IDTAGSUSEFUL,
-                TAGSUSEFUL,
-                TAGS
+                CategoryAndTagsName.TAGSUSEFUL.idCategory,
+                CategoryAndTagsName.TAGSUSEFUL.titleCategory,
+                CategoryAndTagsName.TAGSUSEFUL.typeCategory
             )
         }
         footerAdapterHealth.onPostClickListener = {
             launchFragmentThemeCategory(
-                IDHEALTH,
-                HEALTH,
-                CATEGORIES
+                CategoryAndTagsName.HEALTH.idCategory,
+                CategoryAndTagsName.HEALTH.titleCategory,
+                CategoryAndTagsName.HEALTH.typeCategory
             )
         }
         footerAdapterKetoCourses.onPostClickListener = {
             launchFragmentThemeCategory(
-                IDKETOCOURSES,
-                KETOCOURSES,
-                CATEGORIES
+                CategoryAndTagsName.KETOCOURSES.idCategory,
+                CategoryAndTagsName.KETOCOURSES.titleCategory,
+                CategoryAndTagsName.KETOCOURSES.typeCategory
             )
         }
         footerAdapterNutrition.onPostClickListener = {
             launchFragmentThemeCategory(
-                IDNUTRITION,
-                NUTRITION,
-                CATEGORIES
+                CategoryAndTagsName.NUTRITION.idCategory,
+                CategoryAndTagsName.NUTRITION.titleCategory,
+                CategoryAndTagsName.NUTRITION.typeCategory
             )
         }
         footerAdapterEvolution.onPostClickListener = {
             launchFragmentThemeCategory(
-                IDEVOLUTION,
-                EVOLUTION,
-                CATEGORIES
+                CategoryAndTagsName.EVOLUTION.idCategory,
+                CategoryAndTagsName.EVOLUTION.titleCategory,
+                CategoryAndTagsName.EVOLUTION.typeCategory
             )
         }
         footerAdapterTagsKeto.onPostClickListener = {
             launchFragmentThemeCategory(
-                IDTAGSKETO,
-                TAGSKETO,
-                TAGS
+                CategoryAndTagsName.TAGSKETO.idCategory,
+                CategoryAndTagsName.TAGSKETO.titleCategory,
+                CategoryAndTagsName.TAGSKETO.typeCategory
             )
         }
         footerAdapterTagsEducation.onPostClickListener = {
             launchFragmentThemeCategory(
-                IDTAGSEDUCATION,
-                TAGSEDUCATION,
-                TAGS
+                CategoryAndTagsName.TAGSEDUCATION.idCategory,
+                CategoryAndTagsName.TAGSEDUCATION.titleCategory,
+                CategoryAndTagsName.TAGSEDUCATION.typeCategory
             )
         }
         footerAdapterTagsUseful.onPostClickListener = {
             launchFragmentThemeCategory(
-                IDTAGSUSEFUL,
-                TAGSUSEFUL,
-                TAGS
+                CategoryAndTagsName.TAGSUSEFUL.idCategory,
+                CategoryAndTagsName.TAGSUSEFUL.titleCategory,
+                CategoryAndTagsName.TAGSUSEFUL.typeCategory
             )
         }
         footerAdapterTagsRecipes.onPostClickListener = {
             launchFragmentThemeCategory(
-                IDTAGSRECIPES,
-                TAGSRECIPES,
-                TAGS
+                CategoryAndTagsName.TAGSRECIPES.idCategory,
+                CategoryAndTagsName.TAGSRECIPES.titleCategory,
+                CategoryAndTagsName.TAGSRECIPES.typeCategory
             )
         }
     }
@@ -373,7 +357,7 @@ class SubjectTopicsFragment : Fragment() {
                         is StateListSubjects.FilledListSubjects -> {
                             it.listSubjects.collect {
                                 if (it.find {
-                                    it.nameCategory == LIKEPOSTS
+                                    it.nameCategory == CategoryAndTagsName.LIKEPOSTS.titleCategory
                                 }?.selected == true
                                 ) {
                                     if (adapterLikePosts.itemCount == 0) {
@@ -384,7 +368,8 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.tvLikePosts.isVisible = true
                                                 binding.rvLikePosts.isVisible = true
                                                 adapterLikePosts.submitList(it)
-                                                binding.tvLikePosts.text = LIKEPOSTS
+                                                binding.tvLikePosts.text =
+                                                    CategoryAndTagsName.LIKEPOSTS.titleCategory
                                                 binding.shimmerLikePosts.isVisible = false
                                             }
                                     }
@@ -398,7 +383,7 @@ class SubjectTopicsFragment : Fragment() {
                                 }
 
                                 if (it.find {
-                                    it.nameCategory == HEALTH
+                                    it.nameCategory == CategoryAndTagsName.HEALTH.titleCategory
                                 }?.selected == true
                                 ) {
                                     if (adapterHealth.itemCount == 0) {
@@ -409,7 +394,8 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.tvHealthCategories.isVisible = true
                                                 binding.rvHealthCategories.isVisible = true
                                                 adapterHealth.submitList(it)
-                                                binding.tvHealthCategories.text = HEALTH
+                                                binding.tvHealthCategories.text =
+                                                    CategoryAndTagsName.HEALTH.titleCategory
                                                 binding.shimmerHealthCategories.isVisible = false
                                             }
                                         subjectTopicsViewModel.footerAdapterLiveDataHealth.observe(
@@ -420,7 +406,8 @@ class SubjectTopicsFragment : Fragment() {
                                     }
                                     subjectTopicsViewModel.loadPostsHealth(
                                         it.find {
-                                            it.nameCategory == HEALTH
+                                            it.nameCategory ==
+                                                CategoryAndTagsName.HEALTH.titleCategory
                                         }!!.idCategory
                                     )
                                 } else {
@@ -431,7 +418,12 @@ class SubjectTopicsFragment : Fragment() {
                                     }
                                 }
 
-                                if (it.find { it.nameCategory == KETOCOURSES }?.selected == true) {
+                                if (it.find {
+                                    it.nameCategory == CategoryAndTagsName
+                                        .KETOCOURSES
+                                        .titleCategory
+                                }?.selected == true
+                                ) {
                                     if (adapterKetoCourses.itemCount == 0) {
                                         binding.shimmerKetoCourses.isVisible = true
                                         subjectTopicsViewModel
@@ -440,7 +432,9 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.tvKetoCourses.isVisible = true
                                                 binding.rvKetoCourses.isVisible = true
                                                 adapterKetoCourses.submitList(it)
-                                                binding.tvKetoCourses.text = KETOCOURSES
+                                                binding.tvKetoCourses.text = CategoryAndTagsName
+                                                    .KETOCOURSES
+                                                    .titleCategory
                                                 binding.shimmerKetoCourses.isVisible = false
                                             }
                                     }
@@ -451,7 +445,9 @@ class SubjectTopicsFragment : Fragment() {
                                     }
                                     subjectTopicsViewModel.loadPostsKetoCourses(
                                         it.find {
-                                            it.nameCategory == KETOCOURSES
+                                            it.nameCategory == CategoryAndTagsName
+                                                .KETOCOURSES
+                                                .titleCategory
                                         }!!.idCategory
                                     )
                                 } else {
@@ -462,7 +458,12 @@ class SubjectTopicsFragment : Fragment() {
                                     }
                                 }
 
-                                if (it.find { it.nameCategory == NUTRITION }?.selected == true) {
+                                if (it.find {
+                                    it.nameCategory == CategoryAndTagsName
+                                        .NUTRITION
+                                        .titleCategory
+                                }?.selected == true
+                                ) {
                                     if (adapterNutrition.itemCount == 0) {
                                         binding.shimmerNutritionCategories.isVisible = true
                                         subjectTopicsViewModel
@@ -471,8 +472,12 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.tvNutritionCategories.isVisible = true
                                                 binding.rvNutritionCategories.isVisible = true
                                                 adapterNutrition.submitList(it)
-                                                binding.tvNutritionCategories.text = NUTRITION
-                                                binding.shimmerNutritionCategories.isVisible = false
+                                                binding.tvNutritionCategories.text =
+                                                    CategoryAndTagsName
+                                                        .NUTRITION
+                                                        .titleCategory
+                                                binding.shimmerNutritionCategories
+                                                    .isVisible = false
                                             }
                                     }
                                     subjectTopicsViewModel.footerAdapterLiveDataNutrition.observe(
@@ -482,7 +487,9 @@ class SubjectTopicsFragment : Fragment() {
                                     }
                                     subjectTopicsViewModel.loadPostsNutrition(
                                         it.find {
-                                            it.nameCategory == NUTRITION
+                                            it.nameCategory == CategoryAndTagsName
+                                                .NUTRITION
+                                                .titleCategory
                                         }!!.idCategory
                                     )
                                 } else {
@@ -493,7 +500,12 @@ class SubjectTopicsFragment : Fragment() {
                                     }
                                 }
 
-                                if (it.find { it.nameCategory == EVOLUTION }?.selected == true) {
+                                if (it.find {
+                                    it.nameCategory == CategoryAndTagsName
+                                        .EVOLUTION
+                                        .titleCategory
+                                }?.selected == true
+                                ) {
                                     if (adapterEvolution.itemCount == 0) {
                                         binding.shimmerEvolution.isVisible = true
                                         subjectTopicsViewModel
@@ -502,7 +514,9 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.tvEvolution.isVisible = true
                                                 binding.rvEvolution.isVisible = true
                                                 adapterEvolution.submitList(it)
-                                                binding.tvEvolution.text = EVOLUTION
+                                                binding.tvEvolution.text = CategoryAndTagsName
+                                                    .EVOLUTION
+                                                    .titleCategory
                                                 binding.shimmerEvolution.isVisible = false
                                             }
                                     }
@@ -513,7 +527,9 @@ class SubjectTopicsFragment : Fragment() {
                                     }
                                     subjectTopicsViewModel.loadPostsEvolution(
                                         it.find {
-                                            it.nameCategory == EVOLUTION
+                                            it.nameCategory == CategoryAndTagsName
+                                                .EVOLUTION
+                                                .titleCategory
                                         }!!.idCategory
                                     )
                                 } else {
@@ -524,7 +540,12 @@ class SubjectTopicsFragment : Fragment() {
                                     }
                                 }
 
-                                if (it.find { it.nameCategory == TAGSKETO }?.selected == true) {
+                                if (it.find {
+                                    it.nameCategory == CategoryAndTagsName
+                                        .TAGSKETO
+                                        .titleCategory
+                                }?.selected == true
+                                ) {
                                     if (adapterTagsKeto.itemCount == 0) {
                                         binding.shimmerTagsKeto.isVisible = true
                                         subjectTopicsViewModel
@@ -533,7 +554,9 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.tvTagsKeto.isVisible = true
                                                 binding.rvTagsKeto.isVisible = true
                                                 adapterTagsKeto.submitList(it)
-                                                binding.tvTagsKeto.text = TAGSKETO
+                                                binding.tvTagsKeto.text = CategoryAndTagsName
+                                                    .TAGSKETO
+                                                    .titleCategory
                                                 binding.shimmerTagsKeto.isVisible = false
                                             }
                                     }
@@ -544,7 +567,9 @@ class SubjectTopicsFragment : Fragment() {
                                     }
                                     subjectTopicsViewModel.loadPostsTagsKeto(
                                         it.find {
-                                            it.nameCategory == TAGSKETO
+                                            it.nameCategory == CategoryAndTagsName
+                                                .TAGSKETO
+                                                .titleCategory
                                         }!!.idCategory
                                     )
                                 } else {
@@ -556,7 +581,9 @@ class SubjectTopicsFragment : Fragment() {
                                 }
 
                                 if (it.find {
-                                    it.nameCategory == TAGSEDUCATION
+                                    it.nameCategory == CategoryAndTagsName
+                                        .TAGSEDUCATION
+                                        .titleCategory
                                 }?.selected == true
                                 ) {
                                     if (adapterTagsEducation.itemCount == 0) {
@@ -567,7 +594,9 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.tvTagsEducation.isVisible = true
                                                 binding.rvTagsEducation.isVisible = true
                                                 adapterTagsEducation.submitList(it)
-                                                binding.tvTagsEducation.text = TAGSEDUCATION
+                                                binding.tvTagsEducation.text = CategoryAndTagsName
+                                                    .TAGSEDUCATION
+                                                    .titleCategory
                                                 binding.shimmerTagsEducation.isVisible = false
                                             }
                                     }
@@ -578,7 +607,9 @@ class SubjectTopicsFragment : Fragment() {
                                         }
                                     subjectTopicsViewModel.loadPostsTagsEducation(
                                         it.find {
-                                            it.nameCategory == TAGSEDUCATION
+                                            it.nameCategory == CategoryAndTagsName
+                                                .TAGSEDUCATION
+                                                .titleCategory
                                         }!!.idCategory
                                     )
                                 } else {
@@ -589,7 +620,12 @@ class SubjectTopicsFragment : Fragment() {
                                     }
                                 }
 
-                                if (it.find { it.nameCategory == TAGSUSEFUL }?.selected == true) {
+                                if (it.find {
+                                    it.nameCategory == CategoryAndTagsName
+                                        .TAGSUSEFUL
+                                        .titleCategory
+                                }?.selected == true
+                                ) {
                                     if (adapterTagsUseful.itemCount == 0) {
                                         binding.shimmerTagsUseful.isVisible = true
                                         subjectTopicsViewModel
@@ -598,7 +634,9 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.tvTagsUseful.isVisible = true
                                                 binding.rvTagsUseful.isVisible = true
                                                 adapterTagsUseful.submitList(it)
-                                                binding.tvTagsUseful.text = TAGSUSEFUL
+                                                binding.tvTagsUseful.text = CategoryAndTagsName
+                                                    .TAGSUSEFUL
+                                                    .titleCategory
                                                 binding.shimmerTagsUseful.isVisible = false
                                             }
                                     }
@@ -609,7 +647,9 @@ class SubjectTopicsFragment : Fragment() {
                                     }
                                     subjectTopicsViewModel.loadPostsTagsUseful(
                                         it.find {
-                                            it.nameCategory == TAGSUSEFUL
+                                            it.nameCategory == CategoryAndTagsName
+                                                .TAGSUSEFUL
+                                                .titleCategory
                                         }!!.idCategory
                                     )
                                 } else {
@@ -620,7 +660,12 @@ class SubjectTopicsFragment : Fragment() {
                                     }
                                 }
 
-                                if (it.find { it.nameCategory == TAGSRECIPES }?.selected == true) {
+                                if (it.find {
+                                    it.nameCategory == CategoryAndTagsName
+                                        .TAGSRECIPES
+                                        .titleCategory
+                                }?.selected == true
+                                ) {
                                     if (adapterTagsRecipes.itemCount == 0) {
                                         binding.shimmerTagsRecipes.isVisible = true
                                         subjectTopicsViewModel
@@ -629,7 +674,9 @@ class SubjectTopicsFragment : Fragment() {
                                                 binding.tvTagsRecipes.isVisible = true
                                                 binding.rvTagsRecipes.isVisible = true
                                                 adapterTagsRecipes.submitList(it)
-                                                binding.tvTagsRecipes.text = TAGSRECIPES
+                                                binding.tvTagsRecipes.text = CategoryAndTagsName
+                                                    .TAGSRECIPES
+                                                    .titleCategory
                                                 binding.shimmerTagsRecipes.isVisible = false
                                             }
                                     }
@@ -640,7 +687,9 @@ class SubjectTopicsFragment : Fragment() {
                                         }
                                     subjectTopicsViewModel.loadPostsTagsRecipes(
                                         it.find {
-                                            it.nameCategory == TAGSRECIPES
+                                            it.nameCategory == CategoryAndTagsName
+                                                .TAGSRECIPES
+                                                .titleCategory
                                         }!!.idCategory
                                     )
                                 } else {
@@ -664,11 +713,5 @@ class SubjectTopicsFragment : Fragment() {
                 }
             }
         }
-    }
-
-    companion object {
-
-        const val CATEGORIES = "categories"
-        const val TAGS = "tags"
     }
 }
