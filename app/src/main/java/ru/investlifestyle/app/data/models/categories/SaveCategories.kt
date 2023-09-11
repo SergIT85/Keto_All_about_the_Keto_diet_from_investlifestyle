@@ -4,5 +4,5 @@ data class SaveCategories(
     val nameCategory: String,
     val typeCategory: String,
     val idCategory: Int,
-    val selected: Boolean
+    val selected: Boolean = true
 )

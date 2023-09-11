@@ -14,6 +14,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.App
 import ru.investlifestyle.app.databinding.FragmentChoiseBinding
+import ru.investlifestyle.app.domain.CategoryAndTagsName
 import ru.investlifestyle.app.ui.ViewModelFactoryTest
 import ru.investlifestyle.app.ui.subject.StateListSubjects
 
@@ -55,31 +56,31 @@ class ChoiceFragment : Fragment() {
 
     private fun clickSwitch() {
         binding.switchHealth.setOnCheckedChangeListener { c, isChecked ->
-            onCheckedListener(isChecked, IDHEALTH)
+            onCheckedListener(isChecked, CategoryAndTagsName.HEALTH.idCategory)
         }
         binding.switchKetoCourses.setOnCheckedChangeListener { c, isChecked ->
-            onCheckedListener(isChecked, IDKETOCOURSES)
+            onCheckedListener(isChecked, CategoryAndTagsName.KETOCOURSES.idCategory)
         }
         binding.switchTagsKeto.setOnCheckedChangeListener { c, isChecked ->
-            onCheckedListener(isChecked, IDTAGSKETO)
+            onCheckedListener(isChecked, CategoryAndTagsName.TAGSKETO.idCategory)
         }
         binding.switchNutrition.setOnCheckedChangeListener { c, isChecked ->
-            onCheckedListener(isChecked, IDNUTRITION)
+            onCheckedListener(isChecked, CategoryAndTagsName.NUTRITION.idCategory)
         }
         binding.switchEvolution.setOnCheckedChangeListener { c, isChecked ->
-            onCheckedListener(isChecked, IDEVOLUTION)
+            onCheckedListener(isChecked, CategoryAndTagsName.EVOLUTION.idCategory)
         }
         binding.switchTagsEducation.setOnCheckedChangeListener { c, isChecked ->
-            onCheckedListener(isChecked, IDTAGSEDUCATION)
+            onCheckedListener(isChecked, CategoryAndTagsName.TAGSEDUCATION.idCategory)
         }
         binding.switchTagsUseful.setOnCheckedChangeListener { c, isChecked ->
-            onCheckedListener(isChecked, IDTAGSUSEFUL)
+            onCheckedListener(isChecked, CategoryAndTagsName.TAGSUSEFUL.idCategory)
         }
         binding.switchTagsRecipes.setOnCheckedChangeListener { c, isChecked ->
-            onCheckedListener(isChecked, IDTAGSRECIPES)
+            onCheckedListener(isChecked, CategoryAndTagsName.TAGSRECIPES.idCategory)
         }
         binding.switchTagsLikePosts.setOnCheckedChangeListener { c, isChecked ->
-            onCheckedListener(isChecked, IDLIKEPOSTS)
+            onCheckedListener(isChecked, CategoryAndTagsName.LIKEPOSTS.idCategory)
         }
     }
 
@@ -93,39 +94,39 @@ class ChoiceFragment : Fragment() {
                     is StateListSubjects.FilledListSubjects -> {
                         it.listSubjects.collect {
                             binding.switchHealth.isChecked = it.find {
-                                it.nameCategory == HEALTH
+                                it.nameCategory == CategoryAndTagsName.HEALTH.titleCategory
                             }?.selected
                                 ?: false
                             binding.switchKetoCourses.isChecked = it.find {
-                                it.nameCategory == KETOCOURSES
+                                it.nameCategory == CategoryAndTagsName.KETOCOURSES.titleCategory
                             }?.selected
                                 ?: false
                             binding.switchNutrition.isChecked = it.find {
-                                it.nameCategory == NUTRITION
+                                it.nameCategory == CategoryAndTagsName.NUTRITION.titleCategory
                             }?.selected
                                 ?: false
                             binding.switchEvolution.isChecked = it.find {
-                                it.nameCategory == EVOLUTION
+                                it.nameCategory == CategoryAndTagsName.EVOLUTION.titleCategory
                             }?.selected
                                 ?: false
                             binding.switchTagsKeto.isChecked = it.find {
-                                it.nameCategory == TAGSKETO
+                                it.nameCategory == CategoryAndTagsName.TAGSKETO.titleCategory
                             }?.selected
                                 ?: false
                             binding.switchTagsEducation.isChecked = it.find {
-                                it.nameCategory == TAGSEDUCATION
+                                it.nameCategory == CategoryAndTagsName.TAGSEDUCATION.titleCategory
                             }?.selected
                                 ?: false
                             binding.switchTagsUseful.isChecked = it.find {
-                                it.nameCategory == TAGSUSEFUL
+                                it.nameCategory == CategoryAndTagsName.TAGSUSEFUL.titleCategory
                             }?.selected
                                 ?: false
                             binding.switchTagsRecipes.isChecked = it.find {
-                                it.nameCategory == TAGSRECIPES
+                                it.nameCategory == CategoryAndTagsName.TAGSRECIPES.titleCategory
                             }?.selected
                                 ?: false
                             binding.switchTagsLikePosts.isChecked = it.find {
-                                it.nameCategory == LIKEPOSTS
+                                it.nameCategory == CategoryAndTagsName.LIKEPOSTS.titleCategory
                             }?.selected
                                 ?: false
                         }
@@ -144,25 +145,5 @@ class ChoiceFragment : Fragment() {
 
     companion object {
         fun newInstance() = ChoiceFragment()
-
-        const val LIKEPOSTS = "Сохранённые"
-        const val IDHEALTH = 11
-        const val IDKETOCOURSES = 188
-        const val IDNUTRITION = 12
-        const val IDEVOLUTION = 20
-        const val IDTAGSKETO = 27
-        const val IDTAGSEDUCATION = 22
-        const val IDTAGSUSEFUL = 163
-        const val IDTAGSRECIPES = 39
-
-        const val IDLIKEPOSTS = 0
-        const val HEALTH = "Здоровье"
-        const val KETOCOURSES = "Кето курс"
-        const val NUTRITION = "Питание"
-        const val EVOLUTION = "Развитие"
-        const val TAGSKETO = "Кето"
-        const val TAGSEDUCATION = "Обучение"
-        const val TAGSUSEFUL = "Полезное"
-        const val TAGSRECIPES = "Рецепты"
     }
 }
