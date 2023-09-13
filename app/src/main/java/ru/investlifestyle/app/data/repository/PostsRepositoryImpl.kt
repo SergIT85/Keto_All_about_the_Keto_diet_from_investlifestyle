@@ -8,7 +8,7 @@ import kotlin.random.Random
 import kotlinx.coroutines.flow.*
 import ru.investlifestyle.app.R
 import ru.investlifestyle.app.data.PostMapper
-import ru.investlifestyle.app.data.models.categories.SaveCategories
+import ru.investlifestyle.app.data.models.categories.SaveCategoriesData
 import ru.investlifestyle.app.data.networkApi.PostsApiInterface
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.data.networkApi.examin.Repo
@@ -20,9 +20,8 @@ import ru.investlifestyle.app.data.room.LikePostsDaoRoom
 import ru.investlifestyle.app.data.room.PostDaoRoom
 import ru.investlifestyle.app.data.room.UserNameDaoRoom
 import ru.investlifestyle.app.domain.CategoryAndTagsName
-import ru.investlifestyle.app.domain.PostRepositoryInterface
+import ru.investlifestyle.app.domain.repository.PostRepositoryInterface
 import ru.investlifestyle.app.ui.models.PostUiModel
-import ru.investlifestyle.app.ui.models.UserName
 
 @ExperimentalPagingApi
 class PostsRepositoryImpl @Inject constructor(
@@ -38,17 +37,6 @@ class PostsRepositoryImpl @Inject constructor(
     private val postPagingRemoteMediator = PostPagingRemoteMediator(postDaoRoom, apiClient, mapper)
 
     private val service = Repo()
-    override suspend fun getUserName(): UserName {
-        return mapper.mapUserNameEntityToUserName(userNameDaoRoom.getUserName())
-    }
-
-    override suspend fun saveUserName(userName: UserName) {
-        userNameDaoRoom.save(mapper.mapUserNameToUserNameEntity(userName))
-    }
-
-    override suspend fun userNameIsEmpty(): Boolean {
-        return userNameDaoRoom.isEmpty()
-    }
 
     override fun getPostPagingRemoteMediator(): Flow<PagingData<PostUiModel>> {
         return Pager(
@@ -142,52 +130,52 @@ class PostsRepositoryImpl @Inject constructor(
 
     // Will be fixed for requests from API when the backing is ready
     override suspend fun fillingDbInit() {
-        val categoryHealth = SaveCategories(
+        val categoryHealth = SaveCategoriesData(
             CategoryAndTagsName.HEALTH.titleCategory,
             CategoryAndTagsName.HEALTH.typeCategory,
             CategoryAndTagsName.HEALTH.idCategory
         )
-        val categoryKetoCourses = SaveCategories(
+        val categoryKetoCourses = SaveCategoriesData(
             CategoryAndTagsName.KETOCOURSES.titleCategory,
             CategoryAndTagsName.KETOCOURSES.typeCategory,
             CategoryAndTagsName.KETOCOURSES.idCategory
         )
-        val categoryNutrition = SaveCategories(
+        val categoryNutrition = SaveCategoriesData(
             CategoryAndTagsName.NUTRITION.titleCategory,
             CategoryAndTagsName.NUTRITION.typeCategory,
             CategoryAndTagsName.NUTRITION.idCategory,
             false
         )
-        val categoryEvolution = SaveCategories(
+        val categoryEvolution = SaveCategoriesData(
             CategoryAndTagsName.EVOLUTION.titleCategory,
             CategoryAndTagsName.EVOLUTION.typeCategory,
             CategoryAndTagsName.EVOLUTION.idCategory,
             false
         )
-        val tagsKeto = SaveCategories(
+        val tagsKeto = SaveCategoriesData(
             CategoryAndTagsName.TAGSKETO.titleCategory,
             CategoryAndTagsName.TAGSKETO.typeCategory,
             CategoryAndTagsName.TAGSKETO.idCategory,
             false
         )
-        val tagsEducation = SaveCategories(
+        val tagsEducation = SaveCategoriesData(
             CategoryAndTagsName.TAGSEDUCATION.titleCategory,
             CategoryAndTagsName.TAGSEDUCATION.typeCategory,
             CategoryAndTagsName.TAGSEDUCATION.idCategory,
             false
         )
-        val tagsUseful = SaveCategories(
+        val tagsUseful = SaveCategoriesData(
             CategoryAndTagsName.TAGSUSEFUL.titleCategory,
             CategoryAndTagsName.TAGSUSEFUL.typeCategory,
             CategoryAndTagsName.TAGSUSEFUL.idCategory,
             false
         )
-        val tagsRecipes = SaveCategories(
+        val tagsRecipes = SaveCategoriesData(
             CategoryAndTagsName.TAGSRECIPES.titleCategory,
             CategoryAndTagsName.TAGSRECIPES.typeCategory,
             CategoryAndTagsName.TAGSRECIPES.idCategory
         )
-        val likePosts = SaveCategories(
+        val likePosts = SaveCategoriesData(
             CategoryAndTagsName.LIKEPOSTS.titleCategory,
             CategoryAndTagsName.LIKEPOSTS.typeCategory,
             CategoryAndTagsName.LIKEPOSTS.idCategory
@@ -202,13 +190,13 @@ class PostsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getCategories(): Flow<List<SaveCategories>> {
+    override fun getCategories(): Flow<List<SaveCategoriesData>> {
         return subjectDaoRoom.getAllSubject().map {
             mapper.mapListChoiceSubjectEntityToListSubjectSaveCategories(it)
         }
     }
 
-    override fun getCategoriesForChoiceFragment(): Flow<List<SaveCategories>> {
+    override fun getCategoriesForChoiceFragment(): Flow<List<SaveCategoriesData>> {
         return subjectDaoRoom.getAllSubjectForChoiceModel().map {
             mapper.mapListChoiceSubjectEntityToListSubjectSaveCategories(it)
         }
@@ -225,7 +213,7 @@ class PostsRepositoryImpl @Inject constructor(
         subjectDaoRoom.updateSubject(selected, idCategory)
     }
 
-    override suspend fun getSingleSubjectById(idCategories: Int): SaveCategories {
+    override suspend fun getSingleSubjectById(idCategories: Int): SaveCategoriesData {
         return mapper.mapChoiceSubjectEntityToSubjectSaveCategories(
             subjectDaoRoom.getSingleSubjectById(subjectId = idCategories)
         )

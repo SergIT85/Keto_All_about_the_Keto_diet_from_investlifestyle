@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.paging.PagingData
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
-import ru.investlifestyle.app.domain.PostRepositoryInterface
+import ru.investlifestyle.app.domain.repository.PostRepositoryInterface
 import ru.investlifestyle.app.ui.models.PostUiModel
 
 class GetPostPagingSourceUseCase @Inject constructor(

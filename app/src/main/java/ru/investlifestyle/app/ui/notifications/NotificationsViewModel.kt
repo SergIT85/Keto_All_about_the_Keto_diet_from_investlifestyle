@@ -13,7 +13,9 @@ import ru.investlifestyle.app.domain.usecase.GetUserNameUseCase
 import ru.investlifestyle.app.domain.usecase.LikePostsIsEmptyUseCase
 import ru.investlifestyle.app.domain.usecase.SaveUserNameUseCase
 import ru.investlifestyle.app.domain.usecase.UserNameIsEmptyUseCase
-import ru.investlifestyle.app.ui.models.UserName
+import ru.investlifestyle.app.ui.mapper.toDomain
+import ru.investlifestyle.app.ui.mapper.toUi
+import ru.investlifestyle.app.ui.models.UserNameUi
 
 class NotificationsViewModel @Inject constructor(
     private val getAllLikePostsUseCase: GetAllLikePostsUseCase,
@@ -32,7 +34,7 @@ class NotificationsViewModel @Inject constructor(
 
     fun saveUserName(userName: String) {
         viewModelScope.launch {
-            saveUserNameUseCase.saveUserName(UserName(userName))
+            saveUserNameUseCase.saveUserName(UserNameUi(userName).toDomain())
             initialNotificationScreen()
         }
     }
@@ -55,12 +57,12 @@ class NotificationsViewModel @Inject constructor(
             } else {
                 if (likePostsIsEmptyUseCase.likePostsIsEmpty()) {
                     _notificationState.value = NotificationState.LoadedUserNameOnly(
-                        getUserNameUseCase.getUserName()
+                        getUserNameUseCase.getUserName().toUi()
                     )
                 } else {
                     _notificationState.value = NotificationState.LoadedSavePostsAndUserName(
                         postList = getAllLikePostsUseCase.getAllLikePosts(),
-                        userName = getUserNameUseCase.getUserName()
+                        userName = getUserNameUseCase.getUserName().toUi()
                     )
                 }
             }

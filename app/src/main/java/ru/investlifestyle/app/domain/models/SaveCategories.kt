@@ -1,4 +1,4 @@
-package ru.investlifestyle.app.data.models.categories
+package ru.investlifestyle.app.domain.models
 
 data class SaveCategories(
     val nameCategory: String,

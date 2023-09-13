@@ -1,5 +1,5 @@
 package ru.investlifestyle.app.ui.models
 
-data class UserName(
+data class UserNameUi(
     val userName: String
 )

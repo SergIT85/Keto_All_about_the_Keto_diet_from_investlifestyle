@@ -1,21 +1,21 @@
 package ru.investlifestyle.app.data
 
 import javax.inject.Inject
-import ru.investlifestyle.app.data.models.categories.SaveCategories
+import ru.investlifestyle.app.data.models.categories.SaveCategoriesData
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.data.room.ChoiceSubjectEntity
 import ru.investlifestyle.app.data.room.LikePostsDbModelEntity
 import ru.investlifestyle.app.data.room.PostDbModelEntity
 import ru.investlifestyle.app.data.room.UserNameEntity
 import ru.investlifestyle.app.ui.models.PostUiModel
-import ru.investlifestyle.app.ui.models.UserName
+import ru.investlifestyle.app.ui.models.UserNameUi
 
 class PostMapper @Inject constructor() {
 
-    fun mapUserNameEntityToUserName(userNameEntity: UserNameEntity) = UserName(
+    fun mapUserNameEntityToUserName(userNameEntity: UserNameEntity) = UserNameUi(
         userName = userNameEntity.userName
     )
-    fun mapUserNameToUserNameEntity(userName: UserName) = UserNameEntity(
+    fun mapUserNameToUserNameEntity(userName: UserNameUi) = UserNameEntity(
         userName = userName.userName
     )
     // fun mapListUserNameEntityToUserName
@@ -52,7 +52,7 @@ class PostMapper @Inject constructor() {
         mapLikePostDbModelToPostUiModel(it)
     }
 
-    fun mapSubjectSaveCategoriesToChoiceSubjectEntity(subjectSaveCategories: SaveCategories) =
+    fun mapSubjectSaveCategoriesToChoiceSubjectEntity(subjectSaveCategories: SaveCategoriesData) =
         ChoiceSubjectEntity(
             id = subjectSaveCategories.idCategory,
             name = subjectSaveCategories.nameCategory,
@@ -60,12 +60,12 @@ class PostMapper @Inject constructor() {
             selected = subjectSaveCategories.selected
         )
 
-    fun mapListSubjectCategoryToListSubjectEntity(list: List<SaveCategories>) = list.map {
+    fun mapListSubjectCategoryToListSubjectEntity(list: List<SaveCategoriesData>) = list.map {
         mapSubjectSaveCategoriesToChoiceSubjectEntity(it)
     }
 
     fun mapChoiceSubjectEntityToSubjectSaveCategories(choiceSubjectEntity: ChoiceSubjectEntity) =
-        SaveCategories(
+        SaveCategoriesData(
             idCategory = choiceSubjectEntity.id,
             nameCategory = choiceSubjectEntity.name,
             typeCategory = choiceSubjectEntity.type,
