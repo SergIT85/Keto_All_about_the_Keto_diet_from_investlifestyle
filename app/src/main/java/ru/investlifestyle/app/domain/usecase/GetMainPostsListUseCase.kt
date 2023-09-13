@@ -2,7 +2,7 @@ package ru.investlifestyle.app.domain.usecase
 
 import javax.inject.Inject
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
-import ru.investlifestyle.app.domain.PostRepositoryInterface
+import ru.investlifestyle.app.domain.repository.PostRepositoryInterface
 
 class GetMainPostsListUseCase @Inject constructor(
     private val postRepository: PostRepositoryInterface

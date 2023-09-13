@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -73,25 +74,49 @@ class NotificationsFragment : Fragment() {
                             isShimmer(true)
                         }
                         is NotificationState.LoadedSavePostsAndUserName -> {
-                        }
-                        is NotificationState.LoadedUserNameOnly -> {
-                        }
-                        is NotificationState.LoadedSavePostsOnly -> {
                             binding.requestNameCabinet.visibility = ViewGroup.GONE
                             isShimmer(false)
                             notificationAdapter.submitList(state.postList)
                         }
+                        is NotificationState.LoadedUserNameOnly -> {
+                            isShimmer(false)
+                        }
+                        is NotificationState.LoadedSavePostsOnly -> {
+                            saveUserName()
+                            isShimmer(false)
+                            notificationAdapter.submitList(state.postList)
+                        }
 
-                        NotificationState.UserNameAndSavePostIsEmpty -> TODO()
+                        NotificationState.UserNameAndSavePostIsEmpty -> {
+                            saveUserName()
+                            isShimmer(false)
+                            viewModel.initialNotificationScreen()
+                        }
                     }
                 }
             }
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.initialNotificationScreen()
+    }
+
     private fun isShimmer(isSimmer: Boolean) {
         binding.ntfDetailShimmerLayout.isVisible = isSimmer
         binding.rvNotificationLikePost.isVisible = !isSimmer
         binding.linerNotification.isVisible = !isSimmer
+    }
+
+    private fun saveUserName() {
+        binding.btnSaveName.setOnClickListener {
+            if (binding.edTName.text.isNotEmpty()) {
+                viewModel.saveUserName(binding.edTName.text.toString())
+                viewModel.initialNotificationScreen()
+            } else {
+                Toast.makeText(context, "Введите имя", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }

@@ -1,5 +1,7 @@
 package ru.investlifestyle.app.ui.notifications
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import javax.inject.Inject
@@ -11,6 +13,9 @@ import ru.investlifestyle.app.domain.usecase.GetUserNameUseCase
 import ru.investlifestyle.app.domain.usecase.LikePostsIsEmptyUseCase
 import ru.investlifestyle.app.domain.usecase.SaveUserNameUseCase
 import ru.investlifestyle.app.domain.usecase.UserNameIsEmptyUseCase
+import ru.investlifestyle.app.ui.mapper.toDomain
+import ru.investlifestyle.app.ui.mapper.toUi
+import ru.investlifestyle.app.ui.models.UserNameUi
 
 class NotificationsViewModel @Inject constructor(
     private val getAllLikePostsUseCase: GetAllLikePostsUseCase,
@@ -26,31 +31,41 @@ class NotificationsViewModel @Inject constructor(
     init {
         initialNotificationScreen()
     }
-    private fun initialNotificationScreen() {
+
+    fun saveUserName(userName: String) {
         viewModelScope.launch {
-            _notificationState.value = NotificationState.LoadedSavePostsOnly(
+            saveUserNameUseCase.saveUserName(UserNameUi(userName).toDomain())
+            initialNotificationScreen()
+        }
+    }
+    @SuppressLint("LogNotTimber")
+    fun initialNotificationScreen() {
+        viewModelScope.launch {
+            /*_notificationState.value = NotificationState.LoadedSavePostsOnly(
                 getAllLikePostsUseCase.getAllLikePosts()
-            )
-//            if (userNameIsEmptyUseCase.userNameIsEmpty()) {
-//                if (likePostsIsEmptyUseCase.likePostsIsEmpty()) {
-//                    _notificationState.value = NotificationState.UserNameAndSavePostIsEmpty
-//                } else {
-//                    _notificationState.value = NotificationState.LoadedSavePostsOnly(
-//                        getAllLikePostsUseCase.getAllLikePosts()
-//                    )
-//                }
-//            } else {
-//                if (likePostsIsEmptyUseCase.likePostsIsEmpty()) {
-//                    _notificationState.value = NotificationState.LoadedUserNameOnly(
-//                        getUserNameUseCase.getUserName()
-//                    )
-//                } else {
-//                    _notificationState.value = NotificationState.LoadedSavePostsAndUserName(
-//                        postList = getAllLikePostsUseCase.getAllLikePosts(),
-//                        userName = getUserNameUseCase.getUserName()
-//                    )
-//                }
-//            }
+            )*/
+            if (userNameIsEmptyUseCase.userNameIsEmpty()) {
+                if (!likePostsIsEmptyUseCase.likePostsIsEmpty()) {
+                    _notificationState.value = NotificationState.UserNameAndSavePostIsEmpty
+                    Log.d("likePostsIsEmpty", "likePostsIsEmpty")
+                } else {
+                    _notificationState.value = NotificationState.LoadedSavePostsOnly(
+                        getAllLikePostsUseCase.getAllLikePosts()
+                    )
+                    Log.d("likePostsIsEmpty", "likePostsIs__NOT___Empty")
+                }
+            } else {
+                if (likePostsIsEmptyUseCase.likePostsIsEmpty()) {
+                    _notificationState.value = NotificationState.LoadedUserNameOnly(
+                        getUserNameUseCase.getUserName().toUi()
+                    )
+                } else {
+                    _notificationState.value = NotificationState.LoadedSavePostsAndUserName(
+                        postList = getAllLikePostsUseCase.getAllLikePosts(),
+                        userName = getUserNameUseCase.getUserName().toUi()
+                    )
+                }
+            }
         }
     }
 }
