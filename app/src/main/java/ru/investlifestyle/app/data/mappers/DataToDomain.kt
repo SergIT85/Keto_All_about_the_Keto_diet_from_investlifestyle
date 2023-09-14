@@ -1,9 +1,11 @@
 package ru.investlifestyle.app.data.mappers
 
+import ru.investlifestyle.app.data.models.categories.SaveCategoriesData
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.data.room.PostDbModelEntity
 import ru.investlifestyle.app.data.room.UserNameEntity
 import ru.investlifestyle.app.domain.models.PostModel
+import ru.investlifestyle.app.domain.models.SaveCategories
 import ru.investlifestyle.app.domain.models.UserName
 
 fun UserNameEntity.toDomain(): UserName =
@@ -37,5 +39,14 @@ fun PostDbModelEntity.toDomain(): PostModel {
             .split(",")
             .map { it.toInt() },
         modifiedGmt = this.modifiedGmt
+    )
+}
+
+fun SaveCategoriesData.toDomain(): SaveCategories {
+    return SaveCategories(
+        nameCategory = this.nameCategory,
+        typeCategory = this.typeCategory,
+        idCategory = this.idCategory,
+        selected = this.selected
     )
 }

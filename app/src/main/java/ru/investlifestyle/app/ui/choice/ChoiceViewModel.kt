@@ -7,10 +7,14 @@ import androidx.lifecycle.viewModelScope
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.domain.usecase.FillingDbInitUseCase
 import ru.investlifestyle.app.domain.usecase.GetCategoriesForChoiceFragmentUseCase
 import ru.investlifestyle.app.domain.usecase.UpdateSubjectUseCase
+import ru.investlifestyle.app.ui.mapper.toUi
 import ru.investlifestyle.app.ui.subject.StateListSubjects
 
 class ChoiceViewModel @Inject constructor(
@@ -26,13 +30,29 @@ class ChoiceViewModel @Inject constructor(
     private fun getCategories() {
         viewModelScope.launch {
             try {
-                _getCategories.value =
-                    StateListSubjects.FilledListSubjects(getCategoriesUseCase.getCategories())
-                Log.d(
-                    "https://investlifestyle.",
-                    " ОТРАБОТКА _getCategories.value = в " +
-                        "ChoiceViewModel"
-                )
+                getCategoriesUseCase.getCategories().collect { it ->
+
+                    Log.d(
+                        "saveCategories.toUi",
+                        " ОТРАБОТКА fillingDbInit() в " +
+                            "ChoiceViewModel"
+                    )
+                    _getCategories.value = StateListSubjects.FilledListSubjects(
+                        flow {
+                            emit(
+                                it.map { saveCategories ->
+                                    saveCategories.toUi()
+                                }
+                            )
+                        }
+                    )
+                }
+
+                        /*map { it ->
+                                it.map { saveCategories ->
+                                    saveCategories.toUi()
+                                }
+                            }*/
             } catch (exception: Exception) {
                 _getCategories.value = StateListSubjects.Error(exception.toString())
             }

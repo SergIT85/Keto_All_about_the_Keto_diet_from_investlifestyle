@@ -10,6 +10,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.domain.usecase.*
+import ru.investlifestyle.app.ui.mapper.toUi
 import ru.investlifestyle.app.ui.models.PostUiModel
 import ru.investlifestyle.app.ui.subject.adapters.CategoryId
 
@@ -32,7 +33,13 @@ class SubjectTopicsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _getCategories.value =
-                    StateListSubjects.FilledListSubjects(getCategoriesUseCase.getCategories())
+                    StateListSubjects.FilledListSubjects(
+                        getCategoriesUseCase.getCategories().map {
+                            it.map { saveCategories ->
+                                saveCategories.toUi()
+                            }
+                        }
+                    )
             } catch (exception: Exception) {
                 _getCategories.value = StateListSubjects.Error(exception.toString())
             }
