@@ -7,6 +7,7 @@ import ru.investlifestyle.app.data.room.ChoiceSubjectEntity
 import ru.investlifestyle.app.data.room.LikePostsDbModelEntity
 import ru.investlifestyle.app.data.room.PostDbModelEntity
 import ru.investlifestyle.app.data.room.UserNameEntity
+import ru.investlifestyle.app.domain.models.SaveCategories
 import ru.investlifestyle.app.ui.models.PostUiModel
 import ru.investlifestyle.app.ui.models.UserNameUi
 
@@ -52,7 +53,7 @@ class PostMapper @Inject constructor() {
         mapLikePostDbModelToPostUiModel(it)
     }
 
-    fun mapSubjectSaveCategoriesToChoiceSubjectEntity(subjectSaveCategories: SaveCategoriesData) =
+    fun mapSubjectSaveCategoriesToChoiceSubjectEntity(subjectSaveCategories: SaveCategories) =
         ChoiceSubjectEntity(
             id = subjectSaveCategories.idCategory,
             name = subjectSaveCategories.nameCategory,
@@ -60,7 +61,7 @@ class PostMapper @Inject constructor() {
             selected = subjectSaveCategories.selected
         )
 
-    fun mapListSubjectCategoryToListSubjectEntity(list: List<SaveCategoriesData>) = list.map {
+    fun mapListSubjectCategoryToListSubjectEntity(list: List<SaveCategories>) = list.map {
         mapSubjectSaveCategoriesToChoiceSubjectEntity(it)
     }
 
