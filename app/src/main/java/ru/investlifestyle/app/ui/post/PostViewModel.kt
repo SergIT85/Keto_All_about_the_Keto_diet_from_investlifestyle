@@ -10,10 +10,10 @@ import java.io.IOException
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import ru.investlifestyle.app.domain.usecase.*
+import ru.investlifestyle.app.ui.mapper.toUi
 
 class PostViewModel @Inject constructor(
     private val loadOnePostUseCase: LoadOnePostUseCase,
@@ -36,7 +36,7 @@ class PostViewModel @Inject constructor(
             _onePostViewModel.value = LoadPostState.Load
             try {
                 _onePostViewModel.value =
-                    LoadPostState.Loaded(loadOnePostUseCase.loadOnePost(postId))
+                    LoadPostState.Loaded(loadOnePostUseCase.loadOnePost(postId).toUi())
                 val boolean = getLikePostByIdBooleanUseCase.getLikePostByIdBoolean(postId)
                 _likedPosts.value = boolean
                 Log.d("PostViewModel", "$boolean")

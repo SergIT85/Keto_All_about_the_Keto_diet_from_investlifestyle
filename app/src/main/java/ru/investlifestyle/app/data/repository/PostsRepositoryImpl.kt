@@ -4,6 +4,7 @@ import androidx.paging.*
 import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import ru.investlifestyle.app.data.PostMapper
+import ru.investlifestyle.app.data.mappers.toDomain
 import ru.investlifestyle.app.data.networkApi.PostsApiInterface
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.data.networkApi.examin.Repo
@@ -13,6 +14,7 @@ import ru.investlifestyle.app.data.paging.PostTagsPagingSource
 import ru.investlifestyle.app.data.room.LikePostsDaoRoom
 import ru.investlifestyle.app.data.room.PostDaoRoom
 import ru.investlifestyle.app.data.room.UserNameDaoRoom
+import ru.investlifestyle.app.domain.models.PostModel
 import ru.investlifestyle.app.domain.repository.PostRepositoryInterface
 import ru.investlifestyle.app.ui.models.PostUiModel
 
@@ -84,8 +86,8 @@ class PostsRepositoryImpl @Inject constructor(
         return mapper.mapListPostDataToListPostUi(apiClient.getPostsList(page))
     }
 
-    override suspend fun loadOnePost(postId: Int): PostUiModel =
-        mapper.mapPostModelDataToPostUiModel(apiClient.loadOnePostById(postId))
+    override suspend fun loadOnePost(postId: Int): PostModel =
+        apiClient.loadOnePostById(postId).toDomain()
 
     override suspend fun loadSubjectPosts(
         categories: Int,
