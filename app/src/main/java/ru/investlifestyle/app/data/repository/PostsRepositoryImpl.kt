@@ -1,25 +1,20 @@
 package ru.investlifestyle.app.data.repository
 
-import android.annotation.SuppressLint
-import android.app.Application
 import androidx.paging.*
 import javax.inject.Inject
-import kotlin.random.Random
 import kotlinx.coroutines.flow.*
-import ru.investlifestyle.app.R
 import ru.investlifestyle.app.data.PostMapper
-import ru.investlifestyle.app.data.models.categories.SaveCategoriesData
+import ru.investlifestyle.app.data.mappers.toDomain
 import ru.investlifestyle.app.data.networkApi.PostsApiInterface
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
 import ru.investlifestyle.app.data.networkApi.examin.Repo
 import ru.investlifestyle.app.data.paging.PostPagingRemoteMediator
 import ru.investlifestyle.app.data.paging.PostPagingSource
 import ru.investlifestyle.app.data.paging.PostTagsPagingSource
-import ru.investlifestyle.app.data.room.ChoiceSubjectDaoRoom
 import ru.investlifestyle.app.data.room.LikePostsDaoRoom
 import ru.investlifestyle.app.data.room.PostDaoRoom
 import ru.investlifestyle.app.data.room.UserNameDaoRoom
-import ru.investlifestyle.app.domain.CategoryAndTagsName
+import ru.investlifestyle.app.domain.models.PostModel
 import ru.investlifestyle.app.domain.repository.PostRepositoryInterface
 import ru.investlifestyle.app.ui.models.PostUiModel
 
@@ -27,9 +22,7 @@ import ru.investlifestyle.app.ui.models.PostUiModel
 class PostsRepositoryImpl @Inject constructor(
     private val apiClient: PostsApiInterface,
     private val mapper: PostMapper,
-    private val application: Application,
     private val postDaoRoom: PostDaoRoom,
-    private val subjectDaoRoom: ChoiceSubjectDaoRoom,
     private val likePostsDaoRoom: LikePostsDaoRoom,
     private val userNameDaoRoom: UserNameDaoRoom
 ) : PostRepositoryInterface {
@@ -93,8 +86,8 @@ class PostsRepositoryImpl @Inject constructor(
         return mapper.mapListPostDataToListPostUi(apiClient.getPostsList(page))
     }
 
-    override suspend fun loadOnePost(postId: Int): PostUiModel =
-        mapper.mapPostModelDataToPostUiModel(apiClient.loadOnePostById(postId))
+    override suspend fun loadOnePost(postId: Int): PostModel =
+        apiClient.loadOnePostById(postId).toDomain()
 
     override suspend fun loadSubjectPosts(
         categories: Int,
@@ -125,97 +118,6 @@ class PostsRepositoryImpl @Inject constructor(
     ): List<PostUiModel> {
         return mapper.mapListPostDataToListPostUi(
             apiClient.loadSubjectTagsPosts(tags, page, perPage, embed)
-        )
-    }
-
-    // Will be fixed for requests from API when the backing is ready
-    override suspend fun fillingDbInit() {
-        val categoryHealth = SaveCategoriesData(
-            CategoryAndTagsName.HEALTH.titleCategory,
-            CategoryAndTagsName.HEALTH.typeCategory,
-            CategoryAndTagsName.HEALTH.idCategory
-        )
-        val categoryKetoCourses = SaveCategoriesData(
-            CategoryAndTagsName.KETOCOURSES.titleCategory,
-            CategoryAndTagsName.KETOCOURSES.typeCategory,
-            CategoryAndTagsName.KETOCOURSES.idCategory
-        )
-        val categoryNutrition = SaveCategoriesData(
-            CategoryAndTagsName.NUTRITION.titleCategory,
-            CategoryAndTagsName.NUTRITION.typeCategory,
-            CategoryAndTagsName.NUTRITION.idCategory,
-            false
-        )
-        val categoryEvolution = SaveCategoriesData(
-            CategoryAndTagsName.EVOLUTION.titleCategory,
-            CategoryAndTagsName.EVOLUTION.typeCategory,
-            CategoryAndTagsName.EVOLUTION.idCategory,
-            false
-        )
-        val tagsKeto = SaveCategoriesData(
-            CategoryAndTagsName.TAGSKETO.titleCategory,
-            CategoryAndTagsName.TAGSKETO.typeCategory,
-            CategoryAndTagsName.TAGSKETO.idCategory,
-            false
-        )
-        val tagsEducation = SaveCategoriesData(
-            CategoryAndTagsName.TAGSEDUCATION.titleCategory,
-            CategoryAndTagsName.TAGSEDUCATION.typeCategory,
-            CategoryAndTagsName.TAGSEDUCATION.idCategory,
-            false
-        )
-        val tagsUseful = SaveCategoriesData(
-            CategoryAndTagsName.TAGSUSEFUL.titleCategory,
-            CategoryAndTagsName.TAGSUSEFUL.typeCategory,
-            CategoryAndTagsName.TAGSUSEFUL.idCategory,
-            false
-        )
-        val tagsRecipes = SaveCategoriesData(
-            CategoryAndTagsName.TAGSRECIPES.titleCategory,
-            CategoryAndTagsName.TAGSRECIPES.typeCategory,
-            CategoryAndTagsName.TAGSRECIPES.idCategory
-        )
-        val likePosts = SaveCategoriesData(
-            CategoryAndTagsName.LIKEPOSTS.titleCategory,
-            CategoryAndTagsName.LIKEPOSTS.typeCategory,
-            CategoryAndTagsName.LIKEPOSTS.idCategory
-        )
-
-        val list = listOf(
-            categoryHealth, categoryKetoCourses, categoryNutrition, categoryEvolution,
-            tagsKeto, tagsEducation, tagsUseful, tagsRecipes, likePosts
-        )
-        if (subjectDaoRoom.isEmpty()) {
-            subjectDaoRoom.save(mapper.mapListSubjectCategoryToListSubjectEntity(list))
-        }
-    }
-
-    override fun getCategories(): Flow<List<SaveCategoriesData>> {
-        return subjectDaoRoom.getAllSubject().map {
-            mapper.mapListChoiceSubjectEntityToListSubjectSaveCategories(it)
-        }
-    }
-
-    override fun getCategoriesForChoiceFragment(): Flow<List<SaveCategoriesData>> {
-        return subjectDaoRoom.getAllSubjectForChoiceModel().map {
-            mapper.mapListChoiceSubjectEntityToListSubjectSaveCategories(it)
-        }
-    }
-
-    @SuppressLint("LogNotTimber")
-    override fun getQuotes(): String {
-        val randomString = Random(System.currentTimeMillis())
-        val array = application.resources.getStringArray(R.array.quotes)
-        return array[randomString.nextInt(array.size)]
-    }
-
-    override suspend fun updateSubject(selected: Boolean, idCategory: Int) {
-        subjectDaoRoom.updateSubject(selected, idCategory)
-    }
-
-    override suspend fun getSingleSubjectById(idCategories: Int): SaveCategoriesData {
-        return mapper.mapChoiceSubjectEntityToSubjectSaveCategories(
-            subjectDaoRoom.getSingleSubjectById(subjectId = idCategories)
         )
     }
 

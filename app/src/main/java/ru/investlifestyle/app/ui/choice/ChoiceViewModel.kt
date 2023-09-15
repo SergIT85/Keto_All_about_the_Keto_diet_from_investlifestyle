@@ -7,18 +7,16 @@ import androidx.lifecycle.viewModelScope
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.investlifestyle.app.domain.usecase.FillingDbInitUseCase
-import ru.investlifestyle.app.domain.usecase.GetCategoriesForChoiceFragmentUseCase
+import ru.investlifestyle.app.domain.usecase.GetCategoriesUseCase
 import ru.investlifestyle.app.domain.usecase.UpdateSubjectUseCase
 import ru.investlifestyle.app.ui.mapper.toUi
 import ru.investlifestyle.app.ui.subject.StateListSubjects
 
 class ChoiceViewModel @Inject constructor(
-    private val getCategoriesUseCase: GetCategoriesForChoiceFragmentUseCase,
+    private val getCategoriesUseCase: GetCategoriesUseCase,
     private val updateSubjectUseCase: UpdateSubjectUseCase,
     private val fillingDbInitUseCase: FillingDbInitUseCase
 ) : ViewModel() {

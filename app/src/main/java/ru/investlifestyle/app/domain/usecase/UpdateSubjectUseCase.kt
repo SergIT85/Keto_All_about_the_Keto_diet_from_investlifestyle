@@ -1,12 +1,12 @@
 package ru.investlifestyle.app.domain.usecase
 
 import javax.inject.Inject
-import ru.investlifestyle.app.domain.repository.PostRepositoryInterface
+import ru.investlifestyle.app.domain.repository.CategoriesRepositoryInterface
 
 class UpdateSubjectUseCase @Inject constructor(
-    private val postRepositoryInterface: PostRepositoryInterface
+    private val repositoryInterface: CategoriesRepositoryInterface
 ) {
     suspend fun updateSubject(selected: Boolean, idCategory: Int) {
-        postRepositoryInterface.updateSubject(selected = selected, idCategory = idCategory)
+        repositoryInterface.updateSubject(selected = selected, idCategory = idCategory)
     }
 }

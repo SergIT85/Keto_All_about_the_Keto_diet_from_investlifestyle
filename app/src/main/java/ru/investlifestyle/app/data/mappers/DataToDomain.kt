@@ -2,6 +2,7 @@ package ru.investlifestyle.app.data.mappers
 
 import ru.investlifestyle.app.data.models.categories.SaveCategoriesData
 import ru.investlifestyle.app.data.networkApi.PostsModelDataItem
+import ru.investlifestyle.app.data.room.ChoiceSubjectEntity
 import ru.investlifestyle.app.data.room.PostDbModelEntity
 import ru.investlifestyle.app.data.room.UserNameEntity
 import ru.investlifestyle.app.domain.models.PostModel
@@ -47,6 +48,15 @@ fun SaveCategoriesData.toDomain(): SaveCategories {
         nameCategory = this.nameCategory,
         typeCategory = this.typeCategory,
         idCategory = this.idCategory,
+        selected = this.selected
+    )
+}
+
+fun ChoiceSubjectEntity.toDomain(): SaveCategories {
+    return SaveCategories(
+        nameCategory = this.name,
+        typeCategory = this.type,
+        idCategory = this.id,
         selected = this.selected
     )
 }
